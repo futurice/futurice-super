@@ -8,16 +8,77 @@
   <script src="/bower_components/platform/platform.js">
   </script>
 
-  <link rel="import"
-    href="/bower_components/font-roboto/roboto.html">
+  <link rel="import" href="/bower_components/font-roboto/roboto.html">
+  <link rel="import" href="/bower_components/core-scaffold/core-scaffold.html">
+  <link rel="import" href="/bower_components/core-header-panel/core-header-panel.html">
+  <link rel="import" href="/bower_components/core-menu/core-menu.html">
+  <link rel="import" href="/bower_components/core-item/core-item.html">
 
   <link rel="import"
     href="/elements/x-example-element/x-example-element.html">
 
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      font-family: sans-serif;
+    }
+
+    core-scaffold {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+
+    /* Main view's header bar */
+    core-scaffold /deep/ core-toolbar {
+      /* Variant hue: Light Green 700 (#689f38); */
+      background-color: #689f38;
+      color: #fff;
+    }
+
+    /* Main view's background */
+    core-scaffold /deep/ [main] {
+      background-color: #eee;
+    }
+
+    /* Menu panel's header bar */
+    .panel--menu /deep/ core-toolbar {
+      /* Basic color: Light Green 500 (#8bc34a) */
+      background-color: #8bc34a;
+    }
+
+    /* Menu panel's background */
+    .panel--menu {
+      background-color: white;
+    }
+
+  </style>
+
 </head>
 
-<body>
-  <x-example-element name="John Doe"></x-example-element>
+<body unresolved>
+
+  <core-scaffold>
+
+    <core-header-panel class="panel--menu" navigation flex mode="waterfall">
+      <core-toolbar >SUPER</core-toolbar>
+      <core-menu theme="core-light-theme">
+        <core-item icon="settings" label="Avalon"></core-item>
+        <core-item icon="settings" label="South Side"></core-item>
+      </core-menu>
+    </core-header-panel>
+
+    <div tool>Tribe</div>
+
+    <x-example-element name="John Doe"></x-example-element>
+
+  </core-scaffold>
 </body>
 
 </html>
