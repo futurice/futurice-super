@@ -13,6 +13,7 @@
   <link rel="import" href="/bower_components/core-header-panel/core-header-panel.html">
   <link rel="import" href="/bower_components/core-menu/core-menu.html">
   <link rel="import" href="/bower_components/paper-item/paper-item.html">
+  <link rel="import" href="/bower_components/paper-shadow/paper-shadow.html">
 
   <link rel="import"
     href="/elements/x-example-element/x-example-element.html">
@@ -74,6 +75,26 @@
       background-color: #fff;
     }
 
+
+    .card-grid {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      box-sizing: border-box;
+      min-height: 200px;
+      padding: 10px;
+      overflow: visible;
+      flex: 0 0 25%;
+      display: flex;
+    }
+    .card-inner {
+      flex: 1;
+      background-color: #fff;
+      padding: 10px;
+    }
+
   </style>
 
 </head>
@@ -92,7 +113,45 @@
 
     <div tool>Tribe</div>
 
+    <section class="card-grid">
 
+      <div class="card">
+        <div class="card-inner">
+          Card 1 content
+
+          <paper-shadow z="1"></paper-shadow>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-inner">
+          Card 2 content
+
+          <paper-shadow z="1"></paper-shadow>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-inner">
+          Card 3 content
+
+          <paper-shadow z="1"></paper-shadow>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-inner">
+          Card 4 content
+
+          <paper-shadow z="1"></paper-shadow>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-inner">
+          Card 5 content
+
+          <paper-shadow z="1"></paper-shadow>
+        </div>
+      </div>
+
+    </section>
   </core-scaffold>
 </body>
 
