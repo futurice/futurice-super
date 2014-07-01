@@ -6,12 +6,13 @@
   "repository": "https://github.com/futurice/futurice-super",
   "license": "GPL v2",
   "devDependencies": {
-    "http-server": "^0.6.1",
-    "bower": "^1.3.5"
+    "bower": "^1.3.5",
+    "grunt": "^0.4.5",
+    "grunt-contrib-watch": "^0.6.1",
+    "http-server": "^0.6.1"
   },
   "scripts": {
     "postinstall": "bower install",
-
     "prestart": "npm install",
     "start": "http-server -a localhost -p 8000"
   }
