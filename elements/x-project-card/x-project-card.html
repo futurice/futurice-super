@@ -22,13 +22,13 @@
         background-color: #fff;
         padding: 10px;
       }
-      core-icon-button {
+      paper-icon-button {
         position: absolute;
         top: 3px;
         right: 3px;
-        fill: #636363;
+        fill: #e0e0e0;
       }
-      :host([favorite]) core-icon-button {
+      :host([favorite]) paper-icon-button {
         fill: #da4336;
       }
     </style>
@@ -52,7 +52,7 @@
         }
       },
       favoriteTapped: function(event, detail, sender) {
-        this.favorite = !this.favorite;
+        this.project.favorite = this.favorite = !this.favorite;
         this.fire('favorite-tap');
       }
     });

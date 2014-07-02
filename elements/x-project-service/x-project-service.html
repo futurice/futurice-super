@@ -1,0 +1,36 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/core-ajax/core-ajax.html">
+<polymer-element name="x-project-service" attributes="projects">
+  <template>
+    <style>
+      :host {
+        display: none;
+      }
+    </style>
+  </template>
+  <script>
+    Polymer('x-project-service', {
+      projects: [],
+      ready: function() {
+        this.setFavorite = function (uid, favorite) {
+          console.log("UID: "+uid+", favorite: "+favorite);
+        };
+
+        this.projects = [
+          {
+            "id":1,
+            "title":"SUPER",
+            "description":"Salesforce Upcoming Projects Evaluation Rankings",
+            "favorite":false
+          },
+          {
+            "id":2,
+            "title":"Über",
+            "description":"Ünderständing better external resources",
+            "favorite":false
+          }
+        ];
+      }
+    });
+  </script>
+</polymer-element>
