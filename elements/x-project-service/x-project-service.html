@@ -1,0 +1,27 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/core-ajax/core-ajax.html">
+<polymer-element name="x-project-service" attributes="projects">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+  </template>
+  <script>
+    Polymer('x-project-service', {
+      ready: function() {
+        this.projects = [
+          {
+            "title":"SUPER",
+            "description":"Salesforce Upcoming Projects Evaluation Rankings"
+          },
+          {
+            "title":"Über",
+            "description":"Ünderständing better external resources"
+          }
+        ];
+      }
+    });
+  </script>
+</polymer-element>
