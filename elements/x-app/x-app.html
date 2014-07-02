@@ -82,17 +82,22 @@
 
       <div tool>Tribe</div>
 
-      <x-project-service projects="{{ projects }}"></x-project-service>
-
-      <pre>{{projects}}</pre>
+      <x-project-service id="service" projects="{{ projects }}"></x-project-service>
 
       <section class="card-grid">
         <template repeat="{{ projects as project }}">
-          <x-project-card project="{{ project }}"></x-project-card>
+          <x-project-card project="{{ project }}" on-favorite-tap="{{ handleFavorite }}"></x-project-card>
         </template>
       </section>
 
     </core-scaffold>
-
   </template>
+  <script>
+  Polymer('x-app', {
+    handleFavorite: function(event, detail, sender) {
+      var project = sender.templateInstance.model.project;
+      this.$.service.setFavorite(project.id, project.favorite);
+    }
+  });
+  </script>
 </polymer-element>

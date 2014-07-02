@@ -12,14 +12,22 @@
     Polymer('x-project-service', {
       projects: [],
       ready: function() {
+        this.setFavorite = function (uid, favorite) {
+          console.log("UID: "+uid+", favorite: "+favorite);
+        };
+
         this.projects = [
           {
+            "id":1,
             "title":"SUPER",
-            "description":"Salesforce Upcoming Projects Evaluation Rankings"
+            "description":"Salesforce Upcoming Projects Evaluation Rankings",
+            "favorite":false
           },
           {
+            "id":2,
             "title":"Über",
-            "description":"Ünderständing better external resources"
+            "description":"Ünderständing better external resources",
+            "favorite":false
           }
         ];
       }
