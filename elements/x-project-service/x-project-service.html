@@ -7,6 +7,12 @@
         display: none;
       }
     </style>
+    <core-ajax 
+    id="ajax"
+    auto
+    url="/api/projects.json"
+    handleAs="json"
+    on-core-response="{{handleResponse}}"></core-ajax>
   </template>
   <script>
     Polymer('x-project-service', {
@@ -15,21 +21,9 @@
         this.setFavorite = function (uid, favorite) {
           console.log("UID: "+uid+", favorite: "+favorite);
         };
-
-        this.projects = [
-          {
-            "id":1,
-            "title":"SUPER",
-            "description":"Salesforce Upcoming Projects Evaluation Rankings",
-            "favorite":false
-          },
-          {
-            "id":2,
-            "title":"Über",
-            "description":"Ünderständing better external resources",
-            "favorite":false
-          }
-        ];
+      },
+      handleResponse: function(){
+        this.projects = this.$.ajax.response.slice(0);
       }
     });
   </script>
