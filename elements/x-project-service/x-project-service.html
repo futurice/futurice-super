@@ -1,5 +1,5 @@
-<link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/core-ajax/core-ajax.html">
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/core-ajax/core-ajax.html">
 <polymer-element name="x-project-service" attributes="projects">
   <template>
     <style>
@@ -10,6 +10,7 @@
   </template>
   <script>
     Polymer('x-project-service', {
+      projects: [],
       ready: function() {
         this.projects = [
           {
