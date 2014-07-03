@@ -15,4 +15,4 @@ curl -H 'Content-Type: application/json' -X POST -d '{"title": "SUPER","descript
 curl -H 'Content-Type: application/json' -X POST -d '{"title": "Über","description": "Ünderständing better external resources","favorite": false}' ${POST_URL}
 
 echo "Current status:"
-curl $POST_URL 
+curl $POST_URL
