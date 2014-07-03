@@ -70,3 +70,13 @@ $ jsforce
        Name: 'Company X' } ] }
 ```
 
+To query the API via curl (or other REST clients) you start by connecting to the API and logging in. This can be done with `node ./jsforce_testing.js` . The first line gives you the authorization header needed for the request.
+
+If you're using `curl`, you can do:
+
+```bash
+curl https://eu1.salesforce.com/services/data/v30.0/ -H "Authorization: Bearer <token>"
+```
+
+More information at [salesforce.com](https://www.salesforce.com/us/developer/docs/api_rest/).
+
