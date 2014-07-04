@@ -81,8 +81,12 @@ addOrUpdateDocument = function(doc, successCallback, errorCallback) {
 
       // Existing document, specify revision.
       doc._rev = body._rev;
-      // TODO: Check for actual changes?
-      insertDocument(doc, successCallback, errorCallback);
+      delete body._id; // Unused attribute which messes up isEqual.
+      if (!_.isEqual(doc, body)){
+        insertDocument(doc, successCallback, errorCallback);
+      } else {
+        console.log("Skip identical: " + doc.Name);
+      }
     }
   });
 };
