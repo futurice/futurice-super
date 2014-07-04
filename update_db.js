@@ -41,35 +41,13 @@ createDatabase = function(successCallback, errorCallback){
   });
 };
 
-insertDocument = function(doc, successCallback, errorCallback){
-  database.insert(doc, doc.Id, function (err, body, headers) {
-      if (err) {
-
-        // No databse found.
-        if (err.reason === 'no_db_file'){
-          createDatabase(function(){
-
-            // Retry insert after db creation.
-            insertDocument(doc, successCallback, errorCallback);
-          }, errorCallback);
-
-        } else if (typeof errorCallback === 'function') {
-          errorCallback();
-        }
-
-      } else if (typeof successCallback === 'function') {
-        successCallback();
-      }
-  });
-};
-
 addOrUpdateDocument = function(doc, successCallback, errorCallback) {
   // Get existion document to get current revision.
   database.get(doc.Id, function(err, body){
     if (err) {
       if (err.reason === 'missing'){
         // New document
-        insertDocument(doc, successCallback, errorCallback);
+        database.insert(doc, doc.Id, successCallback, errorCallback);
 
       } else {
         console.log(err);
@@ -81,9 +59,11 @@ addOrUpdateDocument = function(doc, successCallback, errorCallback) {
 
       // Existing document, specify revision.
       doc._rev = body._rev;
-      delete body._id; // Unused attribute which messes up isEqual.
+
+      // Check for actual changes.
+      doc._id = doc.Id;
       if (!_.isEqual(doc, body)){
-        insertDocument(doc, successCallback, errorCallback);
+        database.insert(doc, doc.Id, successCallback, errorCallback);
       } else {
         console.log("Skip identical: " + doc.Name);
       }
@@ -131,14 +111,29 @@ conn.query('SELECT Id, Name, Account.Name, Description, Amount, CloseDate, Proba
     console.log('Done: ' + res.done);
     console.log("Fetched Opportunities from Salesforce.");
 
+    var addOpportunities = function(){
+      console.log("Adding Opportunities to CouchDB.");
+          _.each(opportunities, function(opportunity){
+            addOrUpdateDocument(opportunity, function(){
+              console.log(opportunity.Name);
+            }, function(err){
+              console.log(err);
+            });
+          });
+    };
 
-    console.log("Adding Opportunities to CouchDB.");
-    _.each(opportunities, function(opportunity){
-      addOrUpdateDocument(opportunity, function(){
-        console.log(opportunity.Name);
-      });
+    console.log("Checking for database.");
+    createDatabase(function(){
+      console.log("Database created successfully.");
+      addOpportunities();
+    }, function(err){
+          if (err.error === 'file_exists') {
+            console.log("Database exists.");
+            addOpportunities();
+          } else {
+            console.log(err);
+          }
     });
-
 
   });
 });
