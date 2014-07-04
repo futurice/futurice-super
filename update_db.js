@@ -1,17 +1,17 @@
 'use strict';
 
 var credentials = require('./salesforce-credentials.js'),
-jsforce = require('jsforce'),
-_ = require('underscore'),
-nano = require('nano')('http://localhost:5984'),
-dbName = 'futurice-super',
-database = nano.use(dbName),
-conn = new jsforce.Connection({}),
-zeropad,
-createDatabase,
-insertDocument,
-addOrUpdateDocument,
-opportunities = [];
+  jsforce = require('jsforce'),
+  _ = require('underscore'),
+  nano = require('nano')('http://localhost:5984'),
+  dbName = 'futurice-super',
+  database = nano.use(dbName),
+  conn = new jsforce.Connection({}),
+  zeropad,
+  createDatabase,
+  insertDocument,
+  addOrUpdateDocument,
+  opportunities = [];
 
 /*
  * Utilities.
@@ -51,7 +51,7 @@ insertDocument = function(doc, successCallback, errorCallback){
 
             // Retry insert after db creation.
             insertDocument(doc, successCallback, errorCallback);
-            }, errorCallback);
+          }, errorCallback);
 
         } else if (typeof errorCallback === 'function') {
           errorCallback();
