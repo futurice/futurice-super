@@ -81,6 +81,7 @@ addOrUpdateDocument = function(doc, successCallback, errorCallback) {
 
       // Existing document, specify revision.
       doc._rev = body._rev;
+      // TODO: Check for actual changes?
       insertDocument(doc, successCallback, errorCallback);
     }
   });
