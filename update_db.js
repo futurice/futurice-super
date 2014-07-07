@@ -11,6 +11,7 @@ var credentials = require('./salesforce-credentials.js'),
   createDatabase,
   insertDocument,
   addOrUpdateDocument,
+  addViews,
   opportunities = [];
 
 /*
@@ -36,8 +37,27 @@ createDatabase = function(successCallback, errorCallback){
     if (err){
       errorCallback(err, body);
     } else {
+      addViews();
       successCallback();
     }
+  });
+};
+
+addViews = function(){
+  var designDocuments = [
+        {
+          _id: "_design/views",
+          views: {
+            all: {
+              map: "function(doc) {emit(doc._id, doc)}"
+            }
+          }
+        }
+    ];
+
+  _.each(designDocuments, function(doc){
+    console.log("Adding design document: ", doc._id);
+    database.insert(doc, doc._id);
   });
 };
 
