@@ -125,14 +125,6 @@ conn.query('SELECT Id, Name, Account.Name, Account.Id, Owner.Name, Owner.Id, Des
     // Information about objects here:
     // http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_objects_opportunity.htm
 
-    // opportunities = res.records.map(function(opportunity){
-    //   var temporaryOp = opportunity;
-    //   temporaryOp.Account = temporaryOp.Account.Name;
-    //   delete temporaryOp.attributes;
-    //   // temporaryOp.Owner = temporaryOp.Owner.Name;
-    //   return temporaryOp;
-    // });
-
     console.log('Done: ' + res.done);
     console.log("Fetched Opportunities from Salesforce.");
 
