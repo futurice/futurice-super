@@ -14,6 +14,18 @@ app.get('/api/view/:viewName', function(req, res) {
 
 });
 
+app.get('/api/tribes', function(req, res) {
+
+  console.log("Tribes");
+
+  database.get('_design/views/_view/tribes?group=true', function(err, body) {
+    var response = body.rows.map(function (row) { return row.key; });
+
+    res.json(response);
+  });
+
+});
+
 app.get('/api/*', function(req, res) {
 
   console.log("GET " + req.params[0]);
