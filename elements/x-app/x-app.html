@@ -27,6 +27,11 @@
         A100  #ffe57f
         A400  #ffc400
 
+      Grayscale:
+        #fff
+        #fafafa
+        #222
+
 
       http://www.google.com/design/spec/style/color.html#color-ui-color-palette
       */
@@ -41,27 +46,39 @@
         right: 0;
         bottom: 0;
         left: 0;
+        color: #222;
       }
 
       /* Main view's header bar */
-      core-scaffold /deep/ core-toolbar {
+      core-scaffold::shadow core-toolbar {
         background-color: #689f38;
         color: #fff;
       }
 
       /* Main view's background */
-      core-scaffold /deep/ [main] {
+      core-scaffold::shadow [main] {
         background-color: #fafafa;
       }
 
       /* Menu panel's header bar */
-      .panel--menu /deep/ core-toolbar {
-        background-color: #8bc34a;
+      .panel--menu::shadow #mainPanel, .panel--menu core-toolbar {
+        background-color: #fff;
       }
 
-      /* Menu panel's background */
+      /* Menu panel */
       .panel--menu {
         background-color: #fff;
+      }
+
+      core-scaffold .panel--menu /deep/ core-menu {
+        margin: 0;
+      }
+
+      paper-item.core-selected {
+        background-color: #dcedc8;
+      }
+      paper-item::shadow #ripple {
+        color: #8bc34a;
       }
 
 
