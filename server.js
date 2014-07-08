@@ -1,28 +1,36 @@
 var express = require('express'),
-app = express(),
-path = require('path'),
-port = (process.argv[2] || 8000);
+  app = express(),
+  path = require('path'),
+  port = (process.argv[2] || 8000),
+  nano = require('nano')('http://localhost:5984'),
+  dbName = 'futurice-super',
+  database = nano.use(dbName)
+;
 
+app.get('/api/view/:viewName', function(req, res) {
 
-app.get('/api/:file.json', function(req, res) {
-  console.log(req.params.file);
-  
-  var response = [
-    {
-      "id": 1,
-      "title": "SUPER",
-      "description": "Salesforce Upcoming Projects Evaluation Rankings",
-      "favorite": false
-    },
-    {
-      "id": 2,
-      "title": "Über",
-      "description": "Ünderständing better external resources",
-      "favorite": false
-    }
-  ];
+  console.log("View: "+req.params.viewName);
+  database.get('_design/views/_view/'+req.params.viewName).pipe(res);
 
-  res.json(response);
+});
+
+app.get('/api/tribes', function(req, res) {
+
+  console.log("Tribes");
+
+  database.get('_design/views/_view/tribes?group=true', function(err, body) {
+    var response = body.rows.map(function (row) { return row.key; });
+
+    res.json(response);
+  });
+
+});
+
+app.get('/api/*', function(req, res) {
+
+  console.log("GET " + req.params[0]);
+  database.get(req.params[0]).pipe(res);
+
 });
 
 app.use(express.static(__dirname));

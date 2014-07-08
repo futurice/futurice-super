@@ -34,8 +34,18 @@
     </style>
     <div class="card">
       <div class="card-inner">
-        <h1 class="project-title">{{ project.title }}</h1>
-        <div class="project-description">{{ project.description }}</div>
+        <h1 class="project-title">{{ project.value.Name }}</h1>
+        <h2>{{ project.value.Account.Name }}</h2>
+        <h3>{{ project.value.Futu_Team__c }} / {{ project.value.Owner.Name }}</h3>
+        <ul>
+          <li>Amount: {{ project.value.Amount }}</li>
+          <li>CloseDate: {{ project.value.CloseDate }}</li>
+          <li>Probability: {{ project.value.Probability }}</li>
+          <li>StageName: {{ project.value.StageName }}</li>
+          <li>IsClosed: {{ project.value.IsClosed }}</li>
+          <li>IsWon: {{ project.value.IsWon }}</li>
+        </ul>
+        <div class="project-description">{{ project.value.Description }}</div>
 
         <paper-icon-button icon="favorite" on-tap="{{ favoriteTapped }}"></paper-icon-button>
         <paper-shadow z="1"></paper-shadow>

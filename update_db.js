@@ -11,6 +11,7 @@ var credentials = require('./salesforce-credentials.js'),
   createDatabase,
   insertDocument,
   addOrUpdateDocument,
+  addViews,
   opportunities = [];
 
 /*
@@ -36,8 +37,31 @@ createDatabase = function(successCallback, errorCallback){
     if (err){
       errorCallback(err, body);
     } else {
+      addViews();
       successCallback();
     }
+  });
+};
+
+addViews = function(){
+  var designDocuments = [
+    {
+      _id: "_design/views",
+      views: {
+        all: {
+          map: "function(doc) {emit(doc._id, doc)}"
+        },
+        tribes: {
+          map: "function(doc) {emit(doc.Futu_Team__c, 1)}",
+          reduce: "_count"
+        }
+      }
+    }
+  ];
+
+  _.each(designDocuments, function(doc){
+    console.log("Adding design document: ", doc._id);
+    database.insert(doc, doc._id);
   });
 };
 
@@ -95,25 +119,18 @@ conn.login(credentials.user, credentials.passwordtoken, function(err, userInfo) 
 
 console.log("Querying Salesforce.");
 
-conn.query('SELECT Id, Name, Account.Name, Description, Amount, CloseDate, Probability, StageName, IsClosed, IsWon, Type FROM Opportunity WHERE CloseDate > ' + date, function(err, res) {
+conn.query('SELECT Id, Name, Account.Name, Account.Id, Owner.Name, Owner.Id, Description, Amount, CloseDate, Probability, StageName, IsClosed, IsWon, Type, Futu_Team__c FROM Opportunity WHERE CloseDate > ' + date, function(err, res) {
     if (err) { return console.error(err); }
 
     // Information about objects here:
     // http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_objects_opportunity.htm
-
-    opportunities = res.records.map(function(opportunity){
-      var temporaryOp = opportunity;
-      temporaryOp.Account = temporaryOp.Account.Name;
-      delete temporaryOp.attributes;
-      return temporaryOp;
-    });
 
     console.log('Done: ' + res.done);
     console.log("Fetched Opportunities from Salesforce.");
 
     var addOpportunities = function(){
       console.log("Adding Opportunities to CouchDB.");
-          _.each(opportunities, function(opportunity){
+          _.each(res.records, function(opportunity){
             addOrUpdateDocument(opportunity, function(){
               console.log(opportunity.Name);
             }, function(err){

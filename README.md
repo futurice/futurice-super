@@ -45,7 +45,7 @@ We're using the [JSforce](http://jsforce.github.io/) library for the Salesforce 
 From salesforce documentation:
 
 	When accessing salesforce.com either via a desktop client or the API from outside of your company's trusted networks:
-	 
+
 	If your password = "mypassword"
 	And your security token = "XXXXXXXXXX"
 	You must enter "mypasswordXXXXXXXXXX" in place of your password
@@ -64,7 +64,7 @@ $ jsforce
 > query('SELECT Id, Name FROM Account LIMIT 1')
 { totalSize: 1,
   done: true,
-  records: 
+  records:
    [ { attributes: [Object],
        Id: '0000',
        Name: 'Company X' } ] }
@@ -79,4 +79,94 @@ curl https://eu1.salesforce.com/services/data/v30.0/ -H "Authorization: Bearer <
 ```
 
 More information at [salesforce.com](https://www.salesforce.com/us/developer/docs/api_rest/).
+
+# API
+
+/api/tribes
+
+```json
+[
+	"100 - Avalon",
+	"120 - South Side",
+	"130 - Vesa",
+	"500-Tammerforce",
+	"700 - Berlin",
+	"800-London"
+]
+```
+
+/api/view/all
+
+```javascript
+{
+	total_rows: 219,
+	offset: 0,
+	rows: [
+		{
+			id: "000000000000000000",
+			key: "000000000000000000",
+			value: {
+				_id: "000000000000000000",
+				_rev: "1-1254df1da4e08d203069cc9ed0925148",
+				attributes: {
+					type: "Opportunity",
+					url: "/services/data/v30.0/sobjects/Opportunity/000000000000000000"
+				},
+				Id: "000000000000000000",
+				Name: "Opportunity XYZ",
+				Account: {
+					attributes: {
+						type: "Account",
+						url: "/services/data/v30.0/sobjects/Account/000000000000000000"
+					},
+					Name: "Account ABC",
+					Id: "000000000000000000"
+				},
+				Owner: {
+					attributes: {
+						type: "User",
+						url: "/services/data/v30.0/sobjects/User/000000000000000000"
+					},
+					Name: "Alice",
+					Id: "000000000000000000"
+				},
+				Description: "New amazing business opportunity. Social network for birds.",
+				Amount: 1000000,
+				CloseDate: "2014-08-07",
+				Probability: 75,
+				StageName: "Working on Proposal",
+				IsClosed: false,
+				IsWon: false,
+				Type: null,
+				Futu_Team__c: "123 - FireTribe"
+			}
+		},
+		...
+	]
+}
+```
+
+/api/*
+
+Proxy for CouchDB database.
+
+E.g. `/api/_all_docs`
+
+```javascript
+{
+	total_rows: 220,
+	offset: 0,
+	rows: [
+		{
+			id: "000000000000000000",
+			key: "000000000000000000",
+			value: {
+				rev: "1-302d274ffc44da9ae8a987fc0daf6694"
+			}
+		},
+		...
+	]
+}
+```
+
 

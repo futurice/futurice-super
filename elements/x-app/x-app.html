@@ -6,6 +6,7 @@
 <link rel="import" href="/bower_components/paper-item/paper-item.html">
 
 <link rel="import" href="/elements/x-project-service/x-project-service.html">
+<link rel="import" href="/elements/x-tribe-service/x-tribe-service.html">
 <link rel="import" href="/elements/x-project-card/x-project-card.html">
 
 <polymer-element name="x-app">
@@ -72,16 +73,19 @@
 
     <core-scaffold>
 
+
       <core-header-panel class="panel--menu" navigation flex mode="waterfall">
         <core-toolbar >SUPER</core-toolbar>
         <core-menu theme="core-light-theme">
-          <paper-item label="Avalon"></paper-item>
-          <paper-item label="South Side"></paper-item>
+          <template repeat="{{ tribe in tribes }}">
+            <paper-item label="{{ tribe }}"></paper-item>
+          </template>
         </core-menu>
       </core-header-panel>
 
       <div tool>Tribe</div>
 
+      <x-tribe-service id="tribe-service" tribes="{{ tribes }}"></x-tribe-service>
       <x-project-service id="service" projects="{{ projects }}"></x-project-service>
 
       <section class="card-grid">
