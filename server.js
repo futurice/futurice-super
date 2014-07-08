@@ -19,7 +19,12 @@ app.get('/api/tribes', function(req, res) {
   console.log("Tribes");
 
   database.get('_design/views/_view/tribes?group=true', function(err, body) {
-    var response = body.rows.map(function (row) { return row.key; });
+    var response = body.rows.map(function (row) {
+      return {
+        name: row.key,
+        prettyName: row.key.match(/- ?([a-z0-9 ]+?)$/i)[1]
+      };
+    });
 
     res.json(response);
   });
