@@ -93,15 +93,15 @@
 
       <core-header-panel class="panel--menu" navigation flex mode="waterfall">
         <core-toolbar >SUPER</core-toolbar>
-        <core-menu theme="core-light-theme">
+        <core-menu theme="core-light-theme" selected="0">
           <paper-item label="All" on-tap="{{ selectAllTribes }}"></paper-item>
-          <template repeat="{{ tribe in tribes }}">
-            <paper-item label="{{ tribe }}" on-tap="{{ selectTribe }}"></paper-item>
+          <template repeat="{{ t in tribes }}">
+            <paper-item label="{{ t.prettyName }}" on-tap="{{ handleItemTap }}"></paper-item>
           </template>
         </core-menu>
       </core-header-panel>
 
-      <div tool>{{ tribe.name }}</div>
+      <div tool>{{ tribe.prettyName }}</div>
 
       <x-tribe-service id="tribe-service" tribes="{{ tribes }}"></x-tribe-service>
       <x-project-service id="service" projects="{{ projects }}"></x-project-service>
@@ -111,7 +111,7 @@
           <x-project-card
             project="{{ project }}"
             on-favorite-tap="{{ handleFavorite }}"
-            hidden?="{{ tribe.name !== defaultTribeName &amp;&amp; project.value.Futu_Team__c !== tribe.name }}"></x-project-card>
+            hidden?="{{ tribe.name !== defaultTribe.name &amp;&amp; project.value.Futu_Team__c !== tribe.name }}"></x-project-card>
         </template>
       </section>
 
@@ -123,24 +123,31 @@
       var project = sender.templateInstance.model.project;
       this.$.service.setFavorite(project.id, project.favorite);
     },
-    defaultTribeName: '',
+    defaultTribe: {},
     tribe: {
       name: '',
+      prettyName: '',
       isHidden: function(){}
     },
-    selectTribe: function(event, detail, sender) {
-      var name = sender.templateInstance.model.tribe;
-      this.selectTribeByName(name);
+    handleItemTap: function(event, detail, sender) {
+      this.selectTribe(sender.templateInstance.model.t);
     },
     selectAllTribes: function() {
-      this.selectTribeByName(this.defaultTribeName);
+      this.selectTribe(this.defaultTribe);
     },
-    selectTribeByName: function(name) {
-      this.tribe.name = name;
+    selectTribe: function(tribe) {
+      this.tribe.name = tribe.name;
+      this.tribe.prettyName = tribe.prettyName;
       console.log("Selected tribe: " + this.tribe.name);
     },
     ready: function(){
-      this.tribe.name = this.defaultTribeName = 'All';
+      this.defaultTribe = {
+        name: '',
+        prettyName: 'All'
+      };
+
+      this.selectAllTribes();
+
       this.tribe.isHidden = function(event, detail, sender){
         return !(this.tribe.name === this.defaultTribeName ||
           sender.templateInstance.model.project.value.Futu_Team__c === this.tribe.name);
