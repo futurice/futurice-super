@@ -27,6 +27,11 @@
         A100  #ffe57f
         A400  #ffc400
 
+      Grayscale:
+        #fff
+        #fafafa
+        #222
+
 
       http://www.google.com/design/spec/style/color.html#color-ui-color-palette
       */
@@ -41,27 +46,39 @@
         right: 0;
         bottom: 0;
         left: 0;
+        color: #222;
       }
 
       /* Main view's header bar */
-      core-scaffold /deep/ core-toolbar {
+      core-scaffold::shadow core-toolbar {
         background-color: #689f38;
         color: #fff;
       }
 
       /* Main view's background */
-      core-scaffold /deep/ [main] {
+      core-scaffold::shadow [main] {
         background-color: #fafafa;
       }
 
       /* Menu panel's header bar */
-      .panel--menu /deep/ core-toolbar {
-        background-color: #8bc34a;
+      .panel--menu::shadow #mainPanel, .panel--menu core-toolbar {
+        background-color: #fff;
       }
 
-      /* Menu panel's background */
+      /* Menu panel */
       .panel--menu {
         background-color: #fff;
+      }
+
+      core-scaffold .panel--menu /deep/ core-menu {
+        margin: 0;
+      }
+
+      paper-item.core-selected {
+        background-color: #dcedc8;
+      }
+      paper-item::shadow #ripple {
+        color: #8bc34a;
       }
 
 
@@ -76,21 +93,25 @@
 
       <core-header-panel class="panel--menu" navigation flex mode="waterfall">
         <core-toolbar >SUPER</core-toolbar>
-        <core-menu theme="core-light-theme">
-          <template repeat="{{ tribe in tribes }}">
-            <paper-item label="{{ tribe }}"></paper-item>
+        <core-menu theme="core-light-theme" selected="0">
+          <paper-item label="All" on-tap="{{ selectAllTribes }}"></paper-item>
+          <template repeat="{{ t in tribes }}">
+            <paper-item label="{{ t.prettyName }}" on-tap="{{ handleItemTap }}"></paper-item>
           </template>
         </core-menu>
       </core-header-panel>
 
-      <div tool>Tribe</div>
+      <div tool>{{ tribe.prettyName }}</div>
 
       <x-tribe-service id="tribe-service" tribes="{{ tribes }}"></x-tribe-service>
       <x-project-service id="service" projects="{{ projects }}"></x-project-service>
 
       <section class="card-grid">
-        <template repeat="{{ projects as project }}">
-          <x-project-card project="{{ project }}" on-favorite-tap="{{ handleFavorite }}"></x-project-card>
+        <template repeat="{{ project in projects }}">
+          <x-project-card
+            project="{{ project }}"
+            on-favorite-tap="{{ handleFavorite }}"
+            hidden?="{{ tribe.name !== defaultTribe.name &amp;&amp; project.value.Futu_Team__c !== tribe.name }}"></x-project-card>
         </template>
       </section>
 
@@ -101,6 +122,32 @@
     handleFavorite: function(event, detail, sender) {
       var project = sender.templateInstance.model.project;
       this.$.service.setFavorite(project.id, project.favorite);
+    },
+    defaultTribe: {},
+    tribe: {},
+    handleItemTap: function(event, detail, sender) {
+      this.selectTribe(sender.templateInstance.model.t);
+    },
+    selectAllTribes: function() {
+      this.selectTribe(this.defaultTribe);
+    },
+    selectTribe: function(tribe) {
+      this.tribe.name = tribe.name;
+      this.tribe.prettyName = tribe.prettyName;
+      console.log("Selected tribe: " + this.tribe.name);
+    },
+    ready: function(){
+      this.defaultTribe = {
+        name: '',
+        prettyName: 'All'
+      };
+
+      this.selectAllTribes();
+
+      this.tribe.isHidden = function(event, detail, sender){
+        return !(this.tribe.name === this.defaultTribeName ||
+          sender.templateInstance.model.project.value.Futu_Team__c === this.tribe.name);
+      }
     }
   });
   </script>

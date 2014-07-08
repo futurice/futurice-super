@@ -119,11 +119,19 @@ conn.login(credentials.user, credentials.passwordtoken, function(err, userInfo) 
 
 console.log("Querying Salesforce.");
 
-conn.query('SELECT Id, Name, Account.Name, Account.Id, Owner.Name, Owner.Id, Description, Amount, CloseDate, Probability, StageName, IsClosed, IsWon, Type, Futu_Team__c FROM Opportunity WHERE CloseDate > ' + date, function(err, res) {
+conn.query('SELECT Id, Name, Account.Name, Account.Id, '+
+  'Owner.Name, Owner.Id, Description, Amount, CloseDate, '+
+  'Probability, StageName, IsClosed, IsWon, '+
+  'Budgeted_Work_End_Date__c, Budgeted_Work_Start_Date__c, Average_Hour_Price__c, '+
+  'Type, Futu_Team__c FROM Opportunity WHERE CloseDate > ' + date,
+  function(err, res) {
     if (err) { return console.error(err); }
 
     // Information about objects here:
     // http://www.salesforce.com/us/developer/docs/api/Content/sforce_api_objects_opportunity.htm
+
+    // "Describe" in API:
+    // https://eu1.salesforce.com/services/data/v30.0/sobjects/Opportunity/describe
 
     console.log('Done: ' + res.done);
     console.log("Fetched Opportunities from Salesforce.");

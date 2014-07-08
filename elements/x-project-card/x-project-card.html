@@ -2,7 +2,6 @@
 <link rel="import" href="/bower_components/font-roboto/roboto.html">
 <link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="/bower_components/core-icons/core-icons.html">
-<link rel="import" href="/bower_components/paper-shadow/paper-shadow.html">
 
 <polymer-element name="x-project-card" attributes="project">
   <template>
@@ -21,6 +20,8 @@
         flex: 1;
         background-color: #fff;
         padding: 10px;
+        position: relative;
+        box-shadow: 0px 2px 5px rgba(0,0,0, .3);
       }
       paper-icon-button {
         position: absolute;
@@ -44,11 +45,12 @@
           <li>StageName: {{ project.value.StageName }}</li>
           <li>IsClosed: {{ project.value.IsClosed }}</li>
           <li>IsWon: {{ project.value.IsWon }}</li>
+          <li>Work Start Date: {{ project.value.Budgeted_Work_Start_Date__c }}</li>
+          <li>Work End Date: {{ project.value.Budgeted_Work_End_Date__c }}</li>
         </ul>
         <div class="project-description">{{ project.value.Description }}</div>
 
         <paper-icon-button icon="favorite" on-tap="{{ favoriteTapped }}"></paper-icon-button>
-        <paper-shadow z="1"></paper-shadow>
       </div>
     </div>
   </template>
