@@ -5,6 +5,8 @@
 <link rel="import" href="/bower_components/core-menu/core-menu.html">
 <link rel="import" href="/bower_components/paper-item/paper-item.html">
 
+<script src="/bower_components/underscore/underscore.js"></script>
+
 <link rel="import" href="/elements/x-project-service/x-project-service.html">
 <link rel="import" href="/elements/x-tribe-service/x-tribe-service.html">
 <link rel="import" href="/elements/x-project-card/x-project-card.html">
@@ -77,20 +79,24 @@
       <core-header-panel class="panel--menu" navigation flex mode="waterfall">
         <core-toolbar >SUPER</core-toolbar>
         <core-menu theme="core-light-theme">
+          <paper-item label="All" on-tap="{{ selectAllTribes }}"></paper-item>
           <template repeat="{{ tribe in tribes }}">
-            <paper-item label="{{ tribe }}"></paper-item>
+            <paper-item label="{{ tribe }}" on-tap="{{ selectTribe }}"></paper-item>
           </template>
         </core-menu>
       </core-header-panel>
 
-      <div tool>Tribe</div>
+      <div tool>{{ tribe.name }}</div>
 
       <x-tribe-service id="tribe-service" tribes="{{ tribes }}"></x-tribe-service>
       <x-project-service id="service" projects="{{ projects }}"></x-project-service>
 
       <section class="card-grid">
-        <template repeat="{{ projects as project }}">
-          <x-project-card project="{{ project }}" on-favorite-tap="{{ handleFavorite }}"></x-project-card>
+        <template repeat="{{ project in projects }}">
+          <x-project-card
+            project="{{ project }}"
+            on-favorite-tap="{{ handleFavorite }}"
+            hidden?="{{ tribe.name !== defaultTribeName &amp;&amp; project.value.Futu_Team__c !== tribe.name }}"></x-project-card>
         </template>
       </section>
 
@@ -101,6 +107,29 @@
     handleFavorite: function(event, detail, sender) {
       var project = sender.templateInstance.model.project;
       this.$.service.setFavorite(project.id, project.favorite);
+    },
+    defaultTribeName: '',
+    tribe: {
+      name: '',
+      isHidden: function(){}
+    },
+    selectTribe: function(event, detail, sender) {
+      var name = sender.templateInstance.model.tribe;
+      this.selectTribeByName(name);
+    },
+    selectAllTribes: function() {
+      this.selectTribeByName(this.defaultTribeName);
+    },
+    selectTribeByName: function(name) {
+      this.tribe.name = name;
+      console.log("Selected tribe: " + this.tribe.name);
+    },
+    ready: function(){
+      this.tribe.name = this.defaultTribeName = 'All';
+      this.tribe.isHidden = function(event, detail, sender){
+        return !(this.tribe.name === this.defaultTribeName ||
+          sender.templateInstance.model.project.value.Futu_Team__c === this.tribe.name);
+      }
     }
   });
   </script>
