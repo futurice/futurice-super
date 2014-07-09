@@ -11,7 +11,9 @@
     "grunt-contrib-watch": "^0.6.1",
     "express": "",
     "underscore": "",
-    "nano": ""
+    "nano": "",
+    "npm": "",
+    "jsforce": ""
   },
   "scripts": {
     "postinstall": "bower install",

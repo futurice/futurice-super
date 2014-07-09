@@ -169,4 +169,68 @@ E.g. `/api/_all_docs`
 }
 ```
 
+# Deployment
+
+### Locally
+
+```bash
+
+$ git archive -o production.tar master
+
+$ scp production.tar $USER@super.futurice.com:/tmp/
+
+```
+
+### On the server
+
+```bash
+
+$ cd /tmp
+
+$ sudo stop futurice-super
+
+$ sudo -u www-data tar xvf production.tar -C /opt/super
+
+$ sudo start futurice-super
+
+$ sudo service apache2 restart
+
+```
+
+### If we need to update the database
+
+```bash
+$ cd /opt/super
+
+$ sudo node update_db.js
+
+```
+
+## Upstart
+
+You can use the following upstart script to start and stop the app. It also takes care of starting the app at server startup and respawning it should it crash.
+
+Place the script in the `/etc/init/` folder.
+
+```upstart
+#!upstart
+description "SUPER"
+author      "Futurice"
+
+start on startup
+stop on shutdown
+
+respawn
+respawn limit 99 5
+
+setuid www-data
+setgid www-data
+
+script
+    export HOME="/opt/super"
+    cd $HOME
+    exec /usr/lib/node_modules/npm start >> /var/log/super.log 2>&1
+end script
+
+```
 
