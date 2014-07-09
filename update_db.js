@@ -12,8 +12,7 @@ var credentials = require('./salesforce-credentials.js'),
   addViews,
   addOrUpdateDocument,
   addOpportunities,
-  removeDeletedOpportunities,
-  opportunities = [];
+  removeDeletedOpportunities;
 
 /*
  * Utilities.
