@@ -69,7 +69,7 @@ addOrUpdateDocument = function(doc, successCallback, errorCallback) {
   // Get existion document to get current revision.
   database.get(doc.Id, function(err, body){
     if (err) {
-      if (err.reason === 'missing'){
+      if (err.status_code === 404){
         // New document
         database.insert(doc, doc.Id, successCallback, errorCallback);
 
