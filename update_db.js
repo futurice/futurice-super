@@ -9,9 +9,10 @@ var credentials = require('./salesforce-credentials.js'),
   conn = new jsforce.Connection({}),
   zeropad,
   createDatabase,
-  insertDocument,
-  addOrUpdateDocument,
   addViews,
+  addOrUpdateDocument,
+  addOpportunities,
+  removeDeletedOpportunities,
   opportunities = [];
 
 /*
@@ -95,6 +96,51 @@ addOrUpdateDocument = function(doc, successCallback, errorCallback) {
   });
 };
 
+addOpportunities = function(opportunities){
+  console.log("Adding Opportunities to CouchDB.");
+
+  _.each(opportunities, function(opportunity){
+    addOrUpdateDocument(opportunity, function(){
+      console.log(opportunity.Name);
+    }, function(err){
+      console.log(err);
+    });
+  });
+};
+
+removeDeletedOpportunities = function(opportunities){
+  console.log("Removing deleted Opportunities from CouchDB.");
+
+  database.list(function(err, body) {
+    if (err) {
+      console.log(err);
+      return;
+    }
+
+    var existingOpportunities = _.map(body.rows, function(doc) {return doc.id});
+    var opportunitiesArray = _.map(opportunities, function(doc) {return doc.Id});
+    var toRemove = _.difference(existingOpportunities, opportunitiesArray);
+
+    _.each(toRemove, function(doc){
+      if(doc.match(/^[a-z0-9]+$/i)){
+        console.log("Removing: " + doc);
+
+        database.get(doc, function(err, body){
+          if (err) {
+            console.log(err);
+          } else {
+            database.destroy(doc, body._rev, function(err){
+              if (err) {
+                console.log(err);
+              }
+            });
+          }
+        })
+      }
+    });
+  });
+};
+
 /*
  * Salesforce logic.
  */
@@ -136,25 +182,15 @@ conn.query('SELECT Id, Name, Account.Name, Account.Id, '+
     console.log('Done: ' + res.done);
     console.log("Fetched Opportunities from Salesforce.");
 
-    var addOpportunities = function(){
-      console.log("Adding Opportunities to CouchDB.");
-          _.each(res.records, function(opportunity){
-            addOrUpdateDocument(opportunity, function(){
-              console.log(opportunity.Name);
-            }, function(err){
-              console.log(err);
-            });
-          });
-    };
-
     console.log("Checking for database.");
     createDatabase(function(){
       console.log("Database created successfully.");
-      addOpportunities();
+      addOpportunities(res.records);
     }, function(err){
           if (err.error === 'file_exists') {
             console.log("Database exists.");
-            addOpportunities();
+            addOpportunities(res.records);
+            removeDeletedOpportunities(res.records);
           } else {
             console.log(err);
           }
