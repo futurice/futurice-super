@@ -24,36 +24,91 @@
         box-shadow: 0px 2px 5px rgba(0,0,0, .3);
       }
       paper-icon-button {
-        position: absolute;
-        top: 3px;
-        right: 3px;
         fill: #e0e0e0;
       }
       :host([favorite]) paper-icon-button {
         fill: #da4336;
       }
+
+      .align-right {
+        text-align: right;
+      }
+
+      h1 {
+        margin: 0 0 15px 0;
+      }
+
+      h2 {
+        margin: 0;
+      }
+
+      #probability {
+        font-size: 2em;
+      }
+
+      #amount {
+        font-size: 1.5em;
+      }
+
+      #description {
+        margin: 10px 0;
+      }
+
+      #modified {
+        font-size: 0.7em;
+      }
+
     </style>
     <div class="card">
-      <div class="card-inner">
-        <h1 class="project-title">{{ project.value.Name }}</h1>
-        <h2>{{ project.value.Account.Name }}</h2>
-        <h3>{{ project.value.Futu_Team__c }} / {{ project.value.Owner.Name }}</h3>
-        <ul>
-          <li>Amount: {{ project.value.Amount }}</li>
-          <li>CloseDate: {{ project.value.CloseDate }}</li>
-          <li>Probability: {{ project.value.Probability }}</li>
-          <li>StageName: {{ project.value.StageName }}</li>
-          <li>IsClosed: {{ project.value.IsClosed }}</li>
-          <li>IsWon: {{ project.value.IsWon }}</li>
-          <li>Work Start Date: {{ project.value.Budgeted_Work_Start_Date__c }}</li>
-          <li>Work End Date: {{ project.value.Budgeted_Work_End_Date__c }}</li>
-        </ul>
-        <div class="project-description">{{ project.value.Description }}</div>
+      <div class="card-inner" vertical layout>
 
-        <paper-icon-button icon="favorite" on-tap="{{ favoriteTapped }}"></paper-icon-button>
+        <!-- Title bar-->
+        <div layout horizontal>
+          <h1 class="project-title" flex>{{ project.value.Name }}</h1>
+          <paper-icon-button id="favorite" icon="favorite" on-tap="{{ favoriteTapped }}"></paper-icon-button>
+        </div>
+
+        <!-- 2nd title bar -->
+        <div horizontal layout justified start>
+          <h2>{{ project.value.Account.Name }}</h2>
+          <div  class="align-right" vertical layout>
+            <h2>{{ project.value.Owner.Name }}</h2>
+            <div>{{ project.value.Futu_Team__c }}</div>
+          </div>
+        </div>
+
+        <!-- Opportunity section  -->
+        <div horizontal layout justified>
+          <div vertical layout>
+            <div>DL: {{ project.value.CloseDate }}</div>
+            <div>Stage: {{ stage }}</div>
+          </div>
+          <div  class="align-right" vertical layout>
+            <span id="probability">{{ project.value.Probability }} %</span>
+            <span id="amount">{{ project.value.Amount }} €</span>
+          </div>
+        </div>
+
+        <!-- Project section -->
+        <div horizontal layout>
+          <div vertical layout flex>
+            <div horizontal layout hidden?="{{ hideEvent }}">
+              <core-icon icon="event"></core-icon>
+              <span>{{ project.value.Budgeted_Work_Start_Date__c || "TBD" }} - {{ project.value.Budgeted_Work_End_Date__c || "TBD" }}</span>
+            </div>
+            <div id="description" class="project-description">{{ project.value.Description }}</div>
+            <div id="modified" horizontal layout>
+              <div>Modified: {{ modified }}</div>
+            </div>
+          </div>
+        </div>
+
+
+
       </div>
     </div>
   </template>
+  <script src="../../bower_components/moment/moment.js"></script>
   <script>
     Polymer('x-project-card', {
       project: {},
@@ -63,9 +118,30 @@
           reflect: true
         }
       },
+      status: "",
+      hideEvent: true,
       favoriteTapped: function(event, detail, sender) {
         this.project.favorite = this.favorite = !this.favorite;
         this.fire('favorite-tap');
+      },
+      ready: function(){
+        if (this.project.value.IsClosed) {
+          if (this.project.value.IsWon) {
+            this.stage = "Won";
+          } else {
+            this.stage = "Lost";
+          }
+        } else {
+          this.stage = this.project.value.StageName;
+        }
+
+        // Hide dates if not available
+        if (this.project.value.Budgeted_Work_Start_Date__c !== null || this.project.value.Budgeted_Work_End_Date__c !== null ) {
+          this.hideEvent = false;
+        }
+
+        // Modified date
+        this.modified = moment(this.project.value.LastModifiedDate).fromNow();
       }
     });
   </script>
