@@ -123,7 +123,8 @@ conn.query('SELECT Id, Name, Account.Name, Account.Id, '+
   'Owner.Name, Owner.Id, Description, Amount, CloseDate, '+
   'Probability, StageName, IsClosed, IsWon, '+
   'Budgeted_Work_End_Date__c, Budgeted_Work_Start_Date__c, Average_Hour_Price__c, '+
-  'Type, Futu_Team__c FROM Opportunity WHERE CloseDate > ' + date,
+  'Type, Futu_Team__c, LastModifiedDate, CreatedDate '+
+  'FROM Opportunity WHERE CloseDate > ' + date,
   function(err, res) {
     if (err) { return console.error(err); }
 
