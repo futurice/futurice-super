@@ -80,8 +80,8 @@
         <!-- Opportunity section  -->
         <div horizontal layout justified>
           <div vertical layout>
-            <div>DL: {{ project.value.CloseDate }}</div>
             <div>Stage: {{ stage }}</div>
+            <div hidden?="{{ project.value.IsClosed }}">DL: {{ project.value.CloseDate }}</div>
           </div>
           <div  class="align-right" vertical layout>
             <span id="probability">{{ project.value.Probability }} %</span>
