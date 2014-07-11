@@ -100,7 +100,6 @@
   <script src="../../bower_components/moment/moment.js"></script>
   <script>
     Polymer('x-project-card', {
-      project: {},
       publish: {
         favorite: {
           value: false,
@@ -113,24 +112,26 @@
         this.project.favorite = this.favorite = !this.favorite;
         this.fire('favorite-tap');
       },
-      ready: function(){
-        if (this.project.value.IsClosed) {
-          if (this.project.value.IsWon) {
-            this.stage = "Won";
+      projectChanged: function(){
+        if (!!this.project) {
+          if (this.project.value.IsClosed) {
+            if (this.project.value.IsWon) {
+              this.stage = "Won";
+            } else {
+              this.stage = "Lost";
+            }
           } else {
-            this.stage = "Lost";
+            this.stage = this.project.value.StageName;
           }
-        } else {
-          this.stage = this.project.value.StageName;
-        }
 
-        // Hide dates if not available
-        if (this.project.value.Budgeted_Work_Start_Date__c !== null || this.project.value.Budgeted_Work_End_Date__c !== null ) {
-          this.hideEvent = false;
-        }
+          // Hide dates if not available
+          if (this.project.value.Budgeted_Work_Start_Date__c !== null || this.project.value.Budgeted_Work_End_Date__c !== null ) {
+            this.hideEvent = false;
+          }
 
-        // Modified date
-        this.modified = moment(this.project.value.LastModifiedDate).fromNow();
+          // Modified date
+          this.modified = moment(this.project.value.LastModifiedDate).fromNow();
+        }
       }
     });
   </script>

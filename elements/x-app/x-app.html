@@ -109,9 +109,6 @@
   <script src="/bower_components/underscore/underscore.js"></script>
   <script>
   Polymer('x-app', {
-    defaultTribe: {},
-    tribe: {},
-    selectedProjects: [],
     handleItemTap: function(event, detail, sender) {
       this.selectTribe(sender.templateInstance.model.t);
     },
@@ -141,12 +138,8 @@
         prettyName: 'All'
       };
 
+      this.tribe = {};
       this.selectAllTribes();
-
-      this.tribe.isHidden = function(event, detail, sender){
-        return !(this.tribe.name === this.defaultTribeName ||
-          sender.templateInstance.model.project.value.Futu_Team__c === this.tribe.name);
-      }
     },
     projectsChanged: function() {
       this.selectAllTribes();

@@ -38,11 +38,12 @@
   </template>
   <script>
     Polymer('x-project-card-grid', {
-      projects: [],
-      chunks: [],
       currentChunkIndex: 0,
       chunkSize: 10,
       ready: function() {
+        this.projects = [];
+        this.chunks = [];
+
         this.handleFavorite = function(event, detail, sender){
           var project = sender.templateInstance.model.project;
           this.service.setFavorite(project.id, project.favorite);
