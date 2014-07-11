@@ -7,16 +7,34 @@
       :host {
         display: block;
       }
+      .card-grid {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      x-project-card {
+        box-sizing: border-box;
+        flex-basis: 100%;
+        padding: 10px;
+        display: block;
+      }
+      @media only screen and (min-width: 1000px) {
+        x-project-card {
+          flex-basis: 50%;
+        }
+      }
     </style>
 
-    <template repeat="{{ chunk in chunks }}">
-      <template repeat="{{ project in chunk }}">
-        <x-project-card
-          project="{{ project }}"
-          on-favorite-tap="{{ handleFavorite }}"
-          hidden?="{{ tribe.name !== defaultTribe.name &amp;&amp; project.value.Futu_Team__c !== tribe.name }}"></x-project-card>
+    <section class="card-grid">
+      <template repeat="{{ chunk in chunks }}">
+        <template repeat="{{ project in chunk }}">
+          <x-project-card
+            project="{{ project }}"
+            on-favorite-tap="{{ handleFavorite }}"
+            hidden?="{{ tribe.name !== defaultTribe.name &amp;&amp; project.value.Futu_Team__c !== tribe.name }}"></x-project-card>
+        </template>
       </template>
-    </template>
+    </section>
   </template>
   <script>
     Polymer('x-project-card-grid', {
