@@ -31,7 +31,7 @@
           <x-project-card
             project="{{ project }}"
             on-favorite-tap="{{ handleFavorite }}"
-            hidden?="{{ tribe.name !== defaultTribe.name &amp;&amp; project.value.Futu_Team__c !== tribe.name }}"></x-project-card>
+            favorite?="{{ project.favorite }}"></x-project-card>
         </template>
       </template>
     </section>
