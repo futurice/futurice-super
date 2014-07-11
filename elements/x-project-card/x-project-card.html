@@ -7,17 +7,11 @@
   <template>
     <style>
       :host {
-        display: block;
         position: relative;
-        width: 100%;
-      }
-      .card {
-        padding: 10px;
         overflow: visible;
-        display: flex;
       }
       .card-inner {
-        flex: 1;
+        display: block;
         background-color: #fff;
         padding: 10px;
         position: relative;
@@ -59,53 +53,49 @@
       }
 
     </style>
-    <div class="card">
-      <div class="card-inner" vertical layout>
+    <div class="card-inner" vertical layout>
 
-        <!-- Title bar-->
-        <div layout horizontal>
-          <h1 class="project-title" flex>{{ project.value.Name }}</h1>
-          <paper-icon-button id="favorite" icon="favorite" on-tap="{{ favoriteTapped }}"></paper-icon-button>
-        </div>
-
-        <!-- 2nd title bar -->
-        <div horizontal layout justified start>
-          <h2>{{ project.value.Account.Name }}</h2>
-          <div  class="align-right" vertical layout>
-            <h2>{{ project.value.Owner.Name }}</h2>
-            <div>{{ project.value.Futu_Team__c }}</div>
-          </div>
-        </div>
-
-        <!-- Opportunity section  -->
-        <div horizontal layout justified>
-          <div vertical layout>
-            <div>Stage: {{ stage }}</div>
-            <div hidden?="{{ project.value.IsClosed }}">DL: {{ project.value.CloseDate }}</div>
-          </div>
-          <div  class="align-right" vertical layout>
-            <span id="probability">{{ project.value.Probability }} %</span>
-            <span id="amount">{{ project.value.Amount }} €</span>
-          </div>
-        </div>
-
-        <!-- Project section -->
-        <div horizontal layout>
-          <div vertical layout flex>
-            <div horizontal layout hidden?="{{ hideEvent }}">
-              <core-icon icon="event"></core-icon>
-              <span>{{ project.value.Budgeted_Work_Start_Date__c || "TBD" }} - {{ project.value.Budgeted_Work_End_Date__c || "TBD" }}</span>
-            </div>
-            <div id="description" class="project-description">{{ project.value.Description }}</div>
-            <div id="modified" horizontal layout>
-              <div>Modified: {{ modified }}</div>
-            </div>
-          </div>
-        </div>
-
-
-
+      <!-- Title bar-->
+      <div layout horizontal>
+        <h1 class="project-title" flex>{{ project.value.Name }}</h1>
+        <paper-icon-button id="favorite" icon="favorite" on-tap="{{ favoriteTapped }}"></paper-icon-button>
       </div>
+
+      <!-- 2nd title bar -->
+      <div horizontal layout justified start>
+        <h2>{{ project.value.Account.Name }}</h2>
+        <div  class="align-right" vertical layout>
+          <h2>{{ project.value.Owner.Name }}</h2>
+          <div>{{ project.value.Futu_Team__c }}</div>
+        </div>
+      </div>
+
+      <!-- Opportunity section  -->
+      <div horizontal layout justified>
+        <div vertical layout>
+          <div>Stage: {{ stage }}</div>
+          <div hidden?="{{ project.value.IsClosed }}">DL: {{ project.value.CloseDate }}</div>
+        </div>
+        <div  class="align-right" vertical layout>
+          <span id="probability">{{ project.value.Probability }} %</span>
+          <span id="amount">{{ project.value.Amount / 1000 }} k€</span>
+        </div>
+      </div>
+
+      <!-- Project section -->
+      <div horizontal layout>
+        <div vertical layout flex>
+          <div horizontal layout hidden?="{{ hideEvent }}">
+            <core-icon icon="event"></core-icon>
+            <span>{{ project.value.Budgeted_Work_Start_Date__c || "TBD" }} - {{ project.value.Budgeted_Work_End_Date__c || "TBD" }}</span>
+          </div>
+          <div id="description" class="project-description">{{ project.value.Description }}</div>
+          <div id="modified" horizontal layout>
+            <div>Modified: {{ modified }}</div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </template>
   <script src="../../bower_components/moment/moment.js"></script>
