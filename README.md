@@ -234,3 +234,22 @@ end script
 
 ```
 
+## Apache2 REMOTE_USER
+
+The service expects a custom header of 'x-forwarded-user' to be passed to it, in order to identify the user using the service. This can be done in apache by forwarding the REMOTE_USER environment variable.
+
+```bash
+<Location />
+        Order deny,allow
+        Deny from all
+        Satisfy any
+        AuthType mod_auth_pubtkt
+        Require valid-user
+		# ...
+
+        ProxyPass http://127.0.0.1:8000/
+        ProxyPassReverse http://127.0.0.1:8000/
+
+        RequestHeader set X-Forwarded-User %{REMOTE_USER}s
+</Location>
+```
