@@ -3,6 +3,7 @@ var express = require('express'),
   path = require('path'),
   port = (process.argv[2] || 8000),
   nano = require('nano')('http://localhost:5984'),
+  _ = require('underscore'),
   dbName = 'futurice-super',
   database = nano.use(dbName)
 ;
@@ -31,11 +32,35 @@ app.get('/api/tribes', function(req, res) {
 
 });
 
-app.get('/api/favorite/:projectId', function(req, res){
+app.post('/api/favorites/:projectId', function(req, res){
   var user = req.headers['x-forwarded-user'] || "";
   console.log('User: '+ user);
 
-  res.send(user);
+  database.get(req.params.projectId, function(err, body){
+    if (err) {
+      if (err.status_code === 404) {
+        res.status(404);
+      } else {
+        console.log(err);
+      }
+    } else {
+      if (!body.FavoritedBy){
+        body.FavoritedBy = [];
+      }
+
+      if (!_.contains(body.FavoritedBy, user)) {
+        body.FavoritedBy.push(user);
+      }
+
+      database.insert(body, body.id, function(){
+          res.send('User '+user+' favorited opportunity '+ body.Name);
+        }, function(err){
+          console.log(err);
+      });
+
+    }
+  });
+
 });
 
 app.get('/api/*', function(req, res) {
