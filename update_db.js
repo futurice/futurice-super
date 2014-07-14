@@ -9,10 +9,10 @@ var credentials = require('./salesforce-credentials.js'),
   conn = new jsforce.Connection({}),
   zeropad,
   createDatabase,
-  insertDocument,
-  addOrUpdateDocument,
   addViews,
-  opportunities = [];
+  addOrUpdateDocument,
+  addOpportunities,
+  removeDeletedOpportunities;
 
 /*
  * Utilities.
@@ -69,7 +69,7 @@ addOrUpdateDocument = function(doc, successCallback, errorCallback) {
   // Get existion document to get current revision.
   database.get(doc.Id, function(err, body){
     if (err) {
-      if (err.reason === 'missing'){
+      if (err.status_code === 404){
         // New document
         database.insert(doc, doc.Id, successCallback, errorCallback);
 
@@ -92,6 +92,46 @@ addOrUpdateDocument = function(doc, successCallback, errorCallback) {
         console.log("Skip identical: " + doc.Name);
       }
     }
+  });
+};
+
+addOpportunities = function(opportunities){
+  console.log("Adding Opportunities to CouchDB.");
+
+  _.each(opportunities, function(opportunity){
+    addOrUpdateDocument(opportunity, function(){
+      console.log(opportunity.Name);
+    }, function(err){
+      console.log(err);
+    });
+  });
+};
+
+removeDeletedOpportunities = function(opportunities){
+  console.log("Removing deleted Opportunities from CouchDB.");
+
+  database.list(function(err, body) {
+    if (err) {
+      console.log(err);
+      return;
+    }
+
+    var existingOpportunities = _.map(body.rows, function(doc) {return doc.id});
+    var opportunitiesArray = _.map(opportunities, function(doc) {return doc.Id});
+    var toRemove = _.difference(existingOpportunities, opportunitiesArray);
+
+    _.each(toRemove, function(doc){
+      // Check for Salesforce ID so we only remove those docs.
+      if(doc.match(/^[a-z0-9]+$/i)){
+        console.log("Removing: " + doc);
+        var fullDoc = _.find(body.rows, function(row){return row.id === doc});
+        database.destroy(doc, fullDoc.value.rev, function(err){
+          if (err) {
+            console.log(err);
+          }
+        });
+      }
+    });
   });
 };
 
@@ -137,25 +177,15 @@ conn.query('SELECT Id, Name, Account.Name, Account.Id, '+
     console.log('Done: ' + res.done);
     console.log("Fetched Opportunities from Salesforce.");
 
-    var addOpportunities = function(){
-      console.log("Adding Opportunities to CouchDB.");
-          _.each(res.records, function(opportunity){
-            addOrUpdateDocument(opportunity, function(){
-              console.log(opportunity.Name);
-            }, function(err){
-              console.log(err);
-            });
-          });
-    };
-
     console.log("Checking for database.");
     createDatabase(function(){
       console.log("Database created successfully.");
-      addOpportunities();
+      addOpportunities(res.records);
     }, function(err){
           if (err.error === 'file_exists') {
             console.log("Database exists.");
-            addOpportunities();
+            addOpportunities(res.records);
+            removeDeletedOpportunities(res.records);
           } else {
             console.log(err);
           }
