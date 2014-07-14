@@ -121,6 +121,7 @@ removeDeletedOpportunities = function(opportunities){
     var toRemove = _.difference(existingOpportunities, opportunitiesArray);
 
     _.each(toRemove, function(doc){
+      // Check for Salesforce ID so we only remove those docs.
       if(doc.match(/^[a-z0-9]+$/i)){
         console.log("Removing: " + doc);
 
