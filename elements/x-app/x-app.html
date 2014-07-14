@@ -7,7 +7,7 @@
 
 <link rel="import" href="/elements/x-project-service/x-project-service.html">
 <link rel="import" href="/elements/x-tribe-service/x-tribe-service.html">
-<link rel="import" href="/elements/x-project-card/x-project-card.html">
+<link rel="import" href="/elements/x-project-card-grid/x-project-card-grid.html">
 
 <polymer-element name="x-app">
   <template>
@@ -80,12 +80,6 @@
       paper-item::shadow #ripple {
         color: #8bc34a;
       }
-
-
-      .card-grid {
-        display: flex;
-        flex-wrap: wrap;
-      }
     </style>
 
     <core-scaffold>
@@ -103,28 +97,18 @@
 
       <div tool>{{ tribe.prettyName }}</div>
 
-      <x-tribe-service id="tribe-service" tribes="{{ tribes }}"></x-tribe-service>
-      <x-project-service id="service" projects="{{ projects }}"></x-project-service>
+      <x-tribe-service id="tribeService" tribes="{{ tribes }}"></x-tribe-service>
+      <x-project-service id="projectService" projects="{{ projects }}"></x-project-service>
 
       <section class="card-grid">
-        <template repeat="{{ project in projects }}">
-          <x-project-card
-            project="{{ project }}"
-            on-favorite-tap="{{ handleFavorite }}"
-            hidden?="{{ tribe.name !== defaultTribe.name &amp;&amp; project.value.Futu_Team__c !== tribe.name }}"></x-project-card>
-        </template>
+        <x-project-card-grid projects="{{ selectedProjects }}" service="{{ projectService }}"></x-project-card-grid>
       </section>
 
     </core-scaffold>
   </template>
+  <script src="/bower_components/underscore/underscore.js"></script>
   <script>
   Polymer('x-app', {
-    handleFavorite: function(event, detail, sender) {
-      var project = sender.templateInstance.model.project;
-      this.$.service.setFavorite(project.id, project.favorite);
-    },
-    defaultTribe: {},
-    tribe: {},
     handleItemTap: function(event, detail, sender) {
       this.selectTribe(sender.templateInstance.model.t);
     },
@@ -134,20 +118,31 @@
     selectTribe: function(tribe) {
       this.tribe.name = tribe.name;
       this.tribe.prettyName = tribe.prettyName;
+      var that = this;
+      this.selectedProjects = _.filter(
+        this.projects,
+        function (item) {
+          if (that.tribe.name === that.defaultTribe.name) {
+            return true;
+          }
+
+          return (that.tribe.name === item.value.Futu_Team__c);
+        });
       console.log("Selected tribe: " + this.tribe.name);
     },
     ready: function(){
+      this.projectService = this.$.projectService;
+
       this.defaultTribe = {
         name: '',
         prettyName: 'All'
       };
 
+      this.tribe = {};
       this.selectAllTribes();
-
-      this.tribe.isHidden = function(event, detail, sender){
-        return !(this.tribe.name === this.defaultTribeName ||
-          sender.templateInstance.model.project.value.Futu_Team__c === this.tribe.name);
-      }
+    },
+    projectsChanged: function() {
+      this.selectAllTribes();
     }
   });
   </script>

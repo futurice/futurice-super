@@ -1,0 +1,95 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="../x-project-card/x-project-card.html">
+
+<polymer-element name="x-project-card-grid" attributes="projects service">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .card-grid {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      x-project-card {
+        box-sizing: border-box;
+        flex-basis: 100%;
+        padding: 10px;
+        display: block;
+      }
+      @media only screen and (min-width: 1000px) {
+        x-project-card {
+          flex-basis: 50%;
+        }
+      }
+    </style>
+
+    <section class="card-grid">
+      <template repeat="{{ chunk in chunks }}">
+        <template repeat="{{ project in chunk }}">
+          <x-project-card
+            project="{{ project }}"
+            on-favorite-tap="{{ handleFavorite }}"
+            favorite?="{{ project.favorite }}"></x-project-card>
+        </template>
+      </template>
+    </section>
+  </template>
+  <script>
+    Polymer('x-project-card-grid', {
+      currentChunkIndex: 0,
+      chunkSize: 10,
+      ready: function() {
+        this.projects = [];
+        this.chunks = [];
+
+        this.handleFavorite = function(event, detail, sender){
+          var project = sender.templateInstance.model.project;
+          this.service.setFavorite(project.id, project.favorite);
+        };
+
+      },
+      projectsChanged: function() {
+
+        this.currentChunkIndex = 0;
+        this.chunks = [];
+
+        var array = [];
+        for (
+          var i = 0;
+          i < Math.ceil(this.projects.length / (1.0 * this.chunkSize));
+          i++) {
+          array[i] = [];
+        };
+
+        this.chunks = array;
+
+        if (this.chunks.length > 0) {
+          var that = this;
+          setTimeout(function() { return that.nextChunk(); }, 150);
+        }
+      },
+      nextChunk: function() {
+        var offset = this.chunkSize * this.currentChunkIndex;
+
+        if (offset >= this.projects.length) {
+          return true;
+        }
+
+        for (var i = 0; i < this.chunkSize; i++) {
+          if (!this.projects[offset+i]) {
+            break;
+          }
+          this.chunks[this.currentChunkIndex].push(this.projects[offset+i]);
+        };
+
+        this.currentChunkIndex++;
+
+        var that = this;
+
+        setTimeout(function() { return that.nextChunk(); }, 10);
+      }
+    });
+  </script>
+</polymer-element>
