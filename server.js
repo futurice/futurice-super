@@ -31,12 +31,20 @@ app.get('/api/tribes', function(req, res) {
 
 });
 
+app.get('/api/favorite/:projectId', function(req, res){
+  var user = req.headers['x-forwarded-user'] || "";
+  console.log('User: '+ user);
+
+  res.send(user);
+});
+
 app.get('/api/*', function(req, res) {
 
   console.log("GET " + req.params[0]);
   database.get(req.params[0]).pipe(res);
 
 });
+
 
 app.use(express.static(__dirname));
 
