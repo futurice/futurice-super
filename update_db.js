@@ -81,16 +81,20 @@ addOrUpdateDocument = function(doc, successCallback, errorCallback) {
       }
     } else {
 
-      // Existing document, specify revision.
+      // Existing document, specify revision and transfer favorites.
       doc._rev = body._rev;
-
-      // Check for actual changes.
-      doc._id = doc.Id;
-      if (!_.isEqual(doc, body)){
-        database.insert(doc, doc.Id, successCallback, errorCallback);
-      } else {
-        console.log("Skip identical: " + doc.Name);
+      if (body.FavoritedBy) {
+        doc.FavoritedBy = body.FavoritedBy;
       }
+
+      database.insert(doc, doc.Id, function(err, body){
+        if (err && typeof errorCallback === 'function') {
+          errorCallback(err, body);
+        } else if (typeof successCallback === 'function') {
+          successCallback(err, body);
+        }
+      });
+
     }
   });
 };
