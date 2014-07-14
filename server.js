@@ -67,6 +67,10 @@ app.post('/api/favorites/:projectId', function(req, res){
   }
 });
 
+app.get('/api/user', function(req, res){
+  res.send(req.headers['x-forwarded-user']);
+});
+
 app.get('/api/*', function(req, res) {
 
   console.log("GET " + req.params[0]);
