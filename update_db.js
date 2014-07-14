@@ -124,18 +124,12 @@ removeDeletedOpportunities = function(opportunities){
       // Check for Salesforce ID so we only remove those docs.
       if(doc.match(/^[a-z0-9]+$/i)){
         console.log("Removing: " + doc);
-
-        database.get(doc, function(err, body){
+        var fullDoc = _.find(body.rows, function(row){return row.id === doc});
+        database.destroy(doc, fullDoc.value.rev, function(err){
           if (err) {
             console.log(err);
-          } else {
-            database.destroy(doc, body._rev, function(err){
-              if (err) {
-                console.log(err);
-              }
-            });
           }
-        })
+        });
       }
     });
   });
