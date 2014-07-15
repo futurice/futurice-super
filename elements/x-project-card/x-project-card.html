@@ -51,6 +51,15 @@
         font-size: 0.7em;
       }
 
+      .user-face {
+        display: inline-block;
+        background: transparent 50% 50%;
+        background-size: cover;
+        width: 2em;
+        height: 2em;
+        border-radius: 4em;
+      }
+
     </style>
     <div class="card-inner" vertical layout>
 
@@ -78,6 +87,11 @@
         <div  class="align-right" vertical layout>
           <span id="probability">{{ project.value.Probability }} %</span>
           <span id="amount">{{ project.value.Amount / 1000 }} k€</span>
+          <span>
+            <template repeat="{{ username in project.value.FavoritedBy }}">
+              <span class="user-face" data-uuid="{{ username }}" style="background-image: url({{ '//api.fum.futurice.com/photo/' + username }})"></span>
+            </template>
+          </span>
         </div>
       </div>
 
