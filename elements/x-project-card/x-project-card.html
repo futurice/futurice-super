@@ -2,7 +2,7 @@
 <link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="/bower_components/core-icons/core-icons.html">
 
-<polymer-element name="x-project-card" attributes="project user">
+<polymer-element name="x-project-card" attributes="project">
   <template>
     <style>
       :host {
@@ -106,21 +106,10 @@
           reflect: true
         }
       },
-      status: "",
       hideEvent: true,
       favoriteTapped: function(event, detail, sender) {
-        this.favorite = !this.favorite;
-      },
-      setFavorite: function(){
-        if (this.project && this.project.value.FavoritedBy && this.user){
-          this.favorite = this.project.value.FavoritedBy.indexOf(this.user) >= 0;
-        }
-      },
-      favoriteChanged: function(){
-        this.project.favorite = this.favorite;
         this.fire('favorite-tap');
       },
-      userChanged: function(){this.setFavorite()},
       projectChanged: function(){
         if (!!this.project) {
           if (this.project.value.IsClosed) {
@@ -140,9 +129,6 @@
 
           // Modified date
           this.modified = moment(this.project.value.LastModifiedDate).fromNow();
-
-          // Update favorite icon
-          this.setFavorite();
         }
       }
     });

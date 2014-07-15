@@ -32,7 +32,7 @@ app.get('/api/tribes', function(req, res) {
 
 });
 
-app.post('/api/favorites/:projectId', function(req, res){
+app.all('/api/favorites/:projectId', function(req, res){
   var user = req.headers['x-forwarded-user'];
 
   if (!user){
@@ -48,20 +48,34 @@ app.post('/api/favorites/:projectId', function(req, res){
           console.log(err);
         }
       } else {
+
         if (!body.FavoritedBy){
           body.FavoritedBy = [];
         }
 
-        if (!_.contains(body.FavoritedBy, user)) {
-          body.FavoritedBy.push(user);
+        switch (req.method) {
+          case 'GET':
+            break;
+          case 'POST':
+            if (_.contains(body.FavoritedBy, user)) {
+              // If user exists in favoritedby, remove them.
+              body.FavoritedBy.splice(body.FavoritedBy.indexOf(user));
+            }else {
+              // if user is not in array, add them.
+              body.FavoritedBy.push(user);
+            }
+            break;
+
+          default:
+            res.status(400);
+            return;
         }
 
-        database.insert(body, body.id, function(){
-            res.send('User '+user+' favorited opportunity '+ body.Name);
+        database.insert(body, body.id, function(err){
+            res.json({"id": body.Id, "FavoritedBy": body.FavoritedBy});
           }, function(err){
             console.log(err);
         });
-
       }
     });
   }

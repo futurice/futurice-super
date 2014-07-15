@@ -1,30 +1,68 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="/bower_components/core-ajax/core-ajax.html">
-<polymer-element name="x-project-service" attributes="projects">
+<polymer-element name="x-project-service" attributes="projects user">
   <template>
     <style>
       :host {
         display: none;
       }
     </style>
-    <core-ajax 
-    id="ajax"
+    <core-ajax
+    id="getAll"
     auto
     url="/api/view/all"
     handleAs="json"
     on-core-response="{{handleResponse}}"></core-ajax>
+
+    <core-ajax
+    id="postFavorite"
+    method="POST"
+    handleAs="json"
+    on-core-response="{{handlePostResponse}}"></core-ajax>
+
   </template>
+  <script src="/bower_components/underscore/underscore.js"></script>
   <script>
     Polymer('x-project-service', {
       projects: [],
-      ready: function() {
-        this.setFavorite = function (uid, favorite) {
-          console.log("UID: "+uid+", favorite: "+favorite);
-        };
+      favoritesUrl: "/api/favorites/",
+      setFavorites: function (project) {
+        this.$.postFavorite.url = this.favoritesUrl + project.id;
+        this.$.postFavorite.go();
       },
       handleResponse: function(){
-        this.projects = this.$.ajax.response.rows;
-      }
+        this.projects = this.$.getAll.response.rows;
+        this.updateFavorites();
+      },
+      isFavorited: function(project){
+        if (this.user && project) {
+          return project.value.FavoritedBy.indexOf(this.user) >= 0;
+        } else {
+          return false;
+        }
+      },
+      updateFavorites: function(){
+        if (this.user){
+          for (var i=0; i < this.projects.length; i++) {
+            if (this.projects[i].value.FavoritedBy){
+              this.projects[i].FavoritedByUser = this.isFavorited(this.projects[i]);
+            }
+          }
+        }
+      },
+      userChanged: function(){
+        this.updateFavorites();
+      },
+      handlePostResponse: function(){
+        var response = this.$.postFavorite.response;
+        console.log(response);
+        var project = _.find(this.projects, function(project){return project.id === response.id});
+
+        if (project) {
+          project.value.FavoritedBy = response.FavoritedBy;
+          project.FavoritedByUser = this.isFavorited(project);
+        }
+      },
     });
   </script>
 </polymer-element>
