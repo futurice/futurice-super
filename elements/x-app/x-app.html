@@ -7,6 +7,7 @@
 
 <link rel="import" href="/elements/x-project-service/x-project-service.html">
 <link rel="import" href="/elements/x-tribe-service/x-tribe-service.html">
+<link rel="import" href="/elements/x-user-service/x-user-service.html">
 <link rel="import" href="/elements/x-project-card-grid/x-project-card-grid.html">
 
 <polymer-element name="x-app">
@@ -98,10 +99,12 @@
       <div tool>{{ tribe.prettyName }}</div>
 
       <x-tribe-service id="tribeService" tribes="{{ tribes }}"></x-tribe-service>
-      <x-project-service id="projectService" projects="{{ projects }}"></x-project-service>
+      <x-project-service id="projectService" projects="{{ projects }}" user="{{ user }}"></x-project-service>
+      <x-user-service id="userService" user="{{ user }}"></x-user-service>
 
       <section class="card-grid">
-        <x-project-card-grid projects="{{ selectedProjects }}" service="{{ projectService }}"></x-project-card-grid>
+        <x-project-card-grid projects="{{ selectedProjects }}" service="{{ projectService }}" user="{{ user }}"
+        on-favorite-tap="{{ handleFavorite }}"></x-project-card-grid>
       </section>
 
     </core-scaffold>
@@ -140,6 +143,9 @@
 
       this.tribe = {};
       this.selectAllTribes();
+    },
+    handleFavorite: function(event, detail, sender){
+      this.$.projectService.setFavorites(detail.project);
     },
     projectsChanged: function() {
       this.selectAllTribes();

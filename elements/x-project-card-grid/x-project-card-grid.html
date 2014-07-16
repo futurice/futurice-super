@@ -1,7 +1,7 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="../x-project-card/x-project-card.html">
 
-<polymer-element name="x-project-card-grid" attributes="projects service">
+<polymer-element name="x-project-card-grid" attributes="projects">
   <template>
     <style>
       :host {
@@ -30,8 +30,7 @@
         <template repeat="{{ project in chunk }}">
           <x-project-card
             project="{{ project }}"
-            on-favorite-tap="{{ handleFavorite }}"
-            favorite?="{{ project.favorite }}"></x-project-card>
+            favorite?="{{ project.FavoritedByUser }}"></x-project-card>
         </template>
       </template>
     </section>
@@ -44,10 +43,6 @@
         this.projects = [];
         this.chunks = [];
 
-        this.handleFavorite = function(event, detail, sender){
-          var project = sender.templateInstance.model.project;
-          this.service.setFavorite(project.id, project.favorite);
-        };
 
       },
       projectsChanged: function() {

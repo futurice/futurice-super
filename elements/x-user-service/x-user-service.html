@@ -1,0 +1,27 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/core-ajax/core-ajax.html">
+<polymer-element name="x-user-service" attributes="user">
+  <template>
+    <style>
+      :host {
+        display: none;
+      }
+    </style>
+    <core-ajax
+    id="ajax"
+    auto
+    url="/api/user"
+    handleAs="text"
+    on-core-response="{{handleResponse}}"></core-ajax>
+  </template>
+  <script>
+    Polymer('x-user-service', {
+      ready: function() {
+        this.user = "";
+      },
+      handleResponse: function(){
+        this.user = this.$.ajax.response;
+      }
+    });
+  </script>
+</polymer-element>
