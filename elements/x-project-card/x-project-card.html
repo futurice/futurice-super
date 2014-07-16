@@ -121,7 +121,7 @@
           </div>
           <div id="description" class="project-description">{{ project.value.Description }}</div>
           <core-tooltip label="{{ stage.name }}">
-            <paper-progress value="{{ stage.number/5 * 100 }}" disabled lost?="{{ project.value.IsClosed &amp;&amp; !project.value.IsWon }}"></paper-progress>
+            <paper-progress value="{{ stage.number }}" disabled lost?="{{ project.value.IsClosed &amp;&amp; !project.value.IsWon }}"></paper-progress>
           </core-tooltip>
           <div id="modified" horizontal layout>
             <div>Modified: {{ modified }}</div>
@@ -146,12 +146,12 @@
       },
       stageNumbers: {
         "Unqualified": 0,
-        "Qualified": 1,
-        "Working on Proposal": 2,
-        "Closing": 3,
-        "Contract negotiations": 4,
-        "Won": 5,
-        "Lost": 5
+        "Qualified": 20,
+        "Working on Proposal": 40,
+        "Closing": 60,
+        "Contract negotiations": 80,
+        "Won": 100,
+        "Lost": 100
       },
       projectChanged: function(){
         this.stage = {};
