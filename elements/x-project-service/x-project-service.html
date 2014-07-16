@@ -55,7 +55,7 @@
       },
       handlePostResponse: function(){
         var response = this.$.postFavorite.response;
-        console.log(response);
+
         var project = _.find(this.projects, function(project){return project.id === response.id});
 
         if (project) {
