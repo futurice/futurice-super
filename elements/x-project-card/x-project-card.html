@@ -1,6 +1,8 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="/bower_components/paper-progress/paper-progress.html">
 <link rel="import" href="/bower_components/core-icons/core-icons.html">
+<link rel="import" href="/bower_components/core-tooltip/core-tooltip.html">
 
 <polymer-element name="x-project-card" attributes="project">
   <template>
@@ -20,11 +22,15 @@
         fill: #e0e0e0;
       }
       :host([favorite]) paper-icon-button {
-        fill: #da4336;
+        fill: #dd2c00;
       }
 
       .align-right {
         text-align: right;
+      }
+
+      h1, h2 {
+        font-weight: 300;
       }
 
       h1 {
@@ -33,6 +39,18 @@
 
       h2 {
         margin: 0;
+      }
+
+      paper-progress {
+        width: 100%;
+      }
+
+      paper-progress::shadow #activeProgress {
+        background-color: #8bc34a;
+      }
+
+      paper-progress[lost]::shadow #activeProgress {
+        background-color: #ff6e40;
       }
 
       #probability {
@@ -81,7 +99,6 @@
       <!-- Opportunity section  -->
       <div horizontal layout justified>
         <div vertical layout>
-          <div>Stage: {{ stage }}</div>
           <div hidden?="{{ project.value.IsClosed }}">DL: {{ project.value.CloseDate }}</div>
         </div>
         <div  class="align-right" vertical layout>
@@ -103,6 +120,9 @@
             <span>{{ project.value.Budgeted_Work_Start_Date__c || "TBD" }} - {{ project.value.Budgeted_Work_End_Date__c || "TBD" }}</span>
           </div>
           <div id="description" class="project-description">{{ project.value.Description }}</div>
+          <core-tooltip label="{{ stage.name }}">
+            <paper-progress value="{{ stage.number/5 * 100 }}" disabled lost?="{{ project.value.IsClosed &amp;&amp; !project.value.IsWon }}"></paper-progress>
+          </core-tooltip>
           <div id="modified" horizontal layout>
             <div>Modified: {{ modified }}</div>
           </div>
@@ -124,17 +144,30 @@
       favoriteTapped: function(event, detail, sender) {
         this.fire('favorite-tap', {project: this.project});
       },
+      stageNumbers: {
+        "Unqualified": 0,
+        "Qualified": 1,
+        "Working on Proposal": 2,
+        "Closing": 3,
+        "Contract negotiations": 4,
+        "Won": 5,
+        "Lost": 5
+      },
       projectChanged: function(){
+        this.stage = {};
+
         if (!!this.project) {
           if (this.project.value.IsClosed) {
             if (this.project.value.IsWon) {
-              this.stage = "Won";
+              this.stage.name = "Won";
             } else {
-              this.stage = "Lost";
+              this.stage.name = "Lost";
             }
           } else {
-            this.stage = this.project.value.StageName;
+            this.stage.name = this.project.value.StageName;
           }
+          this.stage.number = this.stageNumbers[this.stage.name];
+
 
           // Hide dates if not available
           if (this.project.value.Budgeted_Work_Start_Date__c !== null || this.project.value.Budgeted_Work_End_Date__c !== null ) {
