@@ -18,6 +18,11 @@
         position: relative;
         box-shadow: 0px 2px 5px rgba(0,0,0, .3);
       }
+      [lost].card-inner {
+        opacity: .5;
+        box-shadow: 0px 2px 5px rgba(0,0,0, .2);
+      }
+
       paper-icon-button {
         fill: #e0e0e0;
       }
@@ -39,6 +44,9 @@
 
       h2 {
         margin: 0;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
 
       paper-progress {
@@ -49,7 +57,7 @@
         background-color: #8bc34a;
       }
 
-      paper-progress[lost]::shadow #activeProgress {
+      [lost] paper-progress::shadow #activeProgress {
         background-color: #ff6e40;
       }
 
@@ -58,6 +66,7 @@
       }
 
       #amount {
+        white-space: nowrap;
         font-size: 1.5em;
       }
 
@@ -69,44 +78,43 @@
         font-size: 0.7em;
       }
 
-      .user-face {
+      .face {
         display: inline-block;
         background: transparent 50% 50%;
         background-size: cover;
+        border-radius: 4em;
+      }
+      .face-user {
         width: 2em;
         height: 2em;
-        border-radius: 4em;
+      }
+      .face-owner {
+        width: 4em;
+        height: 4em;
+        margin-right: 1em;
       }
 
     </style>
-    <div class="card-inner" vertical layout>
+    <div class="card-inner" vertical layout lost?="{{ project.value.IsClosed &amp;&amp; !project.value.IsWon }}">
 
       <!-- Title bar-->
       <div layout horizontal>
+        <span class="face face-owner" style="background-image: url({{ '//api.fum.futurice.com/photo/' + project.value.Owner.Alias }})"></span>
         <h1 class="project-title" flex>{{ project.value.Name }}</h1>
         <paper-icon-button id="favorite" icon="favorite" on-tap="{{ favoriteTapped }}"></paper-icon-button>
-      </div>
-
-      <!-- 2nd title bar -->
-      <div horizontal layout justified start>
-        <h2>{{ project.value.Account.Name }}</h2>
-        <div  class="align-right" vertical layout>
-          <h2>{{ project.value.Owner.Name }}</h2>
-          <div>{{ project.value.Futu_Team__c }}</div>
-        </div>
       </div>
 
       <!-- Opportunity section  -->
       <div horizontal layout justified>
         <div vertical layout>
-          <div hidden?="{{ project.value.IsClosed }}">DL: {{ project.value.CloseDate }}</div>
+          <h2>{{ project.value.Account.Name }}</h2>
+          <div hidden?="{{ project.value.IsClosed }}">DL {{ dl }}</div>
         </div>
         <div  class="align-right" vertical layout>
-          <span id="probability">{{ project.value.Probability }} %</span>
-          <span id="amount">{{ project.value.Amount / 1000 }} k€</span>
+          <span id="amount">{{ amount }} k€</span>
           <span>
             <template repeat="{{ username in project.value.FavoritedBy }}">
-              <span class="user-face" data-uuid="{{ username }}" style="background-image: url({{ '//api.fum.futurice.com/photo/' + username }})"></span>
+              <span class="face face-user" style="background-image: url({{ '//api.fum.futurice.com/photo/' + username }})"></span>
             </template>
           </span>
         </div>
@@ -121,7 +129,7 @@
           </div>
           <div id="description" class="project-description">{{ project.value.Description }}</div>
           <core-tooltip label="{{ stage.name }}">
-            <paper-progress value="{{ stage.number }}" disabled lost?="{{ project.value.IsClosed &amp;&amp; !project.value.IsWon }}"></paper-progress>
+            <paper-progress value="{{ stage.number }}"></paper-progress>
           </core-tooltip>
           <div id="modified" horizontal layout>
             <div>Modified: {{ modified }}</div>
@@ -176,6 +184,12 @@
 
           // Modified date
           this.modified = moment(this.project.value.LastModifiedDate).fromNow();
+
+          // DL date from now
+          this.dl = moment(this.project.value.CloseDate).fromNow();
+
+          // Rounded amount
+          this.amount = Math.round(this.project.value.Amount / 1000);
         }
       }
     });

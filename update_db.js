@@ -164,7 +164,7 @@ conn.login(credentials.user, credentials.passwordtoken, function(err, userInfo) 
 console.log("Querying Salesforce.");
 
 conn.query('SELECT Id, Name, Account.Name, Account.Id, '+
-  'Owner.Name, Owner.Id, Description, Amount, CloseDate, '+
+  'Owner.Name, Owner.Id, Owner.Alias, Description, Amount, CloseDate, '+
   'Probability, StageName, IsClosed, IsWon, '+
   'Budgeted_Work_End_Date__c, Budgeted_Work_Start_Date__c, Average_Hour_Price__c, '+
   'Type, Futu_Team__c, LastModifiedDate, CreatedDate '+
