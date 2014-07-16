@@ -122,7 +122,7 @@
       },
       hideEvent: true,
       favoriteTapped: function(event, detail, sender) {
-        this.fire('favorite-tap');
+        this.fire('favorite-tap', {project: this.project});
       },
       projectChanged: function(){
         if (!!this.project) {

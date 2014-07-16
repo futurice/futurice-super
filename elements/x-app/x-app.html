@@ -103,13 +103,14 @@
       <x-user-service id="userService" user="{{ user }}"></x-user-service>
 
       <section class="card-grid">
-        <x-project-card-grid projects="{{ selectedProjects }}" service="{{ projectService }}" user="{{ user }}"></x-project-card-grid>
+            
+        <x-project-card-grid projects="{{ selectedProjects }}" service="{{ projectService }}" user="{{ user }}" on-favorite-tap="{{ handleFavorite }}"></x-project-card-grid>
       </section>
 
     </core-scaffold>
   </template>
   <script src="/bower_components/underscore/underscore.js"></script>
-  <script>
+  <script> 
   Polymer('x-app', {
     handleItemTap: function(event, detail, sender) {
       this.selectTribe(sender.templateInstance.model.t);
@@ -142,6 +143,9 @@
 
       this.tribe = {};
       this.selectAllTribes();
+    },
+    handleFavorite: function(event, detail, sender){
+      this.$.projectService.setFavorites(detail.project);
     },
     projectsChanged: function() {
       this.selectAllTribes();
