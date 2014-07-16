@@ -3,6 +3,7 @@
 <link rel="import" href="/bower_components/core-scaffold/core-scaffold.html">
 <link rel="import" href="/bower_components/core-header-panel/core-header-panel.html">
 <link rel="import" href="/bower_components/core-menu/core-menu.html">
+<link rel="import" href="/bower_components/core-localstorage/core-localstorage.html">
 <link rel="import" href="/bower_components/paper-item/paper-item.html">
 
 <link rel="import" href="/elements/x-project-service/x-project-service.html">
@@ -88,8 +89,7 @@
 
       <core-header-panel class="panel--menu" navigation flex mode="waterfall">
         <core-toolbar >SUPER</core-toolbar>
-        <core-menu theme="core-light-theme" selected="0">
-          <paper-item label="All" on-tap="{{ selectAllTribes }}"></paper-item>
+        <core-menu theme="core-light-theme" selected="{{ selected }}">
           <template repeat="{{ t in tribes }}">
             <paper-item label="{{ t.prettyName }}" on-tap="{{ handleItemTap }}"></paper-item>
           </template>
@@ -101,6 +101,9 @@
       <x-tribe-service id="tribeService" tribes="{{ tribes }}"></x-tribe-service>
       <x-project-service id="projectService" projects="{{ projects }}" user="{{ user }}"></x-project-service>
       <x-user-service id="userService" user="{{ user }}"></x-user-service>
+
+      <core-localstorage name="super-current-selected" value="{{ selected }}"></core-localstorage>
+      <core-localstorage name="super-current-tribe" value="{{ tribe }}"></core-localstorage>
 
       <section class="card-grid">
         <x-project-card-grid projects="{{ selectedProjects }}" service="{{ projectService }}" user="{{ user }}"
@@ -115,41 +118,32 @@
     handleItemTap: function(event, detail, sender) {
       this.selectTribe(sender.templateInstance.model.t);
     },
-    selectAllTribes: function() {
-      this.selectTribe(this.defaultTribe);
-    },
     selectTribe: function(tribe) {
-      this.tribe.name = tribe.name;
-      this.tribe.prettyName = tribe.prettyName;
+      this.tribe = {
+        name: tribe.name,
+        prettyName: tribe.prettyName,
+      }
+    },
+    tribeChanged: function(){
+      this.updateList();
+    },
+    projectsChanged: function(){
+      this.updateList();
+    },
+    updateList: function(){
       var that = this;
       this.selectedProjects = _.filter(
         this.projects,
         function (item) {
-          if (that.tribe.name === that.defaultTribe.name) {
-            return true;
-          }
-
           return (that.tribe.name === item.value.Futu_Team__c);
         });
-      console.log("Selected tribe: " + this.tribe.name);
     },
     ready: function(){
       this.projectService = this.$.projectService;
-
-      this.defaultTribe = {
-        name: '',
-        prettyName: 'All'
-      };
-
-      this.tribe = {};
-      this.selectAllTribes();
     },
     handleFavorite: function(event, detail, sender){
       this.$.projectService.setFavorites(detail.project);
     },
-    projectsChanged: function() {
-      this.selectAllTribes();
-    }
   });
   </script>
 </polymer-element>
