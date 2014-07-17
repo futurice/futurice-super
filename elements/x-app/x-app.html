@@ -101,7 +101,6 @@
 
       #tutorial h1,h2 {
         font-weight: 300;
-        font-size: 1.5em;
         text-shadow: 0 0 5px rgba(255,255,255, 0.7);
       }
 
@@ -111,9 +110,29 @@
         margin: 0;
       }
 
+      #tutorial h2 {
+        font-size: 1em;
+      }
+
+      #tutorial header {
+        margin-bottom: 3em;
+      }
+
+      #tutorial img {
+        width: 6em;
+      }
+
       @media screen and (min-width: 1000px) {
         #tutorial h1 {
           font-size: 10em;
+        }
+
+        #tutorial h2 {
+          font-size: 1.5em;
+        }
+
+        #tutorial img {
+          width: 8em;
         }
       }
     </style>
@@ -142,11 +161,15 @@
       <section class="card-grid">
         <x-project-card-grid projects="{{ selectedProjects }}" service="{{ projectService }}" user="{{ user }}"
         on-favorite-tap="{{ handleFavorite }}">
-          <div id="tutorial">
-            <h1>SUPER</h1>
-            <h2>Salesforce Upcoming Projects Evaluation Rankings</h2>
+          <section id="tutorial">
+            <header>
+              <h1>SUPER</h1>
+              <h2>Salesforce Upcoming Projects Evaluation Rankings</h2>
+            </header>
+
+            <img src="/curved-arrow-up.svg" alt="Arrow pointing to menu" />
             <p>Please choose your tribe from the menu on the left.</p>
-          </div>
+          </section>
         </x-project-card-grid>
       </section>
 
