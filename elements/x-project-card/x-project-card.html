@@ -3,6 +3,7 @@
 <link rel="import" href="/bower_components/paper-progress/paper-progress.html">
 <link rel="import" href="/bower_components/core-icons/core-icons.html">
 <link rel="import" href="/bower_components/core-tooltip/core-tooltip.html">
+<link rel="import" href="/elements/x-iconset/x-iconset.html">
 
 <polymer-element name="x-project-card" attributes="project">
   <template>
@@ -95,6 +96,7 @@
       }
 
     </style>
+    <x-iconset></x-iconset>
     <div class="card-inner" vertical layout lost?="{{ project.value.IsClosed &amp;&amp; !project.value.IsWon }}">
 
       <!-- Title bar-->
@@ -110,7 +112,10 @@
       <div horizontal layout justified>
         <div vertical layout>
           <h2>{{ project.value.Account.Name }}</h2>
-          <div hidden?="{{ project.value.IsClosed }}">DL {{ dl }}</div>
+          <div hidden?="{{ project.value.IsClosed }}" horizontal layout>
+            <core-icon icon="custom-icons:skull"></core-icon>
+            <span>DL {{ dl }}</span>
+          </div>
         </div>
         <div  class="align-right" vertical layout>
           <span id="amount">{{ amount }} k€</span>
