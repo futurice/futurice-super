@@ -24,11 +24,14 @@
         box-shadow: 0px 2px 5px rgba(0,0,0, .2);
       }
 
-      paper-icon-button {
-        fill: #e0e0e0;
-      }
-      :host([favorite]) paper-icon-button {
+      /* Favorited */
+      :host([favorite]) #favorite {
         fill: #dd2c00;
+      }
+
+      /* Other icons, and not favorited */
+      paper-icon-button, core-icon {
+        fill: rgba(0,0,0, 0.3);
       }
 
       .align-right {
