@@ -142,7 +142,7 @@
       }
     </style>
 
-    <core-scaffold>
+    <core-scaffold id="scaffold">
 
 
       <core-header-panel class="panel--menu" navigation flex mode="waterfall">
@@ -185,6 +185,7 @@
   Polymer('x-app', {
     handleItemTap: function(event, detail, sender) {
       this.selectTribe(sender.templateInstance.model.t);
+      this.$.scaffold.closeDrawer();
     },
     selectTribe: function(tribe) {
       this.tribe = {
