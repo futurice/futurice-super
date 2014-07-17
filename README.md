@@ -29,15 +29,6 @@ For LiveReload via Grunt:
 $ grunt
 ```
 
-# Polymer architecture
-
-
-index.html
-* service -> {{ projects }}
-* project list <- {{ projects }}
-	* N * project card <- {{ project }}
-		* button -> {{ project.add/removeFavorite() }}
-
 # Salesforce connection
 
 We're using the [JSforce](http://jsforce.github.io/) library for the Salesforce API connection.
@@ -253,3 +244,7 @@ The service expects a custom header of 'x-forwarded-user' to be passed to it, in
         RequestHeader set X-Forwarded-User %{REMOTE_USER}s
 </Location>
 ```
+
+# License
+
+[BSD 3-Clause](LICENSE.txt)
