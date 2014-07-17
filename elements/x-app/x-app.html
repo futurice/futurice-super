@@ -168,11 +168,13 @@
     },
     updateList: function(){
       var that = this;
-      this.selectedProjects = _.filter(
-        this.projects,
-        function (item) {
-          return (that.tribe.name === item.value.Futu_Team__c);
-        });
+      if (this.projects && this.tribe) {
+        this.selectedProjects = _.filter(
+          this.projects,
+          function (item) {
+            return (that.tribe.name === item.value.Futu_Team__c);
+          });
+      }
     },
     ready: function(){
       this.projectService = this.$.projectService;
