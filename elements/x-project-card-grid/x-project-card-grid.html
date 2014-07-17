@@ -26,12 +26,17 @@
     </style>
 
     <section class="card-grid">
-      <template repeat="{{ chunk in chunks }}">
-        <template repeat="{{ project in chunk }}">
-          <x-project-card
-            project="{{ project }}"
-            favorite?="{{ project.FavoritedByUser }}"></x-project-card>
+      <template if="{{ projects.length > 0 }}">
+        <template repeat="{{ chunk in chunks }}">
+          <template repeat="{{ project in chunk }}">
+            <x-project-card
+              project="{{ project }}"
+              favorite?="{{ project.FavoritedByUser }}"></x-project-card>
+          </template>
         </template>
+      </template>
+      <template if="{{ projects.length == 0 }}">
+        <content></content>
       </template>
     </section>
   </template>

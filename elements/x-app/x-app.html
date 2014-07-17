@@ -82,13 +82,43 @@
       paper-item::shadow #ripple {
         color: #8bc34a;
       }
+
+      core-scaffold /deep/ core-icon {
+        fill: white;
+      }
+
+      /* Tutorial */
+      #tutorial {
+        width: 100%;
+        margin: 1em;
+        text-align: center;
+        color: rgba(0,0,0, 0.5);
+      }
+
+      #tutorial h1,h2 {
+        font-weight: 300;
+        font-size: 1.5em;
+        text-shadow: 0 0 5px rgba(255,255,255, 0.7);
+      }
+
+      #tutorial h1 {
+        font-size: 5em;
+        line-height: 1;
+        margin: 0;
+      }
+
+      @media screen and (min-width: 1000px) {
+        #tutorial h1 {
+          font-size: 10em;
+        }
+      }
     </style>
 
     <core-scaffold>
 
 
       <core-header-panel class="panel--menu" navigation flex mode="waterfall">
-        <core-toolbar >SUPER</core-toolbar>
+        <core-toolbar>SUPER</core-toolbar>
         <core-menu theme="core-light-theme" selected="{{ selected }}">
           <template repeat="{{ t in tribes }}">
             <paper-item label="{{ t.prettyName }}" on-tap="{{ handleItemTap }}"></paper-item>
@@ -107,7 +137,13 @@
 
       <section class="card-grid">
         <x-project-card-grid projects="{{ selectedProjects }}" service="{{ projectService }}" user="{{ user }}"
-        on-favorite-tap="{{ handleFavorite }}"></x-project-card-grid>
+        on-favorite-tap="{{ handleFavorite }}">
+          <div id="tutorial">
+            <h1>SUPER</h1>
+            <h2>Salesforce Upcoming Projects Evaluation Rankings</h2>
+            <p>Please choose your tribe from the menu on the left.</p>
+          </div>
+        </x-project-card-grid>
       </section>
 
     </core-scaffold>
