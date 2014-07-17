@@ -184,7 +184,9 @@ $ sudo -u www-data tar xvf production.tar -C /opt/super
 
 $ sudo start futurice-super
 
-$ sudo service apache2 restart
+$ rm /tmp/production.tar
+
+(opt)$ sudo service apache2 restart
 
 ```
 
