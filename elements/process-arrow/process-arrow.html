@@ -1,11 +1,11 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="/bower_components/core-tooltip/core-tooltip.html">
 <polymer-element name="process-arrow" attributes="stages index">
-	<template>
-		<style>
-			:host {
-				display: block;
-			}
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
 
       .stage-element {
         position: relative;
@@ -62,7 +62,7 @@
         max-width: 100%;
       }
 
-		</style>
+    </style>
     <div id="container" layout horizontal>
       <template repeat="{{stage in stages}}">
           <div class="stage-element" flex active?="{{ activeStages[stage] }}">
@@ -72,9 +72,9 @@
           </div>
       </template>
     </div>
-	</template>
-	<script>
-		Polymer('process-arrow', {
+  </template>
+  <script>
+    Polymer('process-arrow', {
       indexChanged: function(){
         this.activeStages = {};
         for (var i = 0; i < this.stages.length; i++) {
@@ -83,6 +83,6 @@
             }
         }
       }
-		});
-	</script>
+    });
+  </script>
 </polymer-element>
