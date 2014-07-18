@@ -99,13 +99,17 @@
         background-color: #222;
       }
 
+      corner-ribbon core-icon {
+        fill: #fff;
+      }
+
     </style>
     <x-iconset></x-iconset>
     <div class="card-inner" vertical layout lost?="{{ project.value.IsClosed &amp;&amp; !project.value.IsWon }}">
 
       <template if="{{ project.value.IsClosed }}">
         <template if="{{ project.value.IsWon}}">
-          <p><core-icon icon="custom-icons:crown"></core-icon>Won</p>
+          <corner-ribbon><core-icon icon="custom-icons:crown" size="18"></core-icon>Won</corner-ribbon>
         </template>
         <template if="{{ !project.value.IsWon}}">
           <corner-ribbon lost>Lost</corner-ribbon>
