@@ -138,7 +138,7 @@
             <p><core-icon icon="history" size="14"></core-icon>{{ modified }}</p>
           </div>
           <template if="{{ !project.value.IsClosed }}">
-            <process-arrow stages="{{ stages }}" index="{{ stageIndex }}"></process-arrow>
+            <process-arrow stages="{{ stages }}" currentStageIndex="{{ stageIndex }}"></process-arrow>
           </template>
           <template if="{{ project.value.IsClosed }}">
             <template if="{{ project.value.IsWon}}">

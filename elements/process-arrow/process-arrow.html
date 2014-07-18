@@ -1,6 +1,6 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="/bower_components/core-tooltip/core-tooltip.html">
-<polymer-element name="process-arrow" attributes="stages index">
+<polymer-element name="process-arrow" attributes="stages currentStageIndex">
   <template>
     <style>
       :host {
@@ -50,7 +50,7 @@
         transform: skew(-30deg);
       }
 
-      .stage-element[active]::before, .stage-element[active]::after {
+      .stage-element[highlighted]::before, .stage-element[highlighted]::after {
         background-color: rgba(104, 159, 56, 0.4);
       }
 
@@ -65,7 +65,7 @@
     </style>
     <div id="container" layout horizontal>
       <template repeat="{{stage in stages}}">
-          <div class="stage-element" flex active?="{{ activeStages[stage] }}">
+          <div class="stage-element" flex highlighted?="{{ activeStages[stage] }}">
             <core-tooltip label="{{ stage }}">
               <p>{{ stage }}</p>
             </core-tooltip>
@@ -75,10 +75,10 @@
   </template>
   <script>
     Polymer('process-arrow', {
-      indexChanged: function(){
+      currentStageIndexChanged: function(){
         this.activeStages = {};
         for (var i = 0; i < this.stages.length; i++) {
-            if (i <= this.index) {
+            if (i <= this.currentStageIndex) {
               this.activeStages[this.stages[i]] = true;
             }
         }
