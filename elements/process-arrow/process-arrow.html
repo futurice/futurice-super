@@ -1,0 +1,88 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/core-tooltip/core-tooltip.html">
+<polymer-element name="process-arrow" attributes="stages index">
+	<template>
+		<style>
+			:host {
+				display: block;
+			}
+
+      .stage-element {
+        position: relative;
+        margin: 0 2px 0 0;
+        padding: 0 0.8em;
+        font-size: 0.7em;
+        font-weight: 400;
+      }
+
+      .stage-element p {
+        position: relative;
+        z-index: 1;
+        margin: 0;
+        max-height: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        line-height: 2;
+      }
+
+      .stage-element::before, .stage-element::after {
+        content: "";
+        display: block;
+        position: absolute;
+        height: 50%;
+        width: 100%;
+        background-color: rgba(0,0,0,0.1);
+        left: 0;
+      }
+
+      .stage-element::before {
+        top: 0;
+        -webkit-transform: skew(30deg);
+        -moz-transform: skew(30deg);
+        transform: skew(30deg);
+      }
+
+      .stage-element::after {
+        bottom: 0;
+        -webkit-transform: skew(-30deg);
+        -moz-transform: skew(-30deg);
+        transform: skew(-30deg);
+      }
+
+      .stage-element[active]::before, .stage-element[active]::after {
+        background-color: rgba(104, 159, 56, 0.4);
+      }
+
+      .stage-element:last-child {
+        margin-right: 0;
+      }
+
+      .stage-element core-tooltip {
+        max-width: 100%;
+      }
+
+		</style>
+    <div id="container" layout horizontal>
+      <template repeat="{{stage in stages}}">
+          <div class="stage-element" flex active?="{{ activeStages[stage] }}">
+            <core-tooltip label="{{ stage }}">
+              <p>{{ stage }}</p>
+            </core-tooltip>
+          </div>
+      </template>
+    </div>
+	</template>
+	<script>
+		Polymer('process-arrow', {
+      indexChanged: function(){
+        this.activeStages = {};
+        for (var i = 0; i < this.stages.length; i++) {
+            if (i <= this.index) {
+              this.activeStages[this.stages[i]] = true;
+            }
+        }
+      }
+		});
+	</script>
+</polymer-element>
