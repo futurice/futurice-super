@@ -2,8 +2,10 @@
 <link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="/bower_components/paper-progress/paper-progress.html">
 <link rel="import" href="/bower_components/core-icons/core-icons.html">
+<link rel="import" href="/bower_components/core-icons/iconsets/social-icons.html">
 <link rel="import" href="/bower_components/core-tooltip/core-tooltip.html">
 <link rel="import" href="/elements/x-iconset/x-iconset.html">
+<link rel="import" href="/elements/process-arrow/process-arrow.html">
 
 <polymer-element name="x-project-card" attributes="project">
   <template>
@@ -34,6 +36,15 @@
         fill: rgba(0,0,0, 0.3);
       }
 
+      core-icon {
+        margin-right: 0.5em;
+      }
+
+      core-icon[icon="social:cake"] {
+        vertical-align: text-bottom;
+        fill: #ff6e40;
+      }
+
       .align-right {
         text-align: right;
       }
@@ -53,22 +64,6 @@
         overflow: hidden;
       }
 
-      paper-progress {
-        width: 100%;
-      }
-
-      paper-progress::shadow #activeProgress {
-        background-color: #8bc34a;
-      }
-
-      [lost] paper-progress::shadow #activeProgress {
-        background-color: #ff6e40;
-      }
-
-      #probability {
-        font-size: 2em;
-      }
-
       #amount {
         white-space: nowrap;
         font-size: 1.5em;
@@ -80,6 +75,7 @@
 
       #modified {
         font-size: 0.7em;
+        margin: 0.2em 0;
       }
 
       .face {
@@ -138,12 +134,20 @@
             <span>{{ project.value.Budgeted_Work_Start_Date__c || "TBD" }} - {{ project.value.Budgeted_Work_End_Date__c || "TBD" }}</span>
           </div>
           <div id="description" class="project-description">{{ project.value.Description }}</div>
-          <core-tooltip label="{{ stage.name }}">
-            <paper-progress value="{{ stage.number }}"></paper-progress>
-          </core-tooltip>
           <div id="modified" horizontal layout>
-            <div>Modified: {{ modified }}</div>
+            <p><core-icon icon="history" size="14"></core-icon>{{ modified }}</p>
           </div>
+          <template if="{{ !project.value.IsClosed }}">
+            <process-arrow stages="{{ stages }}" currentStageIndex="{{ stageIndex }}"></process-arrow>
+          </template>
+          <template if="{{ project.value.IsClosed }}">
+            <template if="{{ project.value.IsWon}}">
+            <p><core-icon icon="social:cake"></core-icon>Won</p>
+            </template>
+            <template if="{{ !project.value.IsWon}}">
+              <p>Lost</p>
+            </template>
+          </template>
         </div>
       </div>
 
@@ -162,30 +166,17 @@
       favoriteTapped: function(event, detail, sender) {
         this.fire('favorite-tap', {project: this.project});
       },
-      stageNumbers: {
-        "Unqualified": 0,
-        "Qualified": 20,
-        "Working on Proposal": 40,
-        "Closing": 60,
-        "Contract negotiations": 80,
-        "Won": 100,
-        "Lost": 100
-      },
+      stages: [
+        "Unqualified",
+        "Qualified",
+        "Working on Proposal",
+        "Closing",
+        "Contract negotiations"
+      ],
       projectChanged: function(){
-        this.stage = {};
-
         if (!!this.project) {
-          if (this.project.value.IsClosed) {
-            if (this.project.value.IsWon) {
-              this.stage.name = "Won";
-            } else {
-              this.stage.name = "Lost";
-            }
-          } else {
-            this.stage.name = this.project.value.StageName;
-          }
-          this.stage.number = this.stageNumbers[this.stage.name];
 
+          this.stageIndex = this.stages.indexOf(this.project.value.StageName);
 
           // Hide dates if not available
           if (this.project.value.Budgeted_Work_Start_Date__c !== null || this.project.value.Budgeted_Work_End_Date__c !== null ) {
