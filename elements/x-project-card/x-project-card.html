@@ -6,6 +6,7 @@
 <link rel="import" href="/bower_components/core-tooltip/core-tooltip.html">
 <link rel="import" href="/elements/x-iconset/x-iconset.html">
 <link rel="import" href="/elements/process-arrow/process-arrow.html">
+<link rel="import" href="/elements/corner-ribbon/corner-ribbon.html">
 
 <polymer-element name="x-project-card" attributes="project">
   <template>
@@ -42,7 +43,7 @@
 
       core-icon[icon="social:cake"] {
         vertical-align: text-bottom;
-        fill: #ff6e40;
+        fill: #fff;
       }
 
       .align-right {
@@ -94,9 +95,22 @@
         margin-right: 1em;
       }
 
+      corner-ribbon[lost] /deep/ #ribbon {
+        background-color: #222;
+      }
+
     </style>
     <x-iconset></x-iconset>
     <div class="card-inner" vertical layout lost?="{{ project.value.IsClosed &amp;&amp; !project.value.IsWon }}">
+
+      <template if="{{ project.value.IsClosed }}">
+        <template if="{{ project.value.IsWon}}">
+          <p><core-icon icon="custom-icons:crown"></core-icon>Won</p>
+        </template>
+        <template if="{{ !project.value.IsWon}}">
+          <corner-ribbon lost>Lost</corner-ribbon>
+        </template>
+      </template>
 
       <!-- Title bar-->
       <div layout horizontal>
@@ -139,14 +153,6 @@
           </div>
           <template if="{{ !project.value.IsClosed }}">
             <process-arrow stages="{{ stages }}" currentStageIndex="{{ stageIndex }}"></process-arrow>
-          </template>
-          <template if="{{ project.value.IsClosed }}">
-            <template if="{{ project.value.IsWon}}">
-            <p><core-icon icon="custom-icons:crown"></core-icon>Won</p>
-            </template>
-            <template if="{{ !project.value.IsWon}}">
-              <p>Lost</p>
-            </template>
           </template>
         </div>
       </div>
