@@ -4,25 +4,14 @@
     <style>
       :host {
         display: block;
-      }
-
-      #container {
-        width: 85px;
-        height: 88px;
-        overflow: hidden;
         position: absolute;
         top: 0;
         left: 0;
-        z-index: 10;
-      }
-
-      #ribbon {
         color: #fff;
         text-align: center;
         -webkit-transform: rotate(-45deg);
         -moz-transform: rotate(-45deg);
         transform: rotate(-45deg);
-        position: relative;
         padding: 3px 0;
         left: -25px;
         top: 10px;
@@ -33,10 +22,8 @@
         font-size: 12px;
       }
     </style>
-    <div id="container">
-      <div id="ribbon">
-        <content></content>
-      </div>
+    <div id="ribbon">
+      <content></content>
     </div>
   </template>
 </polymer-element>
