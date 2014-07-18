@@ -6,6 +6,7 @@
 <link rel="import" href="/bower_components/core-tooltip/core-tooltip.html">
 <link rel="import" href="/elements/x-iconset/x-iconset.html">
 <link rel="import" href="/elements/process-arrow/process-arrow.html">
+<link rel="import" href="/elements/corner-ribbon/corner-ribbon.html">
 
 <polymer-element name="x-project-card" attributes="project">
   <template>
@@ -19,6 +20,7 @@
         background-color: #fff;
         padding: 10px;
         position: relative;
+        overflow: hidden;
         box-shadow: 0px 2px 5px rgba(0,0,0, .3);
       }
       [lost].card-inner {
@@ -38,11 +40,6 @@
 
       core-icon {
         margin-right: 0.5em;
-      }
-
-      core-icon[icon="social:cake"] {
-        vertical-align: text-bottom;
-        fill: #ff6e40;
       }
 
       .align-right {
@@ -91,18 +88,44 @@
       .face-owner {
         width: 4em;
         height: 4em;
+      }
+
+      .owner {
         margin-right: 1em;
+      }
+
+      .owner-name {
+        font-size: 0.6em;
+        font-weight: 400;
+      }
+
+      corner-ribbon[lost] {
+        background-color: #222;
+      }
+
+      corner-ribbon core-icon {
+        fill: #fff;
       }
 
     </style>
     <x-iconset></x-iconset>
     <div class="card-inner" vertical layout lost?="{{ project.value.IsClosed &amp;&amp; !project.value.IsWon }}">
 
+      <template if="{{ project.value.IsClosed }}">
+        <template if="{{ project.value.IsWon}}">
+          <corner-ribbon><core-icon icon="custom-icons:crown" size="18"></core-icon>Won</corner-ribbon>
+        </template>
+        <template if="{{ !project.value.IsWon}}">
+          <corner-ribbon lost>Lost</corner-ribbon>
+        </template>
+      </template>
+
       <!-- Title bar-->
       <div layout horizontal>
-        <core-tooltip label="{{ project.value.Owner.Name }}" position="above">
-          <span class="face face-owner" style="background-image: url({{ '//api.fum.futurice.com/photo/' + project.value.Owner.Alias }})"></span>
-        </core-tooltip>
+        <div class="owner" layout vertical center>
+          <span class="face face-owner" title="{{ project.value.Owner.Name }}" style="background-image: url({{ '//api.fum.futurice.com/photo/' + project.value.Owner.Alias }})"></span>
+          <span class="owner-name">{{ project.value.Owner.Name }}</span>
+        </div>
         <h1 class="project-title" flex>{{ project.value.Name }}</h1>
         <paper-icon-button id="favorite" icon="favorite" on-tap="{{ favoriteTapped }}"></paper-icon-button>
       </div>
@@ -139,14 +162,6 @@
           </div>
           <template if="{{ !project.value.IsClosed }}">
             <process-arrow stages="{{ stages }}" currentStageIndex="{{ stageIndex }}"></process-arrow>
-          </template>
-          <template if="{{ project.value.IsClosed }}">
-            <template if="{{ project.value.IsWon}}">
-            <p><core-icon icon="custom-icons:crown"></core-icon>Won</p>
-            </template>
-            <template if="{{ !project.value.IsWon}}">
-              <p>Lost</p>
-            </template>
           </template>
         </div>
       </div>
