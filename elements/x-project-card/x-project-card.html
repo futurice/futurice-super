@@ -20,6 +20,7 @@
         background-color: #fff;
         padding: 10px;
         position: relative;
+        overflow: hidden;
         box-shadow: 0px 2px 5px rgba(0,0,0, .3);
       }
       [lost].card-inner {
@@ -87,10 +88,18 @@
       .face-owner {
         width: 4em;
         height: 4em;
+      }
+
+      .owner {
         margin-right: 1em;
       }
 
-      corner-ribbon[lost] /deep/ #ribbon {
+      .owner-name {
+        font-size: 0.6em;
+        font-weight: 400;
+      }
+
+      corner-ribbon[lost] {
         background-color: #222;
       }
 
@@ -113,9 +122,10 @@
 
       <!-- Title bar-->
       <div layout horizontal>
-        <core-tooltip label="{{ project.value.Owner.Name }}" position="above">
-          <span class="face face-owner" style="background-image: url({{ '//api.fum.futurice.com/photo/' + project.value.Owner.Alias }})"></span>
-        </core-tooltip>
+        <div class="owner" layout vertical center>
+          <span class="face face-owner" title="{{ project.value.Owner.Name }}" style="background-image: url({{ '//api.fum.futurice.com/photo/' + project.value.Owner.Alias }})"></span>
+          <span class="owner-name">{{ project.value.Owner.Name }}</span>
+        </div>
         <h1 class="project-title" flex>{{ project.value.Name }}</h1>
         <paper-icon-button id="favorite" icon="favorite" on-tap="{{ favoriteTapped }}"></paper-icon-button>
       </div>
