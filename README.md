@@ -197,11 +197,11 @@ $ scp production.tar super.futurice.com:/tmp/
 
 $ cd /tmp
 
-$ sudo stop futurice-super
+$ sudo stop super-server
 
-$ sudo -u www-data tar xvf production.tar -C /opt/super
+$ sudo tar xvf production.tar -C /opt/super
 
-$ sudo start futurice-super
+$ sudo start super-server
 
 $ rm /tmp/production.tar
 
@@ -209,41 +209,11 @@ $ rm /tmp/production.tar
 
 ```
 
-### If we need to update the database
+If you've modified the database you'll need to restart the updater.
 
 ```bash
-$ cd /opt/super
-
-$ sudo node update_db.js
-
-```
-
-## Upstart
-
-You can use the following upstart script to start and stop the app. It also takes care of starting the app at server startup and respawning it should it crash.
-
-Place the script in the `/etc/init/` folder.
-
-```upstart
-#!upstart
-description "SUPER"
-author      "Futurice"
-
-start on startup
-stop on shutdown
-
-respawn
-respawn limit 99 5
-
-setuid www-data
-setgid www-data
-
-script
-    export HOME="/opt/super"
-    cd $HOME
-    exec /usr/lib/node_modules/npm start >> /var/log/super.log 2>&1
-end script
-
+$ sudo stop super-updater
+$ sudo start super-updater
 ```
 
 ## Apache2 REMOTE_USER
