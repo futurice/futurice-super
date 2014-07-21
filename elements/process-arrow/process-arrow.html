@@ -1,5 +1,4 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/core-tooltip/core-tooltip.html">
 <polymer-element name="process-arrow" attributes="stages currentStageIndex">
   <template>
     <style>
@@ -66,9 +65,7 @@
     <div id="container" layout horizontal>
       <template repeat="{{stage in stages}}">
           <div class="stage-element" flex highlighted?="{{ activeStages[stage] }}">
-            <core-tooltip label="{{ stage }}">
-              <p>{{ stage }}</p>
-            </core-tooltip>
+            <p>{{ stage }}</p>
           </div>
       </template>
     </div>
