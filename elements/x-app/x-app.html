@@ -3,6 +3,7 @@
 <link rel="import" href="/bower_components/core-scaffold/core-scaffold.html">
 <link rel="import" href="/bower_components/core-header-panel/core-header-panel.html">
 <link rel="import" href="/bower_components/core-menu/core-menu.html">
+<link rel="import" href="/bower_components/core-selector/core-selector.html">
 <link rel="import" href="/bower_components/core-localstorage/core-localstorage.html">
 <link rel="import" href="/bower_components/paper-item/paper-item.html">
 
@@ -63,18 +64,32 @@
       }
 
       /* Menu panel's header bar */
-      .panel--menu::shadow #mainPanel, .panel--menu core-toolbar {
+      .panel-menu::shadow #mainPanel, .panel-menu core-toolbar {
         background-color: #fff;
       }
 
       /* Menu panel */
-      .panel--menu {
+      .panel-menu {
         background-color: #fff;
         z-index: 1;
       }
 
-      core-scaffold .panel--menu /deep/ core-menu {
+      .panel-menu h2,
+      .panel-menu paper-item {
+        padding: 0 1rem;
+      }
+
+      .panel-menu h2 {
+        text-transform: uppercase;
         margin: 0;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        font-size: 1.3em;
+        border-bottom: 1px solid #eee;
+      }
+
+      .panel-menu core-menu {
+        margin: 0 0 1rem;
       }
 
       paper-item.core-selected {
@@ -143,17 +158,29 @@
         }
       }
     </style>
+    <core-localstorage name="super-current-selected" value="{{ selected }}"></core-localstorage>
+    <core-localstorage name="super-current-tribe" value="{{ tribe }}"></core-localstorage>
+    <core-localstorage name="super-current-sortBy" value="{{ sortBy }}"></core-localstorage>
 
     <core-scaffold id="scaffold">
 
-
-      <core-header-panel class="panel--menu" navigation flex mode="waterfall">
+      <core-header-panel class="panel-menu" navigation flex mode="waterfall">
         <core-toolbar><span id="superLogo" on-tap="{{ clearTribe }}">SUPER</span></core-toolbar>
-        <core-menu theme="core-light-theme" selected="{{ selected }}">
+        <h2>Tribe</h2>
+        <core-menu selected="{{ selected }}">
           <template repeat="{{ t in tribes }}">
             <paper-item label="{{ t.prettyName }}" on-tap="{{ handleItemTap }}"></paper-item>
           </template>
         </core-menu>
+
+        <h2>Sort by</h2>
+        <core-selector id="sortBy" on-core-select="{{ sortBySelected }}"
+          selected="{{ sortBy }}">
+          <paper-item name="-value.LastModifiedDate">Last modified</paper-item>
+          <paper-item name="value.Budgeted_Work_Start_Date__c">Start date</paper-item>
+          <paper-item name="value.Name">Name</paper-item>
+          <paper-item name="value.Description">Description</paper-item>
+        </core-selector>
       </core-header-panel>
 
       <div tool>{{ tribe.prettyName }}</div>
@@ -162,11 +189,9 @@
       <x-project-service id="projectService" projects="{{ projects }}" user="{{ user }}"></x-project-service>
       <x-user-service id="userService" user="{{ user }}"></x-user-service>
 
-      <core-localstorage name="super-current-selected" value="{{ selected }}"></core-localstorage>
-      <core-localstorage name="super-current-tribe" value="{{ tribe }}"></core-localstorage>
 
       <section class="card-grid">
-        <x-project-card-grid projects="{{ selectedProjects }}" service="{{ projectService }}" user="{{ user }}"
+        <x-project-card-grid projects="{{ selectedProjects }}" sortBy="{{ sortBy }}" service="{{ projectService }}" user="{{ user }}"
         on-favorite-tap="{{ handleFavorite }}">
           <section id="tutorial">
             <header>
@@ -185,9 +210,13 @@
   <script src="/bower_components/underscore/underscore.js"></script>
   <script>
   Polymer('x-app', {
+    defaultSortBy: "-value.LastModifiedDate",
     handleItemTap: function(event, detail, sender) {
       this.selectTribe(sender.templateInstance.model.t);
       this.$.scaffold.closeDrawer();
+    },
+    sortBySelected: function(event, detail, sender) {
+      this.sortBy = this.$.sortBy.selected;
     },
     selectTribe: function(tribe) {
       this.tribe = {
@@ -203,6 +232,9 @@
     },
     updateList: function(){
       var that = this;
+      if (!this.sortBy) {
+        this.sortBy = this.defaultSortBy;
+      }
       if (this.projects && this.tribe) {
         this.selectedProjects = _.filter(
           this.projects,
