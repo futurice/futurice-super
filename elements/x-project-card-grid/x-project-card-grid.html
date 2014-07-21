@@ -48,7 +48,7 @@
         this.projects = [];
         this.sortedProjects = [];
         this.chunks = [];
-        this.sortBy = "-value.LastModifiedDate";
+        this.sortBy = "";
       },
       getPropertyValue: function (object, prop) {
         if (!object.hasOwnProperty(prop)) {
@@ -61,7 +61,9 @@
         var sortKeys = sortBy.split('.'),
           value;
 
-        if (sortKeys.length > 3) {
+        if (sortKeys.length < 1) {
+          throw new Error("No sort keys");
+        } else if (sortKeys.length > 3) {
           throw new Error("Too many sort keys");
         }
 
@@ -95,6 +97,10 @@
             sortBy = sortBy.substring(1);
           }
           self.sortedProjects = _.sortBy(self.projects, function (project) {
+            // null values are no good for Array.prototype.sort()
+            if (self.getIteratorValue(project, sortBy) === null) {
+              return undefined;
+            }
             return self.getIteratorValue(project, sortBy);
           });
 
