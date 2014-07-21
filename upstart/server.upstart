@@ -36,6 +36,13 @@ env MIN_UPTIME="5000"
 env SPIN_SLEEP_TIME="2000"
 env MAX="10"
 
+pre-start script
+  # Install dependencies
+  PATH=$NODE_BIN_DIR:$PATH
+  cd /opt/super
+  exec npm install
+end script
+
 script
     # Add the node executables to the path, which includes Forever if it is
     # installed globally, which it should be.
