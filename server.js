@@ -5,20 +5,15 @@ var express = require('express'),
   nano = require('nano')('http://localhost:5984'),
   _ = require('underscore'),
   dbName = 'futurice-super',
-  database = nano.use(dbName)
-;
+  database = nano.use(dbName);
 
 app.get('/api/view/:viewName', function(req, res) {
 
-  console.log("View: "+req.params.viewName);
   database.get('_design/views/_view/'+req.params.viewName).pipe(res);
 
 });
 
 app.get('/api/tribes', function(req, res) {
-
-  console.log("Tribes");
-
   database.get('_design/views/_view/tribes?group=true', function(err, body) {
     var response = body.rows.map(function (row) {
       return {
@@ -29,7 +24,6 @@ app.get('/api/tribes', function(req, res) {
 
     res.json(response);
   });
-
 });
 
 app.all('/api/favorites/:projectId', function(req, res){
@@ -87,7 +81,6 @@ app.get('/api/user', function(req, res){
 
 app.get('/api/*', function(req, res) {
 
-  console.log("GET " + req.params[0]);
   database.get(req.params[0]).pipe(res);
 
 });
