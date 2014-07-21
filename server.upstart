@@ -34,6 +34,7 @@ env PIDFILE="/opt/super/super-server.pid"
 env LOG="/var/log/super-server.log"
 env MIN_UPTIME="5000"
 env SPIN_SLEEP_TIME="2000"
+env MAX="10"
 
 script
     # Add the node executables to the path, which includes Forever if it is
@@ -51,6 +52,7 @@ script
       -l $LOG \
       --minUptime $MIN_UPTIME \
       --spinSleepTime $SPIN_SLEEP_TIME \
+      -m $MAX \
       start $APPLICATION_PATH
 end script
 
