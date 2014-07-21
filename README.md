@@ -9,6 +9,7 @@ The purpose of this project is to promote transparency of the sales pipeline and
 Requirements:
 
  * [Node and npm](http://nodejs.org/)
+ * [CouchDB](http://couchdb.apache.org/)
 
 LiveReload might also need [Grunt](http://gruntjs.com/) if you don't have support for that in your editor of choice.
 
@@ -61,13 +62,13 @@ $ jsforce
        Name: 'Company X' } ] }
 ```
 
-To query the API via curl (or other REST clients) you start by connecting to the API and logging in. This can be done with `node ./jsforce_testing.js` . The first line gives you the authorization header needed for the request.
-
 If you're using `curl`, you can do:
 
 ```bash
 curl https://eu1.salesforce.com/services/data/v30.0/ -H "Authorization: Bearer <token>"
 ```
+
+You can also use [Force.com Explorer](https://developer.salesforce.com/page/ForceExplorer) to explore the Salesforce API and test queries.
 
 More information at [salesforce.com](https://www.salesforce.com/us/developer/docs/api_rest/).
 
@@ -77,12 +78,30 @@ More information at [salesforce.com](https://www.salesforce.com/us/developer/doc
 
 ```json
 [
-	"100 - Avalon",
-	"120 - South Side",
-	"130 - Vesa",
-	"500-Tammerforce",
-	"700 - Berlin",
-	"800-London"
+	{
+		"name": "100 - Avalon",
+		"prettyName": "Avalon"
+	},
+	{
+		"name": "120 - South Side",
+		"prettyName": "South Side"
+	},
+	{
+		"name": "130 - Vesa",
+		"prettyName": "Vesa"
+	},
+	{
+		"name": "500-Tammerforce",
+		"prettyName": "Tammerforce"
+	},
+	{
+		"name": "700 - Berlin",
+		"prettyName": "Berlin"
+	},
+	{
+		"name": "800-London",
+		"prettyName": "London"
+	}
 ]
 ```
 
@@ -168,7 +187,7 @@ E.g. `/api/_all_docs`
 
 $ git archive -o production.tar master
 
-$ scp production.tar $USER@super.futurice.com:/tmp/
+$ scp production.tar super.futurice.com:/tmp/
 
 ```
 
