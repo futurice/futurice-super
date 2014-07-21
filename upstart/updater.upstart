@@ -29,7 +29,7 @@ expect fork
 
 env NODE_BIN_DIR="/usr/bin"
 env NODE_PATH="/usr/lib/node_modules"
-env APPLICATION_PATH="/opt/super/db_updater.js"
+env APPLICATION_PATH="/opt/super/updater.js"
 env PIDFILE="/opt/super/super-updater.pid"
 env LOG="/var/log/super-updater.log"
 env MIN_UPTIME="5000"
