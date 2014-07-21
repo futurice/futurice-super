@@ -1,7 +1,7 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="../x-project-card/x-project-card.html">
 
-<polymer-element name="x-project-card-grid" attributes="projects">
+<polymer-element name="x-project-card-grid" attributes="projects sortBy">
   <template>
     <style>
       :host {
@@ -46,47 +46,97 @@
       chunkSize: 10,
       ready: function() {
         this.projects = [];
+        this.sortedProjects = [];
         this.chunks = [];
+        this.sortBy = "-value.LastModifiedDate";
+      },
+      getPropertyValue: function (object, prop) {
+        if (!object.hasOwnProperty(prop)) {
+          throw Error("Object does not have property "+prop);
+        }
 
+        return object[prop];
+      },
+      getIteratorValue: function (project, sortBy) {
+        var sortKeys = sortBy.split('.'),
+          value;
 
+        if (sortKeys.length > 3) {
+          throw new Error("Too many sort keys");
+        }
+
+        // Initially set value as the first key's value
+        value = this.getPropertyValue(project, sortKeys[0]);
+        // We may need to go deeper.
+        for (var i = 1; i < sortKeys.length; i++) {
+          value = this.getPropertyValue(value, sortKeys[i]);
+        }
+
+        // When value is a string, return it lowercased for proper
+        // alphabetical ordering.
+        return typeof value === "string" ? value.toLowerCase() : value;
       },
       projectsChanged: function() {
         var self = this;
 
-        this.currentChunkIndex = 0;
-        this.chunks = [];
+        // Reset chunks
+        self.currentChunkIndex = 0;
+        self.chunks = [];
+
+        // Set up ordering
+        if (self.projects.length > 0 && self.sortBy) {
+          var sortBy = self.sortBy,
+            reversed = false;
+
+          // sortBy values starting with dash (minus) will cause
+          // the list to be reversed
+          if (sortBy.indexOf('-') === 0) {
+            reversed = true;
+            sortBy = sortBy.substring(1);
+          }
+          self.sortedProjects = _.sortBy(self.projects, function (project) {
+            return self.getIteratorValue(project, sortBy);
+          });
+
+          if (reversed) {
+            self.sortedProjects.reverse();
+          }
+        } else {
+          self.sortedProjects = self.projects;
+        }
 
         var array = [];
         for (
           var i = 0;
-          i < Math.ceil(this.projects.length / (1.0 * this.chunkSize));
+          i < Math.ceil(self.sortedProjects.length / (1.0 * self.chunkSize));
           i++) {
           array[i] = [];
         };
 
-        this.chunks = array;
+        self.chunks = array;
 
-        if (this.chunks.length > 0) {
+        if (self.chunks.length > 0) {
           setTimeout(function() { return self.nextChunk(); }, 150);
         }
       },
       nextChunk: function() {
-        var offset = this.chunkSize * this.currentChunkIndex;
+        var self = this;
 
-        if (offset >= this.projects.length) {
+        var offset = self.chunkSize * self.currentChunkIndex;
+
+        if (offset >= self.sortedProjects.length) {
           return true;
         }
 
-        for (var i = 0; i < this.chunkSize; i++) {
-          if (!this.projects[offset+i]) {
+        for (var i = 0; i < self.chunkSize; i++) {
+          if (!self.sortedProjects[offset+i]) {
             break;
           }
-          this.chunks[this.currentChunkIndex].push(this.projects[offset+i]);
+          self.chunks[self.currentChunkIndex].push(self.sortedProjects[offset+i]);
         };
 
-        this.currentChunkIndex++;
+        self.currentChunkIndex++;
 
-        var self = this;
 
         setTimeout(function() { return self.nextChunk(); }, 10);
       }
