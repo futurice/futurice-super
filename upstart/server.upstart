@@ -1,0 +1,75 @@
+#!upstart
+
+description "SUPER Server"
+
+# This script is based on:
+# https://www.exratione.com/2013/02/nodejs-and-forever-as-a-service-simple-upstart-and-init-scripts-for-ubuntu/
+
+start on startup
+stop on shutdown
+
+# This line is needed so that Upstart reports the pid of the Node.js process
+# started by Forever rather than Forever's pid.
+expect fork
+
+
+# The full path to the directory containing the node and forever binaries.
+# env NODE_BIN_DIR="/usr/local/bin"
+# Set the NODE_PATH to the Node.js main node_modules directory.
+# env NODE_PATH="/usr/local/lib/node_modules"
+# The application startup Javascript file path.
+# env APPLICATION_PATH="/home/node/my-application/start-my-application.js"
+# Process ID file path.
+# env PIDFILE="/var/run/my-application.pid"
+# Log file path.
+# env LOG="/var/log/my-application.log"
+# Forever settings to prevent the application spinning if it fails on launch.
+# env MIN_UPTIME="5000"
+# env SPIN_SLEEP_TIME="2000"
+
+env NODE_BIN_DIR="/usr/bin"
+env NODE_PATH="/usr/lib/node_modules"
+env APPLICATION_PATH="/opt/super/server.js"
+env PIDFILE="/opt/super/super-server.pid"
+env LOG="/var/log/super-server.log"
+env MIN_UPTIME="5000"
+env SPIN_SLEEP_TIME="2000"
+env MAX="10"
+
+pre-start script
+  # Install dependencies
+  PATH=$NODE_BIN_DIR:$PATH
+  cd /opt/super
+  exec npm install
+end script
+
+script
+    # Add the node executables to the path, which includes Forever if it is
+    # installed globally, which it should be.
+    PATH=$NODE_BIN_DIR:$PATH
+    # The minUptime and spinSleepTime settings stop Forever from thrashing if
+    # the application fails immediately on launch. This is generally necessary
+    # to avoid loading development servers to the point of failure every time
+    # someone makes an error in application initialization code, or bringing
+    # down production servers the same way if a database or other critical
+    # service suddenly becomes inaccessible.
+    exec forever \
+      --pidFile $PIDFILE \
+      -a \
+      -l $LOG \
+      --minUptime $MIN_UPTIME \
+      --spinSleepTime $SPIN_SLEEP_TIME \
+      -m $MAX \
+      start $APPLICATION_PATH
+end script
+
+pre-stop script
+    # Add the node executables to the path.
+    PATH=$NODE_BIN_DIR:$PATH
+    # Here we're using the pre-stop script to stop the Node.js application
+    # process so that Forever is given a chance to do its thing and tidy up
+    # its data. Note that doing it this way means that each application that
+    # runs under Forever must have a different start file name, regardless of
+    # which directory it is in.
+    exec forever stop $APPLICATION_PATH
+end script

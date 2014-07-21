@@ -13,7 +13,8 @@
     "underscore": "",
     "nano": "",
     "npm": "",
-    "jsforce": ""
+    "jsforce": "",
+    "node-schedule": ""
   },
   "scripts": {
     "postinstall": "bower install",
