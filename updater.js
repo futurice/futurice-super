@@ -145,6 +145,9 @@ removeDeletedOpportunities = function(opportunities){
  * Salesforce logic.
  */
 updateSalesforceData = function() {
+
+  console.log("Running update on ", new Date());
+
   conn.login(credentials.user, credentials.passwordtoken, function(err, userInfo) {
     if (err) { return console.error(err); }
 
