@@ -51,6 +51,7 @@
 
       },
       projectsChanged: function() {
+        var self = this;
 
         this.currentChunkIndex = 0;
         this.chunks = [];
@@ -66,8 +67,7 @@
         this.chunks = array;
 
         if (this.chunks.length > 0) {
-          var that = this;
-          setTimeout(function() { return that.nextChunk(); }, 150);
+          setTimeout(function() { return self.nextChunk(); }, 150);
         }
       },
       nextChunk: function() {
@@ -86,9 +86,9 @@
 
         this.currentChunkIndex++;
 
-        var that = this;
+        var self = this;
 
-        setTimeout(function() { return that.nextChunk(); }, 10);
+        setTimeout(function() { return self.nextChunk(); }, 10);
       }
     });
   </script>
