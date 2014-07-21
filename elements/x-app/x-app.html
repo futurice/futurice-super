@@ -158,9 +158,10 @@
         }
       }
     </style>
+    <core-localstorage name="super-current-selected" value="{{ selected }}"></core-localstorage>
+    <core-localstorage name="super-current-tribe" value="{{ tribe }}"></core-localstorage>
 
     <core-scaffold id="scaffold">
-
 
       <core-header-panel class="panel-menu" navigation flex mode="waterfall">
         <core-toolbar><span id="superLogo" on-tap="{{ clearTribe }}">SUPER</span></core-toolbar>
@@ -187,8 +188,6 @@
       <x-project-service id="projectService" projects="{{ projects }}" user="{{ user }}"></x-project-service>
       <x-user-service id="userService" user="{{ user }}"></x-user-service>
 
-      <core-localstorage name="super-current-selected" value="{{ selected }}"></core-localstorage>
-      <core-localstorage name="super-current-tribe" value="{{ tribe }}"></core-localstorage>
 
       <section class="card-grid">
         <x-project-card-grid projects="{{ selectedProjects }}" sortBy="{{ sortBy }}" service="{{ projectService }}" user="{{ user }}"
