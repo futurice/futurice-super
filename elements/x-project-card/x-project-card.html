@@ -143,7 +143,7 @@
           <span id="amount">{{ amount }} k€</span>
           <span>
             <template repeat="{{ username in project.value.FavoritedBy }}">
-              <span class="face face-user" style="background-image: url({{ '//api.fum.futurice.com/photo/' + username }})"></span>
+              <span class="face face-user" style="background-image: url({{ 'https://api.fum.futurice.com/photo/' + username }})"></span>
             </template>
           </span>
         </div>
