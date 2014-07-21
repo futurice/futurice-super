@@ -78,6 +78,9 @@
         // alphabetical ordering.
         return typeof value === "string" ? value.toLowerCase() : value;
       },
+      sortByChanged: function() {
+        this.projectsChanged();
+      },
       projectsChanged: function() {
         var self = this;
 
