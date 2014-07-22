@@ -24,6 +24,10 @@ $ git clone https://github.com/futurice/futurice-super.git
 $ npm start
 ```
 
+Make a file `salesforce-credentials.js` following the example `salesforce-credentials.example.js`, and insert the correct auth data.
+
+Install and run CouchDB, then run `node updater.js`.
+
 For LiveReload via Grunt:
 
 ```bash
