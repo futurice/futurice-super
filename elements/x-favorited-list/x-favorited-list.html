@@ -22,13 +22,14 @@
         font-size: 0.8rem;
         font-weight: 600;
         color: white;
+        cursor: pointer;
       }
     </style>
     <template repeat="{{ username in shown }}">
       <span class="face-user" style="background-image: url({{ 'https://api.fum.futurice.com/photo/' + username }})">&#8203;</span>
     </template>
     <template if="{{ plusCount > 0 }}">
-      <span class="plus-count">+{{ plusCount }}</span>
+      <span class="plus-count" on-tap="{{ showAll }}">+{{ plusCount }}</span>
     </template>
   </template>
   <script>
@@ -45,6 +46,10 @@
           this.plusCount = 0;
         }
 
+      },
+      showAll: function() {
+        this.shown = this.usernames;
+        this.plusCount = 0;
       }
     });
   </script>
