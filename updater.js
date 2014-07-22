@@ -223,6 +223,7 @@ var weekends = schedule.scheduleJob('0 */4 * * 0,6', function(){
   updateSalesforceData();
 });
 
+console.log("Scheduler started, press CTRL+C to exit.")
 
 /*
  * Run an update
