@@ -49,6 +49,8 @@
           for (var i=0; i < projects.length; i++) {
             if (projects[i].FavoritedBy){
               projects[i].FavoritedByUser = this.isFavorited(projects[i]);
+            } else {
+              projects[i].FavoritedByUser = false;
             }
           }
         }

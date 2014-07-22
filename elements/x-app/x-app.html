@@ -174,12 +174,13 @@
         </core-menu>
 
         <h2>Sort by</h2>
-        <core-selector id="sortBy" on-core-select="{{ sortBySelected }}"
-          selected="{{ sortBy }}">
-          <paper-item name="-LastModifiedDate">Last modified</paper-item>
-          <paper-item name="Budgeted_Work_Start_Date__c">Start date</paper-item>
-          <paper-item name="Name">Name</paper-item>
-        </core-selector>
+        <core-menu id="sortBy" selected="{{ sortBy }}">
+          <template repeat="{{ item in sortOptions }}">
+            <paper-item on-tap="{{ sortBySelected }}" name="{{ item.sortKey }}">
+              {{ item.prettyName }}
+            </paper-item>
+          </template>
+        </core-menu>
       </core-header-panel>
 
       <div tool>{{ tribe.prettyName }}</div>
@@ -216,6 +217,7 @@
     },
     sortBySelected: function(event, detail, sender) {
       this.sortBy = this.$.sortBy.selected;
+      this.updateList();
     },
     selectTribe: function(tribe) {
       this.tribe = {
@@ -246,6 +248,12 @@
     },
     ready: function(){
       this.projectService = this.$.projectService;
+      this.sortOptions = [
+        { sortKey: "-LastModifiedDate", prettyName: "Last modified" },
+        { sortKey: "Budgeted_Work_Start_Date__c", prettyName: "Start date" },
+        { sortKey: "-FavoritedByUser", prettyName: "My favorites first" },
+        { sortKey: "Name", prettyName: "Name" }
+      ];
     },
     handleFavorite: function(event, detail, sender){
       this.$.projectService.setFavorites(detail.project);
