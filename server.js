@@ -78,8 +78,8 @@ app.all('/api/favorites/:projectId', function(req, res){
           case 'POST':
             if (_.contains(body.FavoritedBy, user)) {
               // If user exists in favoritedby, remove them.
-              body.FavoritedBy.splice(body.FavoritedBy.indexOf(user));
-            }else {
+              body.FavoritedBy.splice(body.FavoritedBy.indexOf(user), 1);
+            } else {
               // if user is not in array, add them.
               body.FavoritedBy.push(user);
             }
