@@ -42,9 +42,9 @@
   </template>
   <script>
     Polymer('x-project-card-grid', {
-      currentChunkIndex: 0,
       chunkSize: 10,
       ready: function() {
+        this.currentChunkIndex = 0;
         this.projects = [];
         this.sortedProjects = [];
         this.chunks = [];
