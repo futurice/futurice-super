@@ -72,6 +72,9 @@
   </template>
   <script>
     Polymer('process-arrow', {
+      created: function(){
+        this.stages = [];
+      },
       currentStageIndexChanged: function(){
         this.activeStages = {};
         for (var i = 0; i < this.stages.length; i++) {

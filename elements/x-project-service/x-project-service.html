@@ -24,42 +24,45 @@
   <script src="/bower_components/underscore/underscore.js"></script>
   <script>
     Polymer('x-project-service', {
-      projects: [],
       favoritesUrl: "/api/favorites/",
+      created: function () {
+        this.projects = [];
+      },
       setFavorites: function (project) {
-        this.$.postFavorite.url = this.favoritesUrl + project.id;
+        this.$.postFavorite.url = this.favoritesUrl + project._id;
         this.$.postFavorite.go();
       },
       handleResponse: function(){
-        this.projects = this.$.getAll.response.rows;
-        this.updateFavorites();
+        var projects = this.$.getAll.response;
+        this.updateFavorites(projects);
+        this.projects = projects;
       },
       isFavorited: function(project){
         if (this.user && project) {
-          return project.value.FavoritedBy.indexOf(this.user) >= 0;
+          return project.FavoritedBy.indexOf(this.user) >= 0;
         } else {
           return false;
         }
       },
-      updateFavorites: function(){
-        if (this.user){
-          for (var i=0; i < this.projects.length; i++) {
-            if (this.projects[i].value.FavoritedBy){
-              this.projects[i].FavoritedByUser = this.isFavorited(this.projects[i]);
+      updateFavorites: function(projects){
+        if (this.user && projects){
+          for (var i=0; i < projects.length; i++) {
+            if (projects[i].FavoritedBy){
+              projects[i].FavoritedByUser = this.isFavorited(projects[i]);
             }
           }
         }
       },
       userChanged: function(){
-        this.updateFavorites();
+        this.updateFavorites(this.projects);
       },
       handlePostResponse: function(){
         var response = this.$.postFavorite.response;
 
-        var project = _.find(this.projects, function(project){return project.id === response.id});
+        var project = _.find(this.projects, function(project){return project._id === response.id});
 
         if (project) {
-          project.value.FavoritedBy = response.FavoritedBy;
+          project.FavoritedBy = response.FavoritedBy;
           project.FavoritedByUser = this.isFavorited(project);
         }
       },

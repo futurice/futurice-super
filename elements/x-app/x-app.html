@@ -176,9 +176,9 @@
         <h2>Sort by</h2>
         <core-selector id="sortBy" on-core-select="{{ sortBySelected }}"
           selected="{{ sortBy }}">
-          <paper-item name="-value.LastModifiedDate">Last modified</paper-item>
-          <paper-item name="value.Budgeted_Work_Start_Date__c">Start date</paper-item>
-          <paper-item name="value.Name">Name</paper-item>
+          <paper-item name="-LastModifiedDate">Last modified</paper-item>
+          <paper-item name="Budgeted_Work_Start_Date__c">Start date</paper-item>
+          <paper-item name="Name">Name</paper-item>
         </core-selector>
       </core-header-panel>
 
@@ -209,7 +209,7 @@
   <script src="/bower_components/underscore/underscore.js"></script>
   <script>
   Polymer('x-app', {
-    defaultSortBy: "-value.LastModifiedDate",
+    defaultSortBy: "-LastModifiedDate",
     handleItemTap: function(event, detail, sender) {
       this.selectTribe(sender.templateInstance.model.t);
       this.$.scaffold.closeDrawer();
@@ -238,7 +238,7 @@
         this.selectedProjects = _.filter(
           this.projects,
           function (item) {
-            return (that.tribe.name === item.value.Futu_Team__c);
+            return (that.tribe.name === item.Futu_Team__c);
           });
       } else {
         this.selectedProjects = [];

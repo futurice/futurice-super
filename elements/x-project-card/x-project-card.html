@@ -7,6 +7,7 @@
 <link rel="import" href="/elements/x-iconset/x-iconset.html">
 <link rel="import" href="/elements/process-arrow/process-arrow.html">
 <link rel="import" href="/elements/corner-ribbon/corner-ribbon.html">
+<link rel="import" href="/elements/x-favorited-list/x-favorited-list.html">
 
 <polymer-element name="x-project-card" attributes="project">
   <template>
@@ -109,13 +110,13 @@
 
     </style>
     <x-iconset></x-iconset>
-    <div class="card-inner" vertical layout lost?="{{ project.value.IsClosed &amp;&amp; !project.value.IsWon }}">
+    <div class="card-inner" vertical layout lost?="{{ project.IsClosed &amp;&amp; !project.IsWon }}">
 
-      <template if="{{ project.value.IsClosed }}">
-        <template if="{{ project.value.IsWon}}">
+      <template if="{{ project.IsClosed }}">
+        <template if="{{ project.IsWon}}">
           <corner-ribbon><core-icon icon="custom-icons:crown" size="18"></core-icon>Won</corner-ribbon>
         </template>
-        <template if="{{ !project.value.IsWon}}">
+        <template if="{{ !project.IsWon}}">
           <corner-ribbon lost>Lost</corner-ribbon>
         </template>
       </template>
@@ -123,29 +124,25 @@
       <!-- Title bar-->
       <div layout horizontal>
         <div class="owner" layout vertical center>
-          <span class="face face-owner" title="{{ project.value.Owner.Name }}" style="background-image: url({{ 'https://api.fum.futurice.com/photo/' + project.value.Owner.Alias }})"></span>
-          <span class="owner-name">{{ project.value.Owner.Name }}</span>
+          <span class="face face-owner" title="{{ project.Owner.Name }}" style="background-image: url({{ 'https://api.fum.futurice.com/photo/' + project.Owner.Alias }})"></span>
+          <span class="owner-name">{{ project.Owner.Name }}</span>
         </div>
-        <h1 class="project-title" flex>{{ project.value.Name }}</h1>
+        <h1 class="project-title" flex>{{ project.Name }}</h1>
         <paper-icon-button id="favorite" icon="favorite" on-tap="{{ favoriteTapped }}"></paper-icon-button>
       </div>
 
       <!-- Opportunity section  -->
       <div horizontal layout justified>
         <div vertical layout>
-          <h2>{{ project.value.Account.Name }}</h2>
-          <div hidden?="{{ project.value.IsClosed }}" horizontal layout>
+          <h2>{{ project.Account.Name }}</h2>
+          <div hidden?="{{ project.IsClosed }}" horizontal layout>
             <core-icon icon="custom-icons:skull"></core-icon>
             <span>DL {{ dl }}</span>
           </div>
         </div>
         <div  class="align-right" vertical layout>
           <span id="amount">{{ amount }} k€</span>
-          <span>
-            <template repeat="{{ username in project.value.FavoritedBy }}">
-              <span class="face face-user" style="background-image: url({{ 'https://api.fum.futurice.com/photo/' + username }})"></span>
-            </template>
-          </span>
+          <x-favorited-list usernames="{{ project.FavoritedBy }}"></x-favorited-list>
         </div>
       </div>
 
@@ -154,13 +151,13 @@
         <div vertical layout flex>
           <div horizontal layout hidden?="{{ hideEvent }}">
             <core-icon icon="event"></core-icon>
-            <span>{{ project.value.Budgeted_Work_Start_Date__c || "TBD" }} - {{ project.value.Budgeted_Work_End_Date__c || "TBD" }}</span>
+            <span>{{ project.Budgeted_Work_Start_Date__c || "TBD" }} - {{ project.Budgeted_Work_End_Date__c || "TBD" }}</span>
           </div>
-          <div id="description" class="project-description">{{ project.value.Description }}</div>
+          <div id="description" class="project-description">{{ project.Description }}</div>
           <div id="modified" horizontal layout>
             <p><core-icon icon="history" size="14"></core-icon>{{ modified }}</p>
           </div>
-          <template if="{{ !project.value.IsClosed }}">
+          <template if="{{ !project.IsClosed }}">
             <process-arrow stages="{{ stages }}" currentStageIndex="{{ stageIndex }}"></process-arrow>
           </template>
         </div>
@@ -190,22 +187,22 @@
       ],
       projectChanged: function(){
         if (!!this.project) {
-
-          this.stageIndex = this.stages.indexOf(this.project.value.StageName);
+          this.stageIndex = this.stages.indexOf(this.project.StageName);
 
           // Hide dates if not available
-          if (this.project.value.Budgeted_Work_Start_Date__c !== null || this.project.value.Budgeted_Work_End_Date__c !== null ) {
+          if (this.project.Budgeted_Work_Start_Date__c !== null || this.project.Budgeted_Work_End_Date__c !== null ) {
             this.hideEvent = false;
           }
 
           // Modified date
-          this.modified = moment(this.project.value.LastModifiedDate).fromNow();
+          this.modified = moment(this.project.LastModifiedDate).fromNow();
 
           // DL date from now
-          this.dl = moment(this.project.value.CloseDate).fromNow();
+          this.dl = moment(this.project.CloseDate).fromNow();
 
           // Rounded amount
-          this.amount = Math.round(this.project.value.Amount / 1000);
+          this.amount = Math.round(this.project.Amount / 1000);
+
         }
       }
     });

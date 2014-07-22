@@ -5,11 +5,17 @@ var express = require('express'),
   nano = require('nano')('http://localhost:5984'),
   _ = require('underscore'),
   dbName = 'futurice-super',
+  moment = require('moment'),
   database = nano.use(dbName);
 
 app.get('/api/view/:viewName', function(req, res) {
 
-  database.get('_design/views/_view/'+req.params.viewName).pipe(res);
+  database
+    .get('_design/views/_view/'+req.params.viewName, function (request, response){
+      res.json(response.rows.map(function (item) {
+        return item.value;
+      }));
+    });
 
 });
 
@@ -26,20 +32,39 @@ app.get('/api/tribes', function(req, res) {
   });
 });
 
+var prettyDate = function() {
+  var dateString = moment().format('YYYY-MM-DD h:mm:ss');
+
+  return dateString;
+}
+
+var prettyLog = function(msg, status) {
+  var log = prettyDate()+" - "+msg;
+  if (status && status >= 400) {
+    log += " ("+status+")";
+    log = "\033[31m" + log + "\033[0m";
+  } else {
+    log = "\033[0;32m" + log + "\033[0m";
+  }
+
+  console.log(log);
+}
+
 app.all('/api/favorites/:projectId', function(req, res){
   var user = req.headers['x-forwarded-user'];
 
   if (!user){
     res.status(400);
-
+    prettyLog("No user", 400);
   } else {
 
     database.get(req.params.projectId, function(err, body){
       if (err) {
         if (err.status_code === 404) {
           res.status(404);
+          prettyLog("No projectId " + req.params.projectId, 404);
         } else {
-          console.log(err);
+          prettyLog(err);
         }
       } else {
 
@@ -53,8 +78,8 @@ app.all('/api/favorites/:projectId', function(req, res){
           case 'POST':
             if (_.contains(body.FavoritedBy, user)) {
               // If user exists in favoritedby, remove them.
-              body.FavoritedBy.splice(body.FavoritedBy.indexOf(user));
-            }else {
+              body.FavoritedBy.splice(body.FavoritedBy.indexOf(user), 1);
+            } else {
               // if user is not in array, add them.
               body.FavoritedBy.push(user);
             }
@@ -62,13 +87,14 @@ app.all('/api/favorites/:projectId', function(req, res){
 
           default:
             res.status(400);
+            prettyLog("Disallowed method " + req.method, 400);
             return;
         }
 
         database.insert(body, body.id, function(err){
             res.json({"id": body.Id, "FavoritedBy": body.FavoritedBy});
           }, function(err){
-            console.log(err);
+            prettyLog(err);
         });
       }
     });
@@ -90,4 +116,5 @@ app.use(express.static(__dirname));
 
 app.listen(port);
 
-console.log("Running on http://localhost:" + port + " \nCTRL + C to shutdown");
+prettyLog("Running on http://localhost:" + port);
+console.log("CTRL + C to shutdown");
