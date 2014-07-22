@@ -1,0 +1,52 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<polymer-element name="x-favorited-list" attributes="usernames">
+  <template>
+    <style>
+      :host {
+        display: block;
+        line-height: 2rem;
+      }
+      .face-user, .plus-count {
+        display: inline-block;
+        background: transparent 50% 50%;
+        background-size: cover;
+        border-radius: 4rem;
+        width: 2rem;
+        height: 2rem;
+        line-height: 2rem;
+        text-align: center;
+      }
+
+      .plus-count {
+        background-color: #dd2c00;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: white;
+      }
+    </style>
+    <template repeat="{{ username in shown }}">
+      <span class="face-user" style="background-image: url({{ 'https://api.fum.futurice.com/photo/' + username }})">&#8203;</span>
+    </template>
+    <template if="{{ plusCount > 0 }}">
+      <span class="plus-count">+{{ plusCount }}</span>
+    </template>
+  </template>
+  <script>
+    Polymer('x-favorited-list', {
+      ready: function() {
+        this.usernames = [];
+      },
+      usernamesChanged: function() {
+        if (this.usernames && this.usernames.length > 3) {
+          this.shown = this.usernames.slice(0,3);
+          this.plusCount = this.usernames.length - 3;
+        } else {
+          this.shown = this.usernames;
+          this.plusCount = 0;
+        }
+
+      }
+    });
+  </script>
+</polymer-element>
+
