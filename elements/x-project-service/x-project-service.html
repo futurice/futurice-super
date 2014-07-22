@@ -24,8 +24,10 @@
   <script src="/bower_components/underscore/underscore.js"></script>
   <script>
     Polymer('x-project-service', {
-      projects: [],
       favoritesUrl: "/api/favorites/",
+      created: function () {
+        this.projects = [];
+      },
       setFavorites: function (project) {
         this.$.postFavorite.url = this.favoritesUrl + project._id;
         this.$.postFavorite.go();

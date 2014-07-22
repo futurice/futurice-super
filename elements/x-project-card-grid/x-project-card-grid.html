@@ -43,12 +43,14 @@
   <script>
     Polymer('x-project-card-grid', {
       chunkSize: 10,
-      ready: function() {
-        this.currentChunkIndex = 0;
+      created: function() {
         this.projects = [];
         this.sortedProjects = [];
         this.chunks = [];
         this.sortBy = "";
+      },
+      ready: function() {
+        this.currentChunkIndex = 0;
       },
       getPropertyValue: function (object, prop) {
         if (!object.hasOwnProperty(prop)) {
