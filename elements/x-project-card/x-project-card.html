@@ -7,6 +7,7 @@
 <link rel="import" href="/elements/x-iconset/x-iconset.html">
 <link rel="import" href="/elements/process-arrow/process-arrow.html">
 <link rel="import" href="/elements/corner-ribbon/corner-ribbon.html">
+<link rel="import" href="/elements/x-favorited-list/x-favorited-list.html">
 
 <polymer-element name="x-project-card" attributes="project">
   <template>
@@ -141,11 +142,7 @@
         </div>
         <div  class="align-right" vertical layout>
           <span id="amount">{{ amount }} k€</span>
-          <span>
-            <template repeat="{{ username in project.value.FavoritedBy }}">
-              <span class="face face-user" style="background-image: url({{ 'https://api.fum.futurice.com/photo/' + username }})"></span>
-            </template>
-          </span>
+          <x-favorited-list usernames="{{ favoritedUsers }}"></x-favorited-list>
         </div>
       </div>
 
@@ -206,6 +203,9 @@
 
           // Rounded amount
           this.amount = Math.round(this.project.value.Amount / 1000);
+
+          // Usernames for list
+          this.favoritedUsers = this.project.value.FavoritedBy;
         }
       }
     });
