@@ -33,8 +33,9 @@
         this.$.postFavorite.go();
       },
       handleResponse: function(){
-        this.updateFavorites();
         var projects = this.$.getAll.response;
+        this.updateFavorites(projects);
+        this.projects = projects;
       },
       isFavorited: function(project){
         if (this.user && project) {
@@ -43,17 +44,17 @@
           return false;
         }
       },
-      updateFavorites: function(){
-        if (this.user){
-          for (var i=0; i < this.projects.length; i++) {
-            if (this.projects[i].value.FavoritedBy){
-              this.projects[i].FavoritedByUser = this.isFavorited(this.projects[i]);
+      updateFavorites: function(projects){
+        if (this.user && projects){
+          for (var i=0; i < projects.length; i++) {
+            if (projects[i].FavoritedBy){
+              projects[i].FavoritedByUser = this.isFavorited(projects[i]);
             }
           }
         }
       },
       userChanged: function(){
-        this.updateFavorites();
+        this.updateFavorites(this.projects);
       },
       handlePostResponse: function(){
         var response = this.$.postFavorite.response;

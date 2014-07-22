@@ -142,7 +142,7 @@
         </div>
         <div  class="align-right" vertical layout>
           <span id="amount">{{ amount }} k€</span>
-          <x-favorited-list usernames="{{ favoritedUsers }}"></x-favorited-list>
+          <x-favorited-list usernames="{{ project.FavoritedBy }}"></x-favorited-list>
         </div>
       </div>
 
@@ -203,8 +203,6 @@
           // Rounded amount
           this.amount = Math.round(this.project.Amount / 1000);
 
-          // Usernames for list
-          this.favoritedUsers = this.project.value.FavoritedBy;
         }
       }
     });
