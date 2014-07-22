@@ -27,16 +27,16 @@
       projects: [],
       favoritesUrl: "/api/favorites/",
       setFavorites: function (project) {
-        this.$.postFavorite.url = this.favoritesUrl + project.id;
+        this.$.postFavorite.url = this.favoritesUrl + project._id;
         this.$.postFavorite.go();
       },
       handleResponse: function(){
-        this.projects = this.$.getAll.response.rows;
         this.updateFavorites();
+        var projects = this.$.getAll.response;
       },
       isFavorited: function(project){
         if (this.user && project) {
-          return project.value.FavoritedBy.indexOf(this.user) >= 0;
+          return project.FavoritedBy.indexOf(this.user) >= 0;
         } else {
           return false;
         }
@@ -56,10 +56,10 @@
       handlePostResponse: function(){
         var response = this.$.postFavorite.response;
 
-        var project = _.find(this.projects, function(project){return project.id === response.id});
+        var project = _.find(this.projects, function(project){return project._id === response.id});
 
         if (project) {
-          project.value.FavoritedBy = response.FavoritedBy;
+          project.FavoritedBy = response.FavoritedBy;
           project.FavoritedByUser = this.isFavorited(project);
         }
       },

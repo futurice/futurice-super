@@ -10,7 +10,12 @@ var express = require('express'),
 
 app.get('/api/view/:viewName', function(req, res) {
 
-  database.get('_design/views/_view/'+req.params.viewName).pipe(res);
+  database
+    .get('_design/views/_view/'+req.params.viewName, function (request, response){
+      res.json(response.rows.map(function (item) {
+        return item.value;
+      }));
+    });
 
 });
 
