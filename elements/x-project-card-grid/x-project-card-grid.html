@@ -101,13 +101,18 @@
             reversed = true;
             sortBy = sortBy.substring(1);
           }
-          self.sortedProjects = _.sortBy(self.projects, function (project) {
-            // null values are no good for Array.prototype.sort()
-            if (self.getIteratorValue(project, sortBy) === null) {
-              return undefined;
-            }
-            return self.getIteratorValue(project, sortBy);
-          });
+          try {
+            self.sortedProjects = _.sortBy(self.projects, function (project) {
+              // null values are no good for Array.prototype.sort()
+              if (self.getIteratorValue(project, sortBy) === null) {
+                return undefined;
+              }
+              return self.getIteratorValue(project, sortBy);
+            });
+          } catch(err) {
+            console.log("Something went wrong while sorting. Your localstorage might contain outdated values, clearing.", err);
+            self.sortBy = "";
+          }
 
           if (reversed) {
             self.sortedProjects.reverse();
