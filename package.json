@@ -12,7 +12,7 @@
   },
   "scripts": {
     "postinstall": "bower install",
-    "prestart": "npm install",
+    "prestart": "npm install && vulcanize nonvulcanized.html -o index.html",
     "start": "node server.js"
   },
   "dependencies": {
@@ -22,6 +22,7 @@
     "moment": "^2.7.0",
     "nano": "^5.10.0",
     "node-schedule": "^0.1.13",
-    "underscore": "^1.6.0"
+    "underscore": "^1.6.0",
+    "vulcanize": "^0.3.1"
   }
 }
