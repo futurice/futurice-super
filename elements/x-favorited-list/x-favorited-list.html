@@ -1,3 +1,5 @@
+<link rel="import" href="../../bower_components/core-icons/core-icons.html">
+
 <polymer-element name="x-favorited-list" attributes="usernames">
   <template>
     <style>
@@ -23,6 +25,16 @@
         line-height: 1.8rem;
         text-align: center;
         font-size: 0.8rem;
+
+        position: relative;
+      }
+
+      .face-user core-icon {
+        position: absolute;
+        bottom: -0.2rem;
+        left: -0.2rem;
+        color: #dd2c00;
+        opacity: 0.9;
       }
 
       .plus-count {
@@ -33,7 +45,10 @@
       }
     </style>
     <template repeat="{{ username in shown }}">
-      <span class="face-user" style="background-image: url({{ 'https://api.fum.futurice.com/photo/' + username }})">&#8203;</span>
+      <span class="face-user" style="background-image: url({{ 'https://api.fum.futurice.com/photo/' + username }})">
+        &#8203;
+        <core-icon icon="favorite" size="12"></core-icon>
+      </span>
     </template>
     <template if="{{ plusCount > 0 }}">
       <span class="plus-count" on-tap="{{ showAll }}">+{{ plusCount }}</span>
