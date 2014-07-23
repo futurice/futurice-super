@@ -265,16 +265,9 @@
             // Filter out unchecked checkboxes
             for (var i = 0; i < that.filterOptions.length; i++) {
               // Start filtering out results if field is unchecked
-              if (!that.filterOptions[i].isChecked) {
-                // Return false (=filter) if all filters are true
-                var allTrue = true;
-                for (var j = 0; j < that.filterOptions[i].filters.length; j++) {
-                  allTrue = allTrue &&
-                    (item[that.filterOptions[i].filters[j].filterKey] === that.filterOptions[i].filters[j].filteredValue)
-                }
-                if (allTrue) {
+              if (!that.filterOptions[i].isChecked &&
+                that.filterOptions[i].filter(item)) {
                   return false;
-                }
               }
             }
 
@@ -298,20 +291,23 @@
         {
           name: "Won",
           isChecked: true,
-          filters: [{ filterKey: "IsWon",  filteredValue: true }]
+          filter: function(item){
+            return item.IsWon == true;
+          }
         },
         {
           name: "Lost",
           isChecked: true,
-          filters: [
-            { filterKey: "IsClosed",  filteredValue: true},
-            { filterKey: "IsWon",  filteredValue: false }
-          ]
+          filter: function(item) {
+            return item.IsClosed && !item.IsWon;
+          }
         },
         {
           name: "Open",
           isChecked: true,
-          filters: [{ filterKey: "IsClosed",  filteredValue: false }]
+          filter: function(item){
+            return !item.IsClosed;
+          }
         }
       ];
     },
