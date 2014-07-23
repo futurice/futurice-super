@@ -1,4 +1,3 @@
-<link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="../x-project-card/x-project-card.html">
 
 <polymer-element name="x-project-card-grid" attributes="projects sortBy">
@@ -23,6 +22,9 @@
           flex-basis: 50%;
         }
       }
+
+
+
     </style>
 
     <section class="card-grid">
@@ -42,7 +44,7 @@
   </template>
   <script>
     Polymer('x-project-card-grid', {
-      chunkSize: 10,
+      chunkSize: 2,
       created: function() {
         this.projects = [];
         this.sortedProjects = [];
@@ -132,7 +134,7 @@
         self.chunks = array;
 
         if (self.chunks.length > 0) {
-          setTimeout(function() { return self.nextChunk(); }, 150);
+          setTimeout(function() { return self.nextChunk(); }, 50);
         }
       },
       nextChunk: function() {
@@ -154,7 +156,7 @@
         self.currentChunkIndex++;
 
 
-        setTimeout(function() { return self.nextChunk(); }, 10);
+        setTimeout(function() { return self.nextChunk(); }, 20);
       }
     });
   </script>
