@@ -63,7 +63,10 @@
     </style>
     <div id="container" layout horizontal>
       <template repeat="{{stage in stages}}">
-          <div class="stage-element" flex highlighted?="{{ activeStages[stage] }}">
+          <div
+            class="stage-element" flex
+            highlighted?="{{ activeStages[stage] }}"
+            title="{{ stage }}">
             <p>{{ stage }}</p>
           </div>
       </template>
