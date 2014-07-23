@@ -6,6 +6,7 @@
 <link rel="import" href="/bower_components/core-selector/core-selector.html">
 <link rel="import" href="/bower_components/core-localstorage/core-localstorage.html">
 <link rel="import" href="/bower_components/paper-item/paper-item.html">
+<link rel="import" href="/bower_components/paper-checkbox/paper-checkbox.html">
 
 <link rel="import" href="/elements/x-project-service/x-project-service.html">
 <link rel="import" href="/elements/x-tribe-service/x-tribe-service.html">
@@ -144,6 +145,13 @@
         opacity: 0.5;
       }
 
+      paper-checkbox {
+        padding: 0.7rem 1rem;
+      }
+      paper-checkbox::shadow #checkbox.checked {
+        border-color: #689f38;
+      }
+
       @media screen and (min-width: 1000px) {
         #tutorial h1 {
           font-size: 10em;
@@ -181,6 +189,15 @@
             </paper-item>
           </template>
         </core-menu>
+
+        <h2>Show</h2>
+        <core-menu id="filters">
+          <div layout vertical>
+            <template repeat="{{ item in filterOptions }}">
+                <paper-checkbox name="{{ item.name }}" label="{{ item.name }}" checked="{{ item.isChecked }}" on-change="{{ filterChecked }}"></paper-checkbox>
+            </template>
+          </div>
+        </core-menu>
       </core-header-panel>
 
       <div tool>{{ tribe.prettyName }}</div>
@@ -200,7 +217,7 @@
             </header>
 
             <img src="/images/curved-arrow-up.svg" alt="Arrow pointing to menu" />
-            <p>Please choose your tribe from the menu on the left.</p>
+            <p>Please choose your tribe and filters from the menu on the left to see more projects.</p>
           </section>
         </x-project-card-grid>
       </section>
@@ -217,6 +234,9 @@
     },
     sortBySelected: function(event, detail, sender) {
       this.sortBy = this.$.sortBy.selected;
+      this.updateList();
+    },
+    filterChecked: function(event, detail, sender) {
       this.updateList();
     },
     selectTribe: function(tribe) {
@@ -240,7 +260,21 @@
         this.selectedProjects = _.filter(
           this.projects,
           function (item) {
-            return (that.tribe.name === item.Futu_Team__c);
+            // Check tribe
+            if (that.tribe.name !== item.Futu_Team__c){
+              return false;
+            }
+
+            // Filter out unchecked checkboxes
+            for (var i = 0; i < that.filterOptions.length; i++) {
+              // Start filtering out results if field is unchecked
+              if (!that.filterOptions[i].isChecked &&
+                that.filterOptions[i].filter(item)) {
+                  return false;
+              }
+            }
+
+            return true;
           });
       } else {
         this.selectedProjects = [];
@@ -253,6 +287,31 @@
         { sortKey: "Budgeted_Work_Start_Date__c", prettyName: "Start date" },
         { sortKey: "-FavoritedByUser", prettyName: "My favorites first" },
         { sortKey: "Name", prettyName: "Name" }
+      ];
+
+
+      this.filterOptions = [
+        {
+          name: "Won",
+          isChecked: true,
+          filter: function(item){
+            return item.IsWon == true;
+          }
+        },
+        {
+          name: "Lost",
+          isChecked: true,
+          filter: function(item) {
+            return item.IsClosed && !item.IsWon;
+          }
+        },
+        {
+          name: "Open",
+          isChecked: true,
+          filter: function(item){
+            return !item.IsClosed;
+          }
+        }
       ];
     },
     handleFavorite: function(event, detail, sender){
