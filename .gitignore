@@ -1,3 +1,4 @@
 node_modules/
 bower_components/
 salesforce-credentials.js
+index.html
