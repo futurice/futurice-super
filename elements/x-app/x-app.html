@@ -6,7 +6,7 @@
 <link rel="import" href="../../bower_components/core-menu/core-menu.html">
 <link rel="import" href="../../bower_components/core-selector/core-selector.html">
 <link rel="import" href="../../bower_components/core-localstorage/core-localstorage.html">
-<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/core-item/core-item.html">
 
 <link rel="import" href="../../elements/x-project-service/x-project-service.html">
 <link rel="import" href="../../elements/x-tribe-service/x-tribe-service.html">
@@ -76,7 +76,7 @@
       }
 
       .panel-menu h2,
-      .panel-menu paper-item {
+      .panel-menu core-item {
         padding: 0 1rem;
       }
 
@@ -93,11 +93,16 @@
         margin: 0 0 1rem;
       }
 
-      paper-item.core-selected {
-        background-color: #dcedc8;
+      .panel-menu core-item {
+        -webkit-transition: 0.2s;
+        -ms-transition: 0.2s;
+        -moz-transition: 0.2s;
+        transition: 0.2s;
       }
-      paper-item::shadow #ripple {
-        color: #8bc34a;
+
+      core-item.core-selected {
+        background-color: #dcedc8;
+        font-weight: 300 !important;
       }
 
       core-scaffold core-icon-button core-icon {
@@ -177,16 +182,16 @@
         <h2>Tribe</h2>
         <core-menu selected="{{ selected }}">
           <template repeat="{{ t in tribes }}">
-            <paper-item label="{{ t.prettyName }}" on-tap="{{ handleItemTap }}"></paper-item>
+            <core-item label="{{ t.prettyName }}" on-tap="{{ handleItemTap }}"></core-item>
           </template>
         </core-menu>
 
         <h2>Sort by</h2>
         <core-menu id="sortBy" selected="{{ sortBy }}">
           <template repeat="{{ item in sortOptions }}">
-            <paper-item on-tap="{{ sortBySelected }}" name="{{ item.sortKey }}">
+            <core-item on-tap="{{ sortBySelected }}" name="{{ item.sortKey }}">
               {{ item.prettyName }}
-            </paper-item>
+            </core-item>
           </template>
         </core-menu>
 
