@@ -108,6 +108,9 @@
         color: #fff;
       }
 
+      x-favorited-list {
+        text-align: right;
+      }
     </style>
     <x-iconset></x-iconset>
     <div class="card-inner" vertical layout lost?="{{ project.IsClosed &amp;&amp; !project.IsWon }}">
@@ -140,9 +143,8 @@
             <span>DL {{ dl }}</span>
           </div>
         </div>
-        <div  class="align-right" vertical layout>
+        <div  class="align-right">
           <span id="amount">{{ amount }} k€</span>
-          <x-favorited-list usernames="{{ project.FavoritedBy }}"></x-favorited-list>
         </div>
       </div>
 
@@ -155,7 +157,8 @@
           </div>
           <div id="description" class="project-description">{{ project.Description }}</div>
           <div id="modified" horizontal layout>
-            <p><core-icon icon="history" size="14"></core-icon>{{ modified }}</p>
+            <p flex><core-icon icon="history" size="14"></core-icon>{{ modified }}</p>
+            <x-favorited-list usernames="{{ project.FavoritedBy }}"></x-favorited-list>
           </div>
           <template if="{{ !project.IsClosed }}">
             <process-arrow stages="{{ stages }}" currentStageIndex="{{ stageIndex }}"></process-arrow>
