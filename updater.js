@@ -74,6 +74,7 @@ addOrUpdateDocument = function(doc, successCallback, errorCallback) {
       if (err.status_code === 404){
         // New document
         doc.FavoritedBy = [];
+        doc.OwnerIcon = 'https://api.fum.futurice.com/photo/'+body.Owner.Alias;
         database.insert(doc, doc.Id, successCallback, errorCallback);
 
       } else {
@@ -92,6 +93,7 @@ addOrUpdateDocument = function(doc, successCallback, errorCallback) {
         doc.FavoritedBy = [];
       }
 
+      doc.Owner.Icon = 'https://api.fum.futurice.com/photo/'+body.Owner.Alias;
       database.insert(doc, doc.Id, function(err, body){
         if (err && typeof errorCallback === 'function') {
           errorCallback(err, body);
