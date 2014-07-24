@@ -127,7 +127,7 @@
       <!-- Title bar-->
       <div layout horizontal>
         <div class="owner" layout vertical center>
-          <span class="face face-owner" title="{{ project.Owner.Name }}" style="background-image: url({{ 'https://api.fum.futurice.com/photo/' + project.Owner.Alias }})"></span>
+          <span class="face face-owner" title="{{ project.Owner.Name }}" style="background-image: url({{ project.Owner.Icon }})"></span>
           <span class="owner-name">{{ project.Owner.Name }}</span>
         </div>
         <h1 class="project-title" flex>{{ project.Name }}</h1>
