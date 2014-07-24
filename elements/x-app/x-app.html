@@ -79,6 +79,9 @@
       .panel-menu paper-item {
         padding: 0 1rem;
       }
+      .panel-menu .tribe-project-count {
+        text-align: right;
+      }
 
       .panel-menu h2 {
         text-transform: uppercase;
@@ -151,6 +154,14 @@
       paper-checkbox::shadow #checkbox.checked {
         border-color: #689f38;
       }
+      paper-checkbox::shadow #checkboxLabel {
+        box-sizing: border-box;
+        width: calc(100% - 22px);
+        padding-left: 1rem;
+      }
+      paper-checkbox .tribe-project-count {
+        text-align: right;
+      }
 
       @media screen and (min-width: 1000px) {
         #tutorial h1 {
@@ -167,7 +178,7 @@
       }
     </style>
     <core-localstorage name="super-current-selected" value="{{ selected }}"></core-localstorage>
-    <core-localstorage name="super-current-tribe" value="{{ tribe }}"></core-localstorage>
+    <core-localstorage name="super-current-tribe" value="{{ currentTribe }}"></core-localstorage>
     <core-localstorage name="super-current-sortBy" value="{{ sortBy }}"></core-localstorage>
 
     <core-scaffold id="scaffold">
@@ -177,7 +188,13 @@
         <h2>Tribe</h2>
         <core-menu selected="{{ selected }}">
           <template repeat="{{ t in tribes }}">
-            <paper-item label="{{ t.prettyName }}" on-tap="{{ handleItemTap }}"></paper-item>
+            <paper-item label="{{ t.prettyName }}" on-tap="{{ handleItemTap }}">
+              <template if="{{ t.name === currentTribe.name }}">
+                <span flex class="tribe-project-count">
+                  {{ currentTribe.projectCount }}
+                </span>
+              </template>
+            </paper-item>
           </template>
         </core-menu>
 
@@ -194,13 +211,15 @@
         <core-menu id="filters">
           <div layout vertical>
             <template repeat="{{ item in filterOptions }}">
-                <paper-checkbox name="{{ item.name }}" label="{{ item.name }}" checked="{{ item.isChecked }}" on-change="{{ filterChecked }}"></paper-checkbox>
+                <paper-checkbox name="{{ item.name }}" label="{{ item.name }}" checked="{{ item.isChecked }}" on-change="{{ filterChecked }}">
+                  <span fit class="tribe-project-count">{{ item.count }}</span>
+                </paper-checkbox>
             </template>
           </div>
         </core-menu>
       </core-header-panel>
 
-      <div tool>{{ tribe.prettyName }}</div>
+      <div tool>{{ currentTribe.prettyName }}</div>
 
       <x-tribe-service id="tribeService" tribes="{{ tribes }}"></x-tribe-service>
       <x-project-service id="projectService" projects="{{ projects }}" user="{{ user }}"></x-project-service>
@@ -240,13 +259,30 @@
       this.updateList();
     },
     selectTribe: function(tribe) {
-      this.tribe = {
+      this.currentTribe = {
         name: tribe.name,
         prettyName: tribe.prettyName,
       }
     },
-    tribeChanged: function(){
+    currentTribeChanged: function(){
       this.updateList();
+    },
+    updateFilterOptions: function() {
+      var self = this;
+      self.filterOptions = self.filterConfig.map(function(option) {
+        option.count = _.filter(self.projects, function(project) {
+          return (
+            self.currentTribe.name === project.Futu_Team__c && option.filter(project)
+          );
+        }).length;
+        return option;
+      });
+
+      if (self.currentTribe) {
+        self.currentTribe.projectCount = self.filterOptions
+          .map(function(option) { return option.count; })
+          .reduce(function(acc, x) { return acc + x; });
+      }
     },
     projectsChanged: function(){
       this.updateList();
@@ -256,12 +292,12 @@
       if (!this.sortBy) {
         this.sortBy = this.defaultSortBy;
       }
-      if (this.projects && this.tribe) {
+      if (this.projects && this.currentTribe) {
         this.selectedProjects = _.filter(
           this.projects,
           function (item) {
             // Check tribe
-            if (that.tribe.name !== item.Futu_Team__c){
+            if (that.currentTribe.name !== item.Futu_Team__c){
               return false;
             }
 
@@ -279,6 +315,8 @@
       } else {
         this.selectedProjects = [];
       }
+
+      this.updateFilterOptions();
     },
     ready: function(){
       this.projectService = this.$.projectService;
@@ -290,8 +328,8 @@
         { sortKey: "Name", prettyName: "Name" }
       ];
 
-
-      this.filterOptions = [
+      this.filterOptions = [];
+      this.filterConfig = [
         {
           name: "Won",
           isChecked: true,
@@ -319,7 +357,7 @@
       this.$.projectService.setFavorites(detail.project);
     },
     clearTribe: function(){
-      this.tribe = null;
+      this.currentTribe = null;
       this.selected = null;
       this.updateList();
     }
