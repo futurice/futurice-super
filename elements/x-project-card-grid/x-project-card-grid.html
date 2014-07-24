@@ -22,11 +22,7 @@
           flex-basis: 50%;
         }
       }
-
-
-
     </style>
-
     <section class="card-grid">
       <template if="{{ projects.length > 0 }}">
         <template repeat="{{ chunk in chunks }}">
@@ -42,9 +38,11 @@
       </template>
     </section>
   </template>
+
   <script>
     Polymer('x-project-card-grid', {
-      chunkSize: 2,
+      previewChunkSize: 4,
+      animationDuration: 300, // milliseconds
       created: function() {
         this.projects = [];
         this.sortedProjects = [];
@@ -88,10 +86,6 @@
       projectsChanged: function() {
         var self = this;
 
-        // Reset chunks
-        self.currentChunkIndex = 0;
-        self.chunks = [];
-
         // Set up ordering
         if (self.projects.length > 0 && self.sortBy) {
           var sortBy = self.sortBy,
@@ -123,40 +117,17 @@
           self.sortedProjects = self.projects;
         }
 
-        var array = [];
-        for (
-          var i = 0;
-          i < Math.ceil(self.sortedProjects.length / (1.0 * self.chunkSize));
-          i++) {
-          array[i] = [];
-        };
-
-        self.chunks = array;
-
-        if (self.chunks.length > 0) {
-          setTimeout(function() { return self.nextChunk(); }, 50);
-        }
+        self.displayChunks();
       },
-      nextChunk: function() {
+      displayChunks: function() {
         var self = this;
 
-        var offset = self.chunkSize * self.currentChunkIndex;
-
-        if (offset >= self.sortedProjects.length) {
-          return true;
+        self.chunks = [self.sortedProjects.slice(0, self.previewChunkSize), []];
+        if (self.sortedProjects.length > self.previewChunkSize) {
+          setTimeout(function() {
+            self.chunks[1] = self.sortedProjects.slice(self.previewChunkSize);
+          }, self.animationDuration);
         }
-
-        for (var i = 0; i < self.chunkSize; i++) {
-          if (!self.sortedProjects[offset+i]) {
-            break;
-          }
-          self.chunks[self.currentChunkIndex].push(self.sortedProjects[offset+i]);
-        };
-
-        self.currentChunkIndex++;
-
-
-        setTimeout(function() { return self.nextChunk(); }, 20);
       }
     });
   </script>
