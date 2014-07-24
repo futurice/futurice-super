@@ -21,6 +21,10 @@ app.get('/api/view/:viewName', function(req, res) {
 
 app.get('/api/tribes', function(req, res) {
   database.get('_design/views/_view/tribes?group=true', function(err, body) {
+    if (err){
+      console.log(err);
+      res.status(500);
+    }
     var response = body.rows.map(function (row) {
       return {
         name: row.key,
