@@ -4,7 +4,7 @@
   <template>
     <link rel="stylesheet" href="style.css">
     <template repeat="{{ username in shown }}">
-      <a class="face-user" style="background-image: url({{ 'https://api.fum.futurice.com/photo/' + username }})" href="{{ 'https://fum.futurice.com/fum/users/' + username + '/' }}" title="{{ username }}" target="_blank">
+      <span class="face-user" style="background-image: url({{ 'http://lorempixel.com/30/30/cats/' + username }})" title="{{ username }}">
         &#8203;
         <core-icon icon="favorite"></core-icon>
       </a>
