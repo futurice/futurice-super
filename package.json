@@ -7,8 +7,7 @@
   "license": "BSD 3-Clause",
   "devDependencies": {
     "grunt": "^0.4.5",
-    "grunt-contrib-watch": "^0.6.1",
-    "npm": "^1.4.21"
+    "grunt-contrib-watch": "^0.6.1"
   },
   "scripts": {
     "postinstall": "bower install",
@@ -24,5 +23,9 @@
     "node-schedule": "^0.1.13",
     "underscore": "^1.6.0",
     "vulcanize": "^0.3.1"
+  },
+  "engines": {
+    "node": "^0.10.26",
+    "npm": "^1.4.21"
   }
 }
