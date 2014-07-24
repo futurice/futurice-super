@@ -4,21 +4,19 @@ var data = require('./opportunities.json'),
   nano = require('nano')('http://localhost:5984'),
   database = nano.use(dbName);
 
+console.log("Inserting dummy data.");
+
+nano.db.destroy();
+
 nano.db.create(dbName, function(err, body){
-    database.insert({
-      _id: "_design/views",
-      views: {
-        all: {
-          map: "function(doc) {emit(doc._id, doc)}"
-        },
-        tribes: {
-          map: "function(doc) {emit(doc.Futu_Team__c, 1)}",
-          reduce: "_count"
-        }
-      }
-    });
+  console.log("Database created.");
 
   _.each(data, function(opportunity){
-    database.insert(opportunity);
+    console.log("Inserting: "+ opportunity.Name);
+    database.insert(opportunity, function(err){
+      if (err) {
+        console.log(err);
+      }
+    });
   });
 });

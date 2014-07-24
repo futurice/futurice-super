@@ -1,5 +1,17 @@
 [
   {
+    "_id": "_design/views",
+    "views": {
+      "all": {
+        "map": "function(doc) {emit(doc._id, doc)}"
+      },
+      "tribes": {
+        "map": "function(doc) {emit(doc.Futu_Team__c, 1)}",
+        "reduce": "_count"
+      }
+    }
+  },
+  {
     "_id": "1",
     "_rev": "1-19c949c56993e81d3d974755442a79fa",
     "attributes": {
@@ -40,9 +52,11 @@
     "Futu_Team__c": "1 - Tribe A",
     "LastModifiedDate": "2014-07-02T09:44:49.000+0000",
     "CreatedDate": "2014-07-02T09:44:49.000+0000",
-    "FavoritedBy": ["1"]
+    "FavoritedBy": [
+      "1"
+    ]
   },
-    {
+  {
     "_id": "2",
     "_rev": "1-19c949c56993e81d3d974755442a79fa",
     "attributes": {
@@ -83,7 +97,10 @@
     "Futu_Team__c": "1 - Tribe A",
     "LastModifiedDate": "2014-07-02T09:44:49.000+0000",
     "CreatedDate": "2014-07-02T09:44:49.000+0000",
-    "FavoritedBy": ["1","2"]
+    "FavoritedBy": [
+      "1",
+      "2"
+    ]
   },
   {
     "_id": "3",
@@ -126,7 +143,9 @@
     "Futu_Team__c": "1 - Tribe A",
     "LastModifiedDate": "2014-07-04T09:44:49.000+0000",
     "CreatedDate": "2014-07-02T09:44:49.000+0000",
-    "FavoritedBy": ["2"]
+    "FavoritedBy": [
+      "2"
+    ]
   },
   {
     "_id": "4",
@@ -169,7 +188,9 @@
     "Futu_Team__c": "1 - Tribe A",
     "LastModifiedDate": "2014-07-09T09:44:49.000+0000",
     "CreatedDate": "2014-07-02T09:44:49.000+0000",
-    "FavoritedBy": ["2"]
+    "FavoritedBy": [
+      "2"
+    ]
   },
   {
     "_id": "5",
@@ -212,7 +233,13 @@
     "Futu_Team__c": "1 - Tribe A",
     "LastModifiedDate": "2014-06-09T09:44:49.000+0000",
     "CreatedDate": "2014-07-02T09:44:49.000+0000",
-    "FavoritedBy": ["1", "2", "3", "4", "5"]
+    "FavoritedBy": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5"
+    ]
   },
   {
     "_id": "6",
@@ -255,7 +282,11 @@
     "Futu_Team__c": "2 - Tribe B",
     "LastModifiedDate": "2014-06-09T09:44:49.000+0000",
     "CreatedDate": "2014-07-02T09:44:49.000+0000",
-    "FavoritedBy": ["1", "4", "5"]
+    "FavoritedBy": [
+      "1",
+      "4",
+      "5"
+    ]
   },
   {
     "_id": "7",
@@ -298,7 +329,9 @@
     "Futu_Team__c": "2 - Tribe B",
     "LastModifiedDate": "2014-07-09T09:44:49.000+0000",
     "CreatedDate": "2014-07-02T09:44:49.000+0000",
-    "FavoritedBy": ["7"]
+    "FavoritedBy": [
+      "7"
+    ]
   },
   {
     "_id": "8",
@@ -341,6 +374,12 @@
     "Futu_Team__c": "2 - Tribe B",
     "LastModifiedDate": "2014-07-06T09:44:49.000+0000",
     "CreatedDate": "2014-07-02T09:44:49.000+0000",
-    "FavoritedBy": ["8", "9", "10", "11", "12"]
+    "FavoritedBy": [
+      "8",
+      "9",
+      "10",
+      "11",
+      "12"
+    ]
   }
 ]
