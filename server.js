@@ -1,7 +1,7 @@
 var express = require('express'),
   app = express(),
   path = require('path'),
-  port = (process.argv[2] || 8000),
+  port = Number(process.env.PORT || 8000),
   settings = require('./settings.js'),
   nano = require('nano')(settings.couchdb.uri),
   database = nano.use(settings.couchdb.database),
