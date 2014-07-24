@@ -6,7 +6,9 @@ var express = require('express'),
   nano = require('nano')(settings.couchdb.uri),
   database = nano.use(settings.couchdb.database),
   _ = require('underscore'),
-  moment = require('moment');
+  dbName = 'super-demo',
+  moment = require('moment'),
+  database = nano.use(dbName);
 
 app.get('/api/view/:viewName', function(req, res) {
 
