@@ -1,0 +1,346 @@
+[
+  {
+    "_id": "1",
+    "_rev": "1-19c949c56993e81d3d974755442a79fa",
+    "attributes": {
+      "type": "Opportunity",
+      "url": "/services/data/v30.0/sobjects/Opportunity/1"
+    },
+    "Id": "1",
+    "Name": "Opportunity 1",
+    "Account": {
+      "attributes": {
+        "type": "Account",
+        "url": "/services/data/v30.0/sobjects/Account/1"
+      },
+      "Name": "Company X",
+      "Id": "1"
+    },
+    "Owner": {
+      "attributes": {
+        "type": "User",
+        "url": "/services/data/v30.0/sobjects/User/1"
+      },
+      "Name": "Saul Salesman",
+      "Id": "1",
+      "Alias": "saul",
+      "Icon": "http://lorempixel.com/100/100/cats/1/"
+    },
+    "Description": "Lorem ipsum Aliquip labore incididunt minim laborum minim ex nulla ullamco aute magna et enim aute cillum qui do aliquip consectetur quis officia ea veniam id minim sit nostrud exercitation enim adipisicing ullamco culpa amet et enim commodo commodo.",
+    "Amount": 100000,
+    "CloseDate": "2014-08-31",
+    "Probability": 25,
+    "StageName": "Working on Proposal",
+    "IsClosed": false,
+    "IsWon": false,
+    "Budgeted_Work_End_Date__c": null,
+    "Budgeted_Work_Start_Date__c": null,
+    "Average_Hour_Price__c": null,
+    "Type": null,
+    "Futu_Team__c": "1 - Tribe A",
+    "LastModifiedDate": "2014-07-02T09:44:49.000+0000",
+    "CreatedDate": "2014-07-02T09:44:49.000+0000",
+    "FavoritedBy": ["1"]
+  },
+    {
+    "_id": "2",
+    "_rev": "1-19c949c56993e81d3d974755442a79fa",
+    "attributes": {
+      "type": "Opportunity",
+      "url": "/services/data/v30.0/sobjects/Opportunity/2"
+    },
+    "Id": "2",
+    "Name": "Opportunity 2",
+    "Account": {
+      "attributes": {
+        "type": "Account",
+        "url": "/services/data/v30.0/sobjects/Account/2"
+      },
+      "Name": "Company Y",
+      "Id": "2"
+    },
+    "Owner": {
+      "attributes": {
+        "type": "User",
+        "url": "/services/data/v30.0/sobjects/User/2"
+      },
+      "Name": "Cat Carlson",
+      "Id": "2",
+      "Alias": "cat",
+      "Icon": "http://lorempixel.com/100/100/cats/2/"
+    },
+    "Description": "Lorem ipsum Adipisicing do velit commodo ullamco proident velit elit nulla qui nisi.",
+    "Amount": 15000,
+    "CloseDate": "2014-09-15",
+    "Probability": 50,
+    "StageName": "Unqualified",
+    "IsClosed": false,
+    "IsWon": false,
+    "Budgeted_Work_End_Date__c": null,
+    "Budgeted_Work_Start_Date__c": "2014-11-01",
+    "Average_Hour_Price__c": null,
+    "Type": null,
+    "Futu_Team__c": "1 - Tribe A",
+    "LastModifiedDate": "2014-07-02T09:44:49.000+0000",
+    "CreatedDate": "2014-07-02T09:44:49.000+0000",
+    "FavoritedBy": ["1","2"]
+  },
+  {
+    "_id": "3",
+    "_rev": "1-19c949c56993e81d3d974755442a79fa",
+    "attributes": {
+      "type": "Opportunity",
+      "url": "/services/data/v30.0/sobjects/Opportunity/3"
+    },
+    "Id": "3",
+    "Name": "Opportunity 3",
+    "Account": {
+      "attributes": {
+        "type": "Account",
+        "url": "/services/data/v30.0/sobjects/Account/3"
+      },
+      "Name": "Company Z",
+      "Id": "3"
+    },
+    "Owner": {
+      "attributes": {
+        "type": "User",
+        "url": "/services/data/v30.0/sobjects/User/2"
+      },
+      "Name": "Cat Carlson",
+      "Id": "2",
+      "Alias": "cat",
+      "Icon": "http://lorempixel.com/100/100/cats/2/"
+    },
+    "Description": "Lorem ipsum In voluptate veniam cillum eiusmod esse officia esse in non Duis quis id minim nostrud dolore dolor sed nulla amet cillum deserunt pariatur ea reprehenderit minim in est tempor id magna.",
+    "Amount": 50000,
+    "CloseDate": "2014-07-15",
+    "Probability": 100,
+    "StageName": "Unqualified",
+    "IsClosed": true,
+    "IsWon": true,
+    "Budgeted_Work_End_Date__c": null,
+    "Budgeted_Work_Start_Date__c": "2015-01-01",
+    "Average_Hour_Price__c": null,
+    "Type": null,
+    "Futu_Team__c": "1 - Tribe A",
+    "LastModifiedDate": "2014-07-04T09:44:49.000+0000",
+    "CreatedDate": "2014-07-02T09:44:49.000+0000",
+    "FavoritedBy": ["2"]
+  },
+  {
+    "_id": "4",
+    "_rev": "1-19c949c56993e81d3d974755442a79fa",
+    "attributes": {
+      "type": "Opportunity",
+      "url": "/services/data/v30.0/sobjects/Opportunity/4"
+    },
+    "Id": "4",
+    "Name": "Opportunity 4",
+    "Account": {
+      "attributes": {
+        "type": "Account",
+        "url": "/services/data/v30.0/sobjects/Account/3"
+      },
+      "Name": "Company Z",
+      "Id": "3"
+    },
+    "Owner": {
+      "attributes": {
+        "type": "User",
+        "url": "/services/data/v30.0/sobjects/User/1"
+      },
+      "Name": "Saul Salesman",
+      "Id": "1",
+      "Alias": "saul",
+      "Icon": "http://lorempixel.com/100/100/cats/1/"
+    },
+    "Description": "Lorem ipsum In voluptate veniam cillum eiusmod esse officia esse in non Duis quis id minim nostrud dolore dolor sed nulla amet cillum deserunt pariatur ea reprehenderit minim in est tempor id magna.",
+    "Amount": 25000,
+    "CloseDate": "2014-09-15",
+    "Probability": 50,
+    "StageName": "Qualified",
+    "IsClosed": false,
+    "IsWon": false,
+    "Budgeted_Work_End_Date__c": "2015-01-01",
+    "Budgeted_Work_Start_Date__c": "2014-11-01",
+    "Average_Hour_Price__c": null,
+    "Type": null,
+    "Futu_Team__c": "1 - Tribe A",
+    "LastModifiedDate": "2014-07-09T09:44:49.000+0000",
+    "CreatedDate": "2014-07-02T09:44:49.000+0000",
+    "FavoritedBy": ["2"]
+  },
+  {
+    "_id": "5",
+    "_rev": "1-19c949c56993e81d3d974755442a79fa",
+    "attributes": {
+      "type": "Opportunity",
+      "url": "/services/data/v30.0/sobjects/Opportunity/5"
+    },
+    "Id": "5",
+    "Name": "Opportunity 5",
+    "Account": {
+      "attributes": {
+        "type": "Account",
+        "url": "/services/data/v30.0/sobjects/Account/3"
+      },
+      "Name": "Company Z",
+      "Id": "3"
+    },
+    "Owner": {
+      "attributes": {
+        "type": "User",
+        "url": "/services/data/v30.0/sobjects/User/2"
+      },
+      "Name": "Cat Carlson",
+      "Id": "1",
+      "Alias": "cat",
+      "Icon": "http://lorempixel.com/100/100/cats/2/"
+    },
+    "Description": "Lorem ipsum Cupidatat adipisicing irure eiusmod officia.",
+    "Amount": 17000,
+    "CloseDate": "2014-10-01",
+    "Probability": 75,
+    "StageName": "Closing",
+    "IsClosed": false,
+    "IsWon": false,
+    "Budgeted_Work_End_Date__c": "2015-01-01",
+    "Budgeted_Work_Start_Date__c": null,
+    "Average_Hour_Price__c": null,
+    "Type": null,
+    "Futu_Team__c": "1 - Tribe A",
+    "LastModifiedDate": "2014-06-09T09:44:49.000+0000",
+    "CreatedDate": "2014-07-02T09:44:49.000+0000",
+    "FavoritedBy": ["1", "2", "3", "4", "5"]
+  },
+  {
+    "_id": "6",
+    "_rev": "1-19c949c56993e81d3d974755442a79fa",
+    "attributes": {
+      "type": "Opportunity",
+      "url": "/services/data/v30.0/sobjects/Opportunity/6"
+    },
+    "Id": "6",
+    "Name": "Opportunity 6",
+    "Account": {
+      "attributes": {
+        "type": "Account",
+        "url": "/services/data/v30.0/sobjects/Account/3"
+      },
+      "Name": "Firm A Ltd.",
+      "Id": "4"
+    },
+    "Owner": {
+      "attributes": {
+        "type": "User",
+        "url": "/services/data/v30.0/sobjects/User/3"
+      },
+      "Name": "Bob",
+      "Id": "3",
+      "Alias": "bob",
+      "Icon": "http://lorempixel.com/100/100/cats/3/"
+    },
+    "Description": "Lorem ipsum Et anim Duis quis in dolor laborum nostrud ut sit eu nulla ut laborum proident Ut occaecat Excepteur minim magna Duis nisi dolor aliquip commodo.",
+    "Amount": 2000,
+    "CloseDate": "2014-10-21",
+    "Probability": 25,
+    "StageName": "Unqualified",
+    "IsClosed": false,
+    "IsWon": false,
+    "Budgeted_Work_End_Date__c": null,
+    "Budgeted_Work_Start_Date__c": null,
+    "Average_Hour_Price__c": null,
+    "Type": null,
+    "Futu_Team__c": "2 - Tribe B",
+    "LastModifiedDate": "2014-06-09T09:44:49.000+0000",
+    "CreatedDate": "2014-07-02T09:44:49.000+0000",
+    "FavoritedBy": ["1", "4", "5"]
+  },
+  {
+    "_id": "7",
+    "_rev": "1-19c949c56993e81d3d974755442a79fa",
+    "attributes": {
+      "type": "Opportunity",
+      "url": "/services/data/v30.0/sobjects/Opportunity/7"
+    },
+    "Id": "7",
+    "Name": "Opportunity 7",
+    "Account": {
+      "attributes": {
+        "type": "Account",
+        "url": "/services/data/v30.0/sobjects/Account/5"
+      },
+      "Name": "Firm B Ltd.",
+      "Id": "5"
+    },
+    "Owner": {
+      "attributes": {
+        "type": "User",
+        "url": "/services/data/v30.0/sobjects/User/3"
+      },
+      "Name": "Bob",
+      "Id": "3",
+      "Alias": "bob",
+      "Icon": "http://lorempixel.com/100/100/cats/3/"
+    },
+    "Description": "Lorem ipsum Reprehenderit eiusmod in in Excepteur Ut nulla esse labore incididunt magna sunt dolore proident culpa dolor et.",
+    "Amount": 13000,
+    "CloseDate": "2014-11-01",
+    "Probability": 25,
+    "StageName": "Closing",
+    "IsClosed": true,
+    "IsWon": false,
+    "Budgeted_Work_End_Date__c": null,
+    "Budgeted_Work_Start_Date__c": null,
+    "Average_Hour_Price__c": null,
+    "Type": null,
+    "Futu_Team__c": "2 - Tribe B",
+    "LastModifiedDate": "2014-07-09T09:44:49.000+0000",
+    "CreatedDate": "2014-07-02T09:44:49.000+0000",
+    "FavoritedBy": ["7"]
+  },
+  {
+    "_id": "8",
+    "_rev": "1-19c949c56993e81d3d974755442a79fa",
+    "attributes": {
+      "type": "Opportunity",
+      "url": "/services/data/v30.0/sobjects/Opportunity/8"
+    },
+    "Id": "8",
+    "Name": "Opportunity 8",
+    "Account": {
+      "attributes": {
+        "type": "Account",
+        "url": "/services/data/v30.0/sobjects/Account/4"
+      },
+      "Name": "Firm A Ltd.",
+      "Id": "4"
+    },
+    "Owner": {
+      "attributes": {
+        "type": "User",
+        "url": "/services/data/v30.0/sobjects/User/3"
+      },
+      "Name": "Alice",
+      "Id": "4",
+      "Alias": "alice",
+      "Icon": "http://lorempixel.com/100/100/cats/3/"
+    },
+    "Description": "Lorem ipsum Reprehenderit eiusmod in in Excepteur Ut nulla esse labore incididunt magna sunt dolore proident culpa dolor et. Lorem ipsum Qui ut esse qui fugiat.",
+    "Amount": 30000,
+    "CloseDate": "2014-10-01",
+    "Probability": 25,
+    "StageName": "Closing",
+    "IsClosed": true,
+    "IsWon": true,
+    "Budgeted_Work_End_Date__c": null,
+    "Budgeted_Work_Start_Date__c": "2014-09-01",
+    "Average_Hour_Price__c": null,
+    "Type": null,
+    "Futu_Team__c": "2 - Tribe B",
+    "LastModifiedDate": "2014-07-06T09:44:49.000+0000",
+    "CreatedDate": "2014-07-02T09:44:49.000+0000",
+    "FavoritedBy": ["8", "9", "10", "11", "12"]
+  }
+]
