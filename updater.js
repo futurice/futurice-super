@@ -73,6 +73,7 @@ addOrUpdateDocument = function(doc, successCallback, errorCallback) {
     if (err) {
       if (err.status_code === 404){
         // New document
+        doc.FavoritedBy = [];
         database.insert(doc, doc.Id, successCallback, errorCallback);
 
       } else {
@@ -87,6 +88,8 @@ addOrUpdateDocument = function(doc, successCallback, errorCallback) {
       doc._rev = body._rev;
       if (body.FavoritedBy) {
         doc.FavoritedBy = body.FavoritedBy;
+      } else {
+        doc.FavoritedBy = [];
       }
 
       database.insert(doc, doc.Id, function(err, body){
