@@ -1,12 +1,11 @@
 'use strict';
 
-var credentials = require('./salesforce-credentials.js'),
-  jsforce = require('jsforce'),
+var settings = require('./settings.js'),
+  nano = require('nano')(settings.couchdb.uri),
+  database = nano.use(settings.couchdb.database),
   _ = require('underscore'),
-  nano = require('nano')('http://localhost:5984'),
   schedule = require('node-schedule'),
-  dbName = 'futurice-super',
-  database = nano.use(dbName),
+  jsforce = require('jsforce'),
   conn = new jsforce.Connection({}),
   zeropad,
   createDatabase,
@@ -35,7 +34,7 @@ zeropad = function(number, length){
  * CouchDB logic.
  */
 createDatabase = function(successCallback, errorCallback){
-  return nano.db.create(dbName, function(err, body){
+  return nano.db.create(settings.couchdb.database, function(err, body){
     if (err){
       errorCallback(err, body);
     } else {
@@ -153,7 +152,7 @@ updateSalesforceData = function() {
 
   console.log("Running update on ", new Date());
 
-  conn.login(credentials.user, credentials.passwordtoken, function(err, userInfo) {
+  conn.login(settings.salesforce.user, settings.salesforce.passwordtoken, function(err, userInfo) {
     if (err) { return console.error(err); }
 
     console.log("Bearer " + conn.accessToken);

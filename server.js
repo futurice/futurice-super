@@ -2,11 +2,11 @@ var express = require('express'),
   app = express(),
   path = require('path'),
   port = (process.argv[2] || 8000),
-  nano = require('nano')('http://localhost:5984'),
+  settings = require('./settings.js'),
+  nano = require('nano')(settings.couchdb.uri),
+  database = nano.use(settings.couchdb.database),
   _ = require('underscore'),
-  dbName = 'futurice-super',
-  moment = require('moment'),
-  database = nano.use(dbName);
+  moment = require('moment');
 
 app.get('/api/view/:viewName', function(req, res) {
 
