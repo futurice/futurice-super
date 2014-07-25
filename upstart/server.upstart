@@ -36,6 +36,11 @@ env MIN_UPTIME="5000"
 env SPIN_SLEEP_TIME="2000"
 env MAX="10"
 
+
+# Replace with your settings
+env COUCHDB_URI="http://localhost:5984"
+env COUCHDB_DB="futurice-super"
+
 pre-start script
   # Install dependencies
   PATH=$NODE_BIN_DIR:$PATH
