@@ -26,7 +26,19 @@ $ npm start
 
 **NB.** `/index.html` is generated *only once* when `npm start` is run. When developing, you may want to point the browser to `/nonvulcanized.html` instead.
 
-Make a file `salesforce-credentials.js` following the example `salesforce-credentials.example.js`, and insert the correct auth data.
+To configure the application you need to set some environment variables or edit the settings.js file. If you edit the settings.js file make sure you don't commit any super secret stuff by accident.
+
+One way to set the environment variables is to create a file with the correct values and source it when starting the server as shown below.
+
+```bash
+export SFORCE_USER="user@example.com"
+export SFORCE_PASSWORD="password"
+export SFORCE_TOKEN="token"
+export COUCHDB_URI="http://localhost:5984"
+export COUCHDB_DB="super"
+```
+
+And when developing you run: `source variables_file`.
 
 Install and run CouchDB, then run `node updater.js`.
 
