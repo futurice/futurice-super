@@ -13,7 +13,6 @@
   },
   {
     "_id": "1",
-    "_rev": "1-19c949c56993e81d3d974755442a79fa",
     "attributes": {
       "type": "Opportunity",
       "url": "/services/data/v30.0/sobjects/Opportunity/1"
@@ -58,7 +57,6 @@
   },
   {
     "_id": "2",
-    "_rev": "1-19c949c56993e81d3d974755442a79fa",
     "attributes": {
       "type": "Opportunity",
       "url": "/services/data/v30.0/sobjects/Opportunity/2"
@@ -104,7 +102,6 @@
   },
   {
     "_id": "3",
-    "_rev": "1-19c949c56993e81d3d974755442a79fa",
     "attributes": {
       "type": "Opportunity",
       "url": "/services/data/v30.0/sobjects/Opportunity/3"
@@ -149,7 +146,6 @@
   },
   {
     "_id": "4",
-    "_rev": "1-19c949c56993e81d3d974755442a79fa",
     "attributes": {
       "type": "Opportunity",
       "url": "/services/data/v30.0/sobjects/Opportunity/4"
@@ -194,7 +190,6 @@
   },
   {
     "_id": "5",
-    "_rev": "1-19c949c56993e81d3d974755442a79fa",
     "attributes": {
       "type": "Opportunity",
       "url": "/services/data/v30.0/sobjects/Opportunity/5"
@@ -243,7 +238,6 @@
   },
   {
     "_id": "6",
-    "_rev": "1-19c949c56993e81d3d974755442a79fa",
     "attributes": {
       "type": "Opportunity",
       "url": "/services/data/v30.0/sobjects/Opportunity/6"
@@ -290,7 +284,6 @@
   },
   {
     "_id": "7",
-    "_rev": "1-19c949c56993e81d3d974755442a79fa",
     "attributes": {
       "type": "Opportunity",
       "url": "/services/data/v30.0/sobjects/Opportunity/7"
@@ -335,7 +328,6 @@
   },
   {
     "_id": "8",
-    "_rev": "1-19c949c56993e81d3d974755442a79fa",
     "attributes": {
       "type": "Opportunity",
       "url": "/services/data/v30.0/sobjects/Opportunity/8"
