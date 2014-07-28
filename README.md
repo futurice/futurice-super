@@ -4,6 +4,10 @@
 
 The purpose of this project is to promote transparency of the sales pipeline and help sales decide what cases to prioritize. This would be done by providing an interface for tribe-members to see upcoming cases and allow them to vote for the cases they find interesting. There could also be functionality for commenting and asking for more information about a case.
 
+![Screenshot 1](images/screenshot1.png)
+
+[Public demo](http://super-demo.herokuapp.com/)
+
 # Development
 
 Requirements:
