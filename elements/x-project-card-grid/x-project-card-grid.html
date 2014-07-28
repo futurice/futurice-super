@@ -105,8 +105,7 @@
               return self.getIteratorValue(project, sortBy);
             });
           } catch(err) {
-            console.log("Something went wrong while sorting. Your localstorage might contain outdated values, clearing.", err);
-            self.sortBy = "";
+            console.log("Something went wrong while sorting.", err);
           }
 
           if (reversed) {
