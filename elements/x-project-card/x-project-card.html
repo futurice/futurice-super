@@ -3,8 +3,8 @@
 <link rel="import" href="../../bower_components/core-icons/core-icons.html">
 <link rel="import" href="../../bower_components/core-icons/iconsets/social-icons.html">
 <link rel="import" href="../../bower_components/core-tooltip/core-tooltip.html">
+<link rel="import" href="../../bower_components/futu-process-arrow/futu-process-arrow.html">
 <link rel="import" href="../../elements/x-iconset/x-iconset.html">
-<link rel="import" href="../../elements/process-arrow/process-arrow.html">
 <link rel="import" href="../../elements/corner-ribbon/corner-ribbon.html">
 <link rel="import" href="../../elements/x-favorited-list/x-favorited-list.html">
 
@@ -162,7 +162,7 @@
             <x-favorited-list usernames="{{ project.FavoritedBy }}"></x-favorited-list>
           </div>
           <template if="{{ !project.IsClosed }}">
-            <process-arrow stages="{{ stages }}" currentStageIndex="{{ stageIndex }}"></process-arrow>
+            <futu-process-arrow stages="{{ stages }}" currentStageIndex="{{ stageIndex }}"></futu-process-arrow>
           </template>
         </div>
       </div>
