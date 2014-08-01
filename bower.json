@@ -21,6 +21,7 @@
     "paper-elements": "Polymer/paper-elements#~0.3.3",
     "paper-item": "Polymer/paper-item#~0.3.3",
     "moment": "~2.7.0",
-    "underscore": "~1.6.0"
+    "underscore": "~1.6.0",
+    "futu-process-arrow": "futurice-oss/futu-process-arrow#~0.2.1"
   }
 }
