@@ -11,10 +11,16 @@ var express = require('express'),
 app.get('/api/view/:viewName', function(req, res) {
 
   database
-    .get('_design/views/_view/'+req.params.viewName, function (request, response){
-      res.json(response.rows.map(function (item) {
-        return item.value;
-      }));
+    .get('_design/views/_view/'+req.params.viewName, function (err, body){
+      if (body && body.rows) {
+        res.json(body.rows.map(function (item) {
+          return item.value;
+        }));
+      } else {
+        // send 404 with the error
+        prettyLog(err, err.status_code);
+        res.status(err.status_code).json(err);
+      }
     });
 
 });
@@ -22,8 +28,8 @@ app.get('/api/view/:viewName', function(req, res) {
 app.get('/api/tribes', function(req, res) {
   database.get('_design/views/_view/tribes?group=true', function(err, body) {
     if (err){
-      console.log(err);
-      res.status(500);
+      prettyLog(err, err.status_code);
+      res.status(err.status_code).json(err);
     }
     var response = body.rows.map(function (row) {
       return {
