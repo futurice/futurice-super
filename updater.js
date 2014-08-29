@@ -73,7 +73,7 @@ addOrUpdateDocument = function(doc, successCallback, errorCallback) {
       if (err.status_code === 404){
         // New document
         doc.FavoritedBy = [];
-        if (body.Owner) {
+        if (body && body.Owner) {
           doc.OwnerIcon = 'https://api.fum.futurice.com/photo/'+body.Owner.Alias;
         }
         database.insert(doc, doc.Id, successCallback, errorCallback);
