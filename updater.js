@@ -13,7 +13,8 @@ var settings = require('./settings.js'),
   addOrUpdateDocument,
   addOpportunities,
   removeDeletedOpportunities,
-  updateSalesforceData;
+  updateSalesforceData,
+  compactCouchDB;
 
 /*
  * Utilities.
@@ -210,6 +211,14 @@ updateSalesforceData = function() {
   });
 };
 
+compactCouchDB = function(){
+  console.log("Compacting database ", new Date());
+
+  conn.login(settings.salesforce.user, settings.salesforce.passwordtoken, function(err, userInfo) {
+    nano.db.compact(settings.couchdb.database);
+  });
+};
+
 /*
  * Schedule updating the DB
  */
@@ -227,6 +236,11 @@ var weekNights = schedule.scheduleJob('0 20,22,0,6 * * 1-5', function(){
 // Weekends, every four hours.
 var weekends = schedule.scheduleJob('0 */4 * * 0,6', function(){
   updateSalesforceData();
+});
+
+// Compact the database every night
+var compactingSchedule = schedule.scheduleJob({hour: 4},function(){
+  compactCouchDB();
 });
 
 console.log("Scheduler started, press CTRL+C to exit.")
