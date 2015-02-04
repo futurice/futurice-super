@@ -1,0 +1,18 @@
+:host {
+  display: block;
+}
+.card-grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+x-project-card {
+  box-sizing: border-box;
+  flex-basis: 100%;
+  padding: 10px;
+}
+@media only screen and (min-width: 1000px) {
+  x-project-card {
+    flex-basis: 50%;
+  }
+}

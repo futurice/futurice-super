@@ -10,116 +10,7 @@
 
 <polymer-element name="x-project-card" attributes="project">
   <template>
-    <style>
-      :host {
-        display: flex;
-        position: relative;
-        overflow: visible;
-      }
-      .card-inner {
-        display: block;
-        width: 100%;
-        background-color: #fff;
-        padding: 10px;
-        position: relative;
-        overflow: hidden;
-        box-shadow: 0px 2px 5px rgba(0,0,0, .3);
-      }
-      [lost].card-inner {
-        opacity: .5;
-        box-shadow: 0px 2px 5px rgba(0,0,0, .2);
-      }
-
-      /* Favorited */
-      :host([favorite]) #favorite {
-        color: #dd2c00;
-      }
-
-      /* Other icons, and not favorited */
-      paper-icon-button, core-icon {
-        color: rgba(0,0,0, 0.3);
-      }
-
-      core-icon {
-        margin-right: 0.5em;
-      }
-
-      .align-right {
-        text-align: right;
-      }
-
-      h1, h2 {
-        font-weight: 300;
-      }
-
-      h1 {
-        margin: 0 0 15px 0;
-      }
-
-      h2 {
-        margin: 0;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-      }
-
-      #amount {
-        white-space: nowrap;
-        font-size: 1.5em;
-      }
-
-      #description {
-        margin: 10px 0;
-      }
-
-      #modified {
-        font-size: 0.7em;
-        margin: 0.2em 0;
-      }
-
-      .face {
-        display: inline-block;
-        background: transparent 50% 50%;
-        background-size: cover;
-        border-radius: 4em;
-      }
-      .face-user {
-        width: 2em;
-        height: 2em;
-      }
-      .face-owner {
-        width: 4em;
-        height: 4em;
-      }
-
-      .owner {
-        margin-right: 1em;
-      }
-
-      .owner-name {
-        font-size: 0.6em;
-        font-weight: 400;
-      }
-
-      corner-ribbon[lost] {
-        background-color: #222;
-      }
-
-      corner-ribbon core-icon {
-        color: #fff;
-      }
-
-      x-favorited-list {
-        text-align: right;
-      }
-
-      futu-process-arrow {
-        color: rgba(0,0,0, 0.3);
-        height: 1.5rem;
-        font-weight: 400;
-        text-align: center;
-      }
-    </style>
+    <link rel="stylesheet" href="style.css">
     <x-iconset></x-iconset>
     <div class="card-inner" vertical layout lost?="{{ project.IsClosed &amp;&amp; !project.IsWon }}">
 
@@ -169,7 +60,7 @@
             <x-favorited-list usernames="{{ project.FavoritedBy }}"></x-favorited-list>
           </div>
           <template if="{{ !project.IsClosed }}">
-            <futu-process-arrow stages="{{ stages }}" currentStageIndex="{{ stageIndex }}"></futu-process-arrow>
+            <process-arrow stages="{{ stages }}" currentStageIndex="{{ stageIndex }}"></process-arrow>
           </template>
         </div>
       </div>
@@ -177,45 +68,5 @@
     </div>
   </template>
   <script src="../../bower_components/moment/moment.js"></script>
-  <script>
-    Polymer('x-project-card', {
-      publish: {
-        favorite: {
-          value: false,
-          reflect: true
-        }
-      },
-      hideEvent: true,
-      favoriteTapped: function(event, detail, sender) {
-        this.fire('favorite-tap', {project: this.project});
-      },
-      stages: [
-        "Unqualified",
-        "Qualified",
-        "Working on Proposal",
-        "Closing",
-        "Contract negotiations"
-      ],
-      projectChanged: function(){
-        if (!!this.project) {
-          this.stageIndex = this.stages.indexOf(this.project.StageName);
-
-          // Hide dates if not available
-          if (this.project.Budgeted_Work_Start_Date__c !== null || this.project.Budgeted_Work_End_Date__c !== null ) {
-            this.hideEvent = false;
-          }
-
-          // Modified date
-          this.modified = moment(this.project.LastModifiedDate).fromNow();
-
-          // DL date from now
-          this.dl = moment(this.project.CloseDate).fromNow();
-
-          // Rounded amount
-          this.amount = Math.round(this.project.Amount / 1000);
-
-        }
-      }
-    });
-  </script>
+  <script src="x-project-card.js"></script>
 </polymer-element>

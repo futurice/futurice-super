@@ -2,48 +2,7 @@
 
 <polymer-element name="x-favorited-list" attributes="usernames">
   <template>
-    <style>
-      :host {
-        display: block;
-        line-height: 1.8rem;
-        width: 8rem;
-        font-size: 0;
-      }
-
-      .face-user:first-child {
-        margin: 0;
-      }
-
-      .face-user, .plus-count {
-        display: inline-block;
-        background: transparent 50% 50%;
-        background-size: cover;
-        border-radius: 4rem;
-        width: 1.8rem;
-        height: 1.8rem;
-        margin: 0 0 0 0.2rem;
-        line-height: 1.8rem;
-        text-align: center;
-        font-size: 0.8rem;
-
-        position: relative;
-      }
-
-      .face-user core-icon {
-        position: absolute;
-        bottom: -0.2rem;
-        left: -0.2rem;
-        color: #dd2c00;
-        opacity: 0.9;
-      }
-
-      .plus-count {
-        background-color: #dd2c00;
-        font-weight: 600;
-        color: white;
-        cursor: pointer;
-      }
-    </style>
+    <link rel="stylesheet" href="style.css">
     <template repeat="{{ username in shown }}">
       <a class="face-user" style="background-image: url({{ 'https://api.fum.futurice.com/photo/' + username }})" href="{{ 'https://fum.futurice.com/fum/users/' + username + '/' }}" title="{{ username }}" target="_blank">
         &#8203;
@@ -54,26 +13,6 @@
       <span class="plus-count" on-tap="{{ showAll }}">+{{ plusCount }}</span>
     </template>
   </template>
-  <script>
-    Polymer('x-favorited-list', {
-      created: function() {
-        this.usernames = [];
-      },
-      usernamesChanged: function() {
-        if (this.usernames && this.usernames.length > 3) {
-          this.shown = this.usernames.slice(0,3);
-          this.plusCount = this.usernames.length - 3;
-        } else {
-          this.shown = this.usernames;
-          this.plusCount = 0;
-        }
-
-      },
-      showAll: function() {
-        this.shown = this.usernames;
-        this.plusCount = 0;
-      }
-    });
-  </script>
+  <script src="x-favorited-list.js"></script>
 </polymer-element>
 
