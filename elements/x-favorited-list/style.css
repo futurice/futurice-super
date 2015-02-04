@@ -30,6 +30,8 @@
   left: -0.2rem;
   color: #dd2c00;
   opacity: 0.9;
+  height: 12px;
+  width: 12px;
 }
 
 .plus-count {
@@ -38,3 +40,4 @@
   color: white;
   cursor: pointer;
 }
+

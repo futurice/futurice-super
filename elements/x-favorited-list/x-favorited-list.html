@@ -6,7 +6,7 @@
     <template repeat="{{ username in shown }}">
       <a class="face-user" style="background-image: url({{ 'https://api.fum.futurice.com/photo/' + username }})" href="{{ 'https://fum.futurice.com/fum/users/' + username + '/' }}" title="{{ username }}" target="_blank">
         &#8203;
-        <core-icon icon="favorite" size="12"></core-icon>
+        <core-icon icon="favorite"></core-icon>
       </a>
     </template>
     <template if="{{ plusCount > 0 }}">
