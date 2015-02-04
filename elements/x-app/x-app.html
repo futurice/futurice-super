@@ -27,7 +27,8 @@
         <h2>Tribe</h2>
         <core-menu selected="{{ selected }}">
           <template repeat="{{ t in tribes }}">
-            <paper-item label="{{ t.prettyName }}" on-tap="{{ handleItemTap }}">
+            <paper-item on-tap="{{ handleItemTap }}">
+              {{ t.prettyName }}
               <template if="{{ t.name === currentTribe.name }}">
                 <span flex class="tribe-project-count">
                   {{ currentTribe.projectCount }}

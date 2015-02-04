@@ -1,9 +1,8 @@
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-progress/paper-progress.html">
 <link rel="import" href="../../bower_components/core-icons/core-icons.html">
-<link rel="import" href="../../bower_components/core-icons/iconsets/social-icons.html">
 <link rel="import" href="../../bower_components/core-tooltip/core-tooltip.html">
-<link rel="import" href="../../bower_components/futu-process-arrow/futu-process-arrow.html">
+<link rel="import" href="../../bower_components/process-arrow/process-arrow.html">
 <link rel="import" href="../../elements/x-iconset/x-iconset.html">
 <link rel="import" href="../../elements/corner-ribbon/corner-ribbon.html">
 <link rel="import" href="../../elements/x-favorited-list/x-favorited-list.html">
@@ -35,35 +34,40 @@
 
       <!-- Opportunity section  -->
       <div horizontal layout justified>
-        <div vertical layout>
+        <div>
           <h2>{{ project.Account.Name }}</h2>
           <div hidden?="{{ project.IsClosed }}" horizontal layout>
             <core-icon icon="custom-icons:skull"></core-icon>
             <span>DL {{ dl }}</span>
           </div>
         </div>
-        <div  class="align-right">
+        <div class="align-right">
           <span id="amount">{{ amount }} k€</span>
         </div>
       </div>
 
       <!-- Project section -->
-      <div horizontal layout flex>
-        <div vertical layout flex>
-          <div horizontal layout hidden?="{{ hideEvent }}">
-            <core-icon icon="event"></core-icon>
-            <span>{{ project.Budgeted_Work_Start_Date__c || "TBD" }} - {{ project.Budgeted_Work_End_Date__c || "TBD" }}</span>
-          </div>
-          <div id="description" flex class="project-description">{{ project.Description }}</div>
-          <div id="modified" horizontal layout>
-            <p flex><core-icon icon="history" size="14"></core-icon>{{ modified }}</p>
-            <x-favorited-list usernames="{{ project.FavoritedBy }}"></x-favorited-list>
-          </div>
-          <template if="{{ !project.IsClosed }}">
-            <process-arrow stages="{{ stages }}" currentStageIndex="{{ stageIndex }}"></process-arrow>
-          </template>
-        </div>
+
+      <div horizontal layout hidden?="{{ hideEvent }}">
+        <core-icon icon="event"></core-icon>
+        <span>{{ project.Budgeted_Work_Start_Date__c || "TBD" }} - {{ project.Budgeted_Work_End_Date__c || "TBD" }}</span>
       </div>
+      <div id="description" class="project-description">{{ project.Description }}</div>
+
+      <div flex></div>
+
+      <div id="modified" horizontal layout>
+        <p><core-icon icon="history" size="14"></core-icon>{{ modified }}</p>
+        <div flex></div>
+        <x-favorited-list usernames="{{ project.FavoritedBy }}"></x-favorited-list>
+      </div>
+      <template if="{{ !project.IsClosed }}">
+        <process-arrow selected="{{ stageIndex }}">
+          <template repeat="{{stage in stages}}">
+            <span>{{stage}}</span>
+          </template>
+        </process-arrow>
+      </template>
 
     </div>
   </template>

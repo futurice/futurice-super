@@ -136,6 +136,7 @@ paper-checkbox {
   cursor: pointer;
 }
 paper-checkbox::shadow #checkbox.checked {
+  background-color: #689f38;
   border-color: #689f38;
 }
 paper-checkbox::shadow #checkboxLabel {

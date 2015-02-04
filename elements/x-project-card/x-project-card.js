@@ -18,9 +18,6 @@ Polymer('x-project-card', {
   ],
   projectChanged: function(){
     if (!!this.project) {
-
-      console.log(this.project);
-      
       this.stageIndex = this.stages.indexOf(this.project.StageName);
 
       // Hide dates if not available
